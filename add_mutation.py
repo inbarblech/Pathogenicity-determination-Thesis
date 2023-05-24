@@ -15,7 +15,9 @@ def check_aa_in_sequence(aa, seq, pos):
 
 
 def create_path_to_file(path, file_name):
-    """Creates a file name at the given path."""
+    """Creates a file name at the given path.
+    if the path doesn't exist, creates it.
+    if the path exists, returns False."""
     new_path = os.path.join(path, file_name)
     if not os.path.exists(new_path):
         os.makedirs(new_path)
@@ -24,7 +26,7 @@ def create_path_to_file(path, file_name):
         return new_path
     else: # if the path exists
         error_message = f"Path {new_path} already exists."
-        raise Exception(error_message)
+        return "Error"
 
 
 def make_file(path, file_name):
@@ -45,5 +47,4 @@ def create_mutation_using_foldx(mut, gene_id):
     """creates a mutation using foldx"""
     mut_with_a = f"{mut[0]}A{mut[1:]}"
     command = f"foldx --command=PositionScan --pdb=AF-{gene_id}-F1-model_v4.pdb --positions={mut_with_a}"
-    sp.run(f"wsl ~ -e sh -c {command}")
-
+    sp.run(command)
