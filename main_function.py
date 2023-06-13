@@ -62,12 +62,15 @@ def main():
                         os.chdir(f"{var_path}/")
                         # Download PDB file from alpha fold
                         pdb_file = add_mut.get_structure_af(uni_id)
-    
+
+                        # Extract plddt value
+                        plddt_residue_value = ext_feat.get_plddt(residue_num, pdb_file_path)  # Get plddt value for residue
                         # Create feature files and extract features
                         add_mut.create_mutation_using_foldx(variant, uni_id)
                         ext_feat.get_oda(uni_id)
                         os.chdir(f"{gene_folder_path}/")  # This should be the last line in the loop
                         # Make calculations (Features) including deltas, and save as series/dictionary.
+                        # Save data as df
 
                         # Append row to csv/df, with info as pathogenicity (Benign/pathogenic), and features.
     print(f"""
@@ -75,6 +78,9 @@ def main():
         All the variants that are not in the uniprot sequence, and needs to be dealt with manually, are:
         {errors}
         ---------------------------------""")
+
+def extract_features():
+
 
 if __name__ == '__main__':
     main()
