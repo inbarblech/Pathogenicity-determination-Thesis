@@ -1,6 +1,5 @@
 import os
 import uniprot_info as uni
-from features import *
 import subprocess as sp
 import dvd_data as dvd
 import handeling_directories as hd

@@ -4,7 +4,7 @@ import dvd_data as dvd
 import os
 import subprocess as sp
 import extract_features as ext_feat
-import pickle
+import logging as log
 import pandas as pd
 
 PATH_TO_DATA_FOLDER = "/home/inbar/DVDdata/"
@@ -14,26 +14,11 @@ PATHOGENICITY_TYPES = ["Benign", "Pathogenic"]
 
 def main():
     """Main function of automation script."""
-    # Go through the benign genes folder
+    # Create log file
+    log.basicConfig(filename='automation.log', level=log.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
     errors = []
 
-    # if df is None:
-    #     # Change the columns names, according to the features!!!
-    #     df = pd.DataFrame(columns=['gene', 'pathogenicity', 'uniprot_id', 'variant', 'pathogenicity', 'delta_stability',
-    #                                'delta_energy'])
-    # checkpoint_file = "checkpoint.pkl"
-
-    # if os.path.isfile(checkpoint_file):
-    #     # Load the checkpoint file
-    #     with open(checkpoint_file, 'rb') as f:
-    #         checkpoint = pickle.load(f)
-    # else:
-    #     checkpoint = {'pathogenicity': None, 'gene': None, 'variant': None}
-
-
     for pathogenicity in PATHOGENICITY_TYPES:
-        # if checkpoint['pathogenicity'] is not None and pathogenicity != checkpoint['pathogenicity']:
-        #     continue
 
         path = f"{PATH_TO_DATA_FOLDER}{pathogenicity}/"
         os.makedirs(f"{PATH_TO_VARIANTS_FOLDER}{pathogenicity}/")
