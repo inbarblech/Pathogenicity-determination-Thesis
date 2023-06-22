@@ -51,5 +51,13 @@ def create_variants_csv_from_folder(path_to_folder, output_filename):
                                         'uniprot_id': uniprot_id}, ignore_index=True)
                         print(f"{counter} - Variant {variant} from gene {gene_name} added to DataFrame.")
     output_path = os.path.join(os.getcwd(), output_filename)  # Construct the output path using os.getcwd()
+    df.drop_duplicates(inplace=True)  # Remove duplicate rows from the DataFrame (if they exist)
     df.to_csv(output_path, index=False)  # Save the DataFrame as CSV without including the index
     print(f"CSV file saved to: {output_path}")
+
+
+# def remove_duplicate_rows_from_csv(csv_path):
+#     """Removes identical rows from a csv file, if they exist."""
+#     df = pd.read_csv(csv_path)
+#     df.drop_duplicates(inplace=True)
+#     df.to_csv(csv_path, index=False)

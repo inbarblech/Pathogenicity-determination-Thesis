@@ -1,3 +1,5 @@
+import shutil
+
 import uniprot_info as uni
 import add_mutation as add_mut
 import dvd_data as dvd
@@ -69,13 +71,6 @@ def create_pathogenicity_folders(path_to_folder):
         path = f"{path_to_folder}{pathogenicity}/"
         os.makedirs(path)
 
-
-def remove_duplicate_rows_from_csv(csv_path):
-    """Removes identical rows from a csv file, if they exist."""
-    df = pd.read_csv(csv_path)
-    df.drop_duplicates(inplace=True)
-    df.to_csv(csv_path, index=False)
-
 # def write_pdb_file_to_folder(variant_folder_path):
 #     """Writes the pdb file to the variant folder."""
 #     uni_id = variant_folder_path.split("_")[1]
@@ -85,8 +80,12 @@ def remove_duplicate_rows_from_csv(csv_path):
 #     add_mut.get_structure_af(uni_id)
 
 
-def write_pdb_files_to_all_variants_in_gene_folder(gene_folder_path):
-    """Writes the pdb files to all the variant folders in the gene folder."""
+def write_pdb_files_to_all_variants_in_gene_folder(gene_folder_path: str) -> None:
+    """Writes the pdb files to all the variant folders in the gene folder.
+    Uses the uniprot id to get the pdb file from alpha fold.
+    Args:
+        gene_folder_path: path to the gene folder.
+    """
     # change directory to gene folder
     os.chdir(gene_folder_path)
     gene_name = gene_folder_path.split("/")[-1] # get gene name from path, e.g. "BRCA1" from "path/to/BRCA1"
@@ -94,8 +93,12 @@ def write_pdb_files_to_all_variants_in_gene_folder(gene_folder_path):
     add_mut.get_structure_af(uni_id)
 
 
-def write_pdb_files_to_all_variants_in_all_gene_folders(path_to_gene_folders):
-    """Writes the pdb files to all the variant folders in all the gene folders."""
+def write_pdb_files_to_all_variants_in_all_gene_folders(path_to_gene_folders: str) -> None:
+    """Writes the pdb files to all the variant folders in all the gene folders.
+    Calls write_pdb_files_to_all_variants_in_gene_folder for each gene folder.
+    Args:
+        path_to_gene_folders: path to the folder containing all the gene folders.
+    """
     # change directory to the folder containing all the gene folders
     os.chdir(path_to_gene_folders)
     # get list of gene folders paths
@@ -107,8 +110,68 @@ def write_pdb_files_to_all_variants_in_all_gene_folders(path_to_gene_folders):
         write_pdb_files_to_all_variants_in_gene_folder(gene_folder)
 
 
+def copy_pdb_files_to_all_variant_folders(path_to_gene_folder: str, uniprot_id: str, gene_name) -> None:
+    """Creates a copy of the pdb file in the gene folder, in all the variant folders of the gene."""
+    errors = []
+    # change directory to the folder containing all the gene folders
+    os.chdir(path_to_gene_folder)
+    # get list of gene folders paths
+    variant_folders = os.listdir(path_to_gene_folder)
+    # filter out non-folder entries
+    variant_folders = [
+        folder
+        for folder in variant_folders
+        if os.path.isdir(os.path.join(path_to_gene_folder, folder)) and len(os.listdir(os.path.join(path_to_gene_folder,
+                                                                                                    folder))) == 0]
+    # get list of gene folder paths
+    gene_folder_paths = [os.path.join(path_to_gene_folder, folder) for folder in variant_folders]
+    # copy pdb files to all variant folders
+    for variant_folder in gene_folder_paths:
+        print(f"Copying pdb file to variant folder {variant_folder}")
+        variant = variant_folder.split("_")[2]  # get variant from path, e.g. "A123B" from "path/to/BRCA1_A123B"
+        variant_aa = variant[0]  # get the amino acid from the variant, e.g. "A" from "A123B"
+        pos = int(variant[1:-1])  # get the position from the variant, e.g. 123 from "A123B"
+        seq = uni.get_sequence(gene_name)
+        if uni.get_sequence_length(gene_name) < int(pos):  # check if the position is in the sequence
+            print(f"Variant {variant} not in sequence for uniprot id {uniprot_id}")
+            errors.append(f"Variant {variant} not in sequence for uniprot id {uniprot_id}")
+            continue
+        if add_mut.check_aa_in_sequence(variant_aa, seq, pos) is False:
+            print(f"Variant {variant} not in sequence for uniprot id {uniprot_id}")
+            errors.append(f"Variant {variant} not in sequence for uniprot id {uniprot_id}")
+            continue
+        # Copy the pdb file to the variant folder
+        if os.path.isfile(f"{path_to_gene_folder}/AF-{uniprot_id}-F1-model_v4.pdb"):
+            shutil.copyfile(f"{path_to_gene_folder}/AF-{uniprot_id}-F1-model_v4.pdb", f"{variant_folder}/AF_{uniprot_id}.pdb")
+    # write errors to file in gene folder
+    with open(f"{path_to_gene_folder}/errors.txt", "w") as f:
+        for error in errors:
+            f.write(error + "\n")
+
+
+def copy_pdb_files_to_all_variant_folders_in_all_gene_folders(path_to_gene_folders: str) -> None:
+    """Creates a copy of the pdb file in the gene folder, in all the variant folders of all the genes.
+    Calls copy_pdb_files_to_all_variant_folders for each gene folder.
+    Args:
+        path_to_gene_folders: path to the folder containing all the gene folders.
+    """
+    # change directory to the folder containing all the gene folders
+    os.chdir(path_to_gene_folders)
+    # get list of gene folders paths
+    gene_folders = os.listdir(path_to_gene_folders)
+    # get list of gene folder paths
+    gene_folder_paths = [os.path.join(path_to_gene_folders, folder) for folder in gene_folders]
+    # copy pdb files to all variant folders
+    for gene_folder in gene_folder_paths:
+        # get uniprot id from gene folder name
+        gene_name = gene_folder.split("/")[-1]  # get gene name from path, e.g. "BRCA1" from "path/to/BRCA1"
+        uniprot_id = uni.get_uniprot_id(gene_name)
+        copy_pdb_files_to_all_variant_folders(gene_folder, uniprot_id, gene_name)
+
+
 def extract_features(variant, uni_id, residue_num, pdb_file_path):
     """Extract features"""
+
     # Extract plddt value
     plddt_residue_value = ext_feat.get_plddt(residue_num, pdb_file_path)  # Get plddt value for residue
 
@@ -152,5 +215,5 @@ def main_automation_set_up():  #TODO: Create the functions for this
 
 
 if __name__ == '__main__':
-    write_pdb_files_to_all_variants_in_all_gene_folders(F"{PATH_TO_VARIANTS_FOLDER}Pathogenic/")
-    write_pdb_files_to_all_variants_in_all_gene_folders(F"{PATH_TO_VARIANTS_FOLDER}Benign/")
+    copy_pdb_files_to_all_variant_folders_in_all_gene_folders(f"{PATH_TO_VARIANTS_FOLDER}Pathogenic/")
+    copy_pdb_files_to_all_variant_folders_in_all_gene_folders(f"{PATH_TO_VARIANTS_FOLDER}Benign/")

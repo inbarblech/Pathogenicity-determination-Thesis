@@ -6,7 +6,8 @@ import handeling_directories as hd
 
 
 def check_aa_in_sequence(aa, seq, pos):
-    """Returns True if the given amino acid is in the given sequence, in the right position."""
+    """Returns True if the given amino acid is in the given sequence, in the right position.
+    """
     if aa == seq[pos-1]:
         return True
     else:
