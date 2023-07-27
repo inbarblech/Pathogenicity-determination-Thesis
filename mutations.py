@@ -89,3 +89,36 @@
     # Print errors
 
 
+
+
+
+
+
+
+
+#
+# def get_plddt(residue_num: str, af_file_path: str):
+#     """returns the pLDDT score of the residue
+#     Uses the alphafold pdb file to extract the pLDDT score"""
+#
+#     # convert file to csv
+#     af_df = tools.convert_pdb_to_dataframe(af_file_path)
+#
+#     # get the pLDDT score, which is the first value in the 11th column where the residue number = residue_num
+#     # in the dataframe
+#     value = af_df[af_df[5] == residue_num][10].iloc[0]
+#
+#     # value = None  # The value to be returned
+#     # # read the csv file
+#     # with open(pdb_file_pwd, 'r') as csv_file:
+#     #     reader = csv.reader(csv_file)
+#     #     for row in reader:
+#     #         if row[5] == residue_num:
+#     #             value = row[10]
+#     #             break  # Exit the loop after finding the first row
+#     # if value is None:
+#     #     raise ValueError("The residue number is not valid, or the residue is not in the pdb file.")
+#
+#     return value
+
+

@@ -10,12 +10,12 @@ import extract_features as ext_feat
 import logging as log
 import pandas as pd
 import general_tools as tools
-import write_data_to_csv as write_csv
 
 PATH_TO_DATA_FOLDER = "/home/inbar/DVDdata/"
 PATH_TO_CSV_BENIGN = "/home/inbar/all_BENIGN_variants.csv"
 PATH_TO_CSV_PATHOGENIC = "/home/inbar/all_PATHOGENIC_variants.csv"
 PATH_TO_VARIANTS_FOLDER = "/home/inbar/variants/"
+PATH_TO_OUTPUT_FOLDER = "/home/inbar/results/"
 PATHOGENICITY_TYPES = ["Benign", "Pathogenic"]
 
 
@@ -367,11 +367,15 @@ def main_automation_set_up():  #TODO: Create the functions for this
 #     copy_pdb_files_to_all_variant_folders_in_all_gene_folders(f"{PATH_TO_VARIANTS_FOLDER}Benign/")
 
 if __name__ == "__main__":
-    # (wt, mut, delta) = ext_feat.get_stability("/home/inbar/check/ANKH/ANKH_Q9HCJ1_R453W/")
-    # print(wt, mut, delta)
-    # consurf = ext_feat.get_consurf_conservation_score("/home/inbar/check/ACTB/", "/home/inbar/check/ACTB/ACTB_P60709_Q189R")
-    # print(consurf)
-    # # ext_feat.get_consurf_conservation_score_for_all_residues("/home/inbar/check/ACTB/")
-    # ext_feat.get_sasa("/home/inbar/check/ACTB/ACTB_P60709_V209M", "wt")
-    # ext_feat.get_sasa("/home/inbar/check/ACTB/ACTB_P60709_V209M", "mut")
-    sp.run("pyDock3", shell=True)
+    # # (wt, mut, delta) = ext_feat.get_stability("/home/inbar/check/ANKH/ANKH_Q9HCJ1_R453W/")
+    # # print(wt, mut, delta)
+    # # consurf = ext_feat.get_consurf_conservation_score("/home/inbar/check/ACTB/", "/home/inbar/check/ACTB/ACTB_P60709_Q189R")
+    # # print(consurf)
+    # # # ext_feat.get_consurf_conservation_score_for_all_residues("/home/inbar/check/ACTB/")
+    # # ext_feat.get_sasa("/home/inbar/check/ACTB/ACTB_P60709_V209M", "wt")
+    # # ext_feat.get_sasa("/home/inbar/check/ACTB/ACTB_P60709_V209M", "mut")
+    # sp.run("pyDock3", shell=True)
+    # load csv
+    features_df = pd.read_csv(f"{PATH_TO_OUTPUT_FOLDER}features.csv", header=0)
+    features_df = ext_feat.extract_all_features_for_all_variants_in_df(features_df)
+    features_df.to_csv(f"{PATH_TO_OUTPUT_FOLDER}features.csv", index=False, header=True)

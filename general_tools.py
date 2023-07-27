@@ -1,5 +1,9 @@
 
 import os
+from biopandas.pdb import PandasPdb
+import uniprot_info as uni
+
+PATH_TO_VARIANTS_FOLDER = "/home/inbar/variants/"
 
 AMINO_ACIDS = {'Ala': 'A', 'Arg': 'R', 'Asn': 'N', 'Asp': 'D', 'Cys': 'C', 'Glu': 'E', 'Gln': 'Q', 'Gly': 'G',
                'His': 'H', 'Ile': 'I', 'Leu': 'L', 'Lys': 'K', 'Met': 'M', 'Phe': 'F', 'Pro': 'P', 'Ser': 'S',
@@ -51,6 +55,13 @@ def get_amino_acid_of_variant_from_variant_folder(folder_name: str) -> str:
     return amino_acid
 
 
+def get_amino_acid_of_wt_from_variant_folder(folder_name: str) -> str:
+    """Get the amino acid of the wt from the folder name.
+    Example: folder_name = 'ACTB_P60709_A204G' -> amino_acid = 'A'"""
+    amino_acid = folder_name.split('_')[-1][0]
+    return amino_acid
+
+
 def get_variant_location_from_variant_folder(folder_name: str) -> str:
     """Get the variant location from the folder name.
     Example: folder_name = 'ACTB_P60709_A204G' -> variant_location = '204'"""
@@ -60,7 +71,7 @@ def get_variant_location_from_variant_folder(folder_name: str) -> str:
 
 def get_folder_name_from_path(path: str) -> str:
     """Get the folder name from the path."""
-    folder_name = os.path.basename(path)
+    folder_name = path.split('/')[-1]
     return folder_name
 
 
@@ -71,3 +82,17 @@ def extract_files_from_type(files_list: list, type: str) -> list:
         if file.endswith(type):
             extracted_files.append(file)
     return extracted_files
+
+
+def convert_pdb_to_dataframe(pdb_path: str) -> PandasPdb:
+    """Convert the given pdb file to a dataframe."""
+    pdb_df = PandasPdb().read_pdb(pdb_path)
+    return pdb_df
+
+
+def get_variant_path(gene, variant, pathogenicity):
+    """Get the variant path from the given gene, variant and pathogenicity."""
+    # convert variant from E117K to ACTB_P60709_E117K by adding the gene name and the uniprot id
+    uniprot_id = uni.get_uniprot_id(gene)
+    variant_path = f"{gene}_{uniprot_id}_{variant}"
+    return f"{PATH_TO_VARIANTS_FOLDER}{pathogenicity}/{gene}/{variant_path}/"
