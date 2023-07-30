@@ -1,5 +1,6 @@
-
 import os
+
+import pandas as pd
 from biopandas.pdb import PandasPdb
 import uniprot_info as uni
 
@@ -35,7 +36,8 @@ def convert_variant_to_1_letter(variant):
 
 
 def get_aa1_aa2(variant: str) -> tuple:
-    """Get the aa1 and aa2 from the variant"""
+    """Get the aa1 and aa2 from the variant
+    Example: variant = 'A204G' -> aa1 = 'A', aa2 = 'G'"""
     aa1 = variant[0]
     aa2 = variant[-1]
     return aa1, aa2
@@ -71,7 +73,8 @@ def get_variant_location_from_variant_folder(folder_name: str) -> str:
 
 def get_folder_name_from_path(path: str) -> str:
     """Get the folder name from the path."""
-    folder_name = path.split('/')[-1]
+    path = path.strip()
+    folder_name = os.path.basename(path.rstrip('/')).split('/')[-1]
     return folder_name
 
 
@@ -84,10 +87,10 @@ def extract_files_from_type(files_list: list, type: str) -> list:
     return extracted_files
 
 
-def convert_pdb_to_dataframe(pdb_path: str) -> PandasPdb:
+def convert_pdb_to_dataframe(pdb_path: str) -> pd.DataFrame:
     """Convert the given pdb file to a dataframe."""
-    pdb_df = PandasPdb().read_pdb(pdb_path)
-    return pdb_df
+    ppdb_df = PandasPdb().read_pdb(pdb_path).df['ATOM']
+    return ppdb_df
 
 
 def get_variant_path(gene, variant, pathogenicity):
@@ -96,3 +99,10 @@ def get_variant_path(gene, variant, pathogenicity):
     uniprot_id = uni.get_uniprot_id(gene)
     variant_path = f"{gene}_{uniprot_id}_{variant}"
     return f"{PATH_TO_VARIANTS_FOLDER}{pathogenicity}/{gene}/{variant_path}/"
+
+
+def get_uniprot_id_from_path(path: str) -> str:
+    """Get the uniprot id from the given path."""
+    variant_folder = path.split('/')[-2]
+    uniprot_id = variant_folder.split('_')[1]
+    return uniprot_id

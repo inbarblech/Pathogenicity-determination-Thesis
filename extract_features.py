@@ -5,6 +5,7 @@ import csv
 import os
 import general_tools as tools
 import residue_properties as rp
+import uniprot_info as uni
 
 """"
 structure of extract_features.py:
@@ -13,6 +14,11 @@ structure of extract_features.py:
 # write_feature_to_df
 # extract_feature_one_value / extract_feature_wt_mut
 # get_stability / get_oda / get_opra / get_plddt / get_hydrophobicity / get_aa_volume / get_substitution_matrix_value
+
+Calling this script from main, to update the features.csv file:
+    features_df = pd.read_csv(f"{PATH_TO_OUTPUT_FOLDER}features.csv", header=0)
+    features_df = ext_feat.extract_all_features_for_all_variants_in_df(features_df)
+    features_df.to_csv(f"{PATH_TO_OUTPUT_FOLDER}features.csv", index=False, header=True)
 """
 
 
@@ -24,10 +30,14 @@ def extract_all_features_for_all_variants_in_df(features_df: pd.DataFrame):
     for index, row in features_df.iterrows():
         gene = row['gene']
         variant = row['variant']
-        pathogenicity = row['pathogenicity']
+        if row['pathogenicity'] == 'benign':
+            pathogenicity = 'Benign'
+        else:
+            pathogenicity = 'Pathogenic'
         variant_path = tools.get_variant_path(gene, variant, pathogenicity)
         print(f"extracting features for variant {variant} in gene {gene} in pathogenicity {pathogenicity}")
-        extract_all_features_for_variant(variant_path, features_df, gene, variant)
+        features_df = extract_all_features_for_variant(variant_path, features_df, gene, variant)
+    return features_df
 
 
 def extract_all_features_for_variant(variant_path: str, features_df: pd.DataFrame, gene: str, variant: str):
@@ -44,20 +54,21 @@ def extract_all_features_for_variant(variant_path: str, features_df: pd.DataFram
     folder_name = tools.get_folder_name_from_path(variant_path)
     aa1 = tools.get_amino_acid_of_wt_from_variant_folder(folder_name)
     aa2 = tools.get_amino_acid_of_variant_from_variant_folder(folder_name)
-    write_feature_to_df('blosum', variant_path, features_df, gene, variant, aa1=aa1, aa2=aa2)
-    print("blosum done")
-    write_feature_to_df('hydrophobicity', variant_path, features_df, gene, variant, aa1=aa1, aa2=aa2)
-    print("hydrophobicity done")
-    write_feature_to_df('volume', variant_path, features_df, gene, variant, aa1=aa1, aa2=aa2)
-    print("volume done")
-    write_feature_to_df('plddt', variant_path, features_df, gene, variant)
-    print("plddt done")
-    # write_feature_to_df('opra', variant_path, features_df, gene, variant)
-    # write_feature_to_df('oda', variant_path, features_df, gene, variant)
-    # write_feature_to_df('sasa', variant_path, features_df, gene, variant)
+    # features_df = write_feature_to_df('blosum', variant_path, features_df, gene, variant, aa1=aa1, aa2=aa2)
+    # print("blosum done")
+    # features_df = write_feature_to_df('hydrophobicity', variant_path, features_df, gene, variant, aa1=aa1, aa2=aa2)
+    # print("hydrophobicity done")
+    # features_df = write_feature_to_df('volume', variant_path, features_df, gene, variant, aa1=aa1, aa2=aa2)
+    # print("volume done")
+    # features_df = write_feature_to_df('plddt_residue', variant_path, features_df, gene, variant)
+    # print("plddt done")
+    write_feature_to_df('opra', variant_path, features_df, gene, variant)
+    write_feature_to_df('oda', variant_path, features_df, gene, variant)
+    write_feature_to_df('sasa', variant_path, features_df, gene, variant)
+    return features_df
 
 
-def write_feature_to_df(feature: str, variant_path: str, features_df: pd.DataFrame, gene: str, variant: str, wt_or_mut: str = None,
+def write_feature_to_df(feature: str, variant_path: str, features_df: pd.DataFrame, gene: str, variant: str,
                         aa1: str = None, aa2: str = None):
     """Adds the given feature to the given dataframe.
     Args:
@@ -66,23 +77,23 @@ def write_feature_to_df(feature: str, variant_path: str, features_df: pd.DataFra
         features_df (pd.DataFrame): The dataframe to add the feature to.
         gene (str): The gene of the variant. Allows to insert the value in the right position in the csv.
         variant (str): The variant. Allows to insert the value in the right position in the csv.
-        wt_or_mut (str): 'wt' or 'mut'.
         aa1 (str): The first amino acid.
         aa2 (str): The second amino acid.
     """
-    if feature in ["blosum", "plddt"]:
-        feature_value = extract_feature_one_value(feature, aa1, aa2)
+    if feature in ["blosum", "plddt_residue"]:
+        feature_value = extract_feature_one_value(feature, variant_path, aa1, aa2)
         # Add the feature to the dataframe, in colume 'feature' and row where gene == gene and variant == variant
         features_df.loc[(features_df['gene'] == gene) & (features_df['variant'] == variant), feature] = feature_value
     elif feature in ["opra", "oda", "sasa", "stability", "hydrophobicity", "volume"]:
-        wt_value, mut_value = extract_feature_wt_mut(feature, variant_path)
+        wt_value, mut_value = extract_feature_wt_mut(feature, variant_path, aa1, aa2)
         # Add the feature to the dataframe, in colume 'feature' and row where gene == gene and variant == variant
         features_df.loc[(features_df['gene'] == gene) & (features_df['variant'] == variant), feature + "_WT"] = wt_value
         features_df.loc[(features_df['gene'] == gene) & (features_df['variant'] == variant), feature + "_MUT"] = \
             mut_value
+    return features_df
 
 
-def extract_feature_one_value(feature: str, aa1: str = None, aa2: str = None) -> float:
+def extract_feature_one_value(feature: str, variant_path: str, aa1: str = None, aa2: str = None) -> float:
     """Extracts the given feature from the given variant.
     Supports features: 'blosum', 'plddt_residue'.
     Args:
@@ -97,11 +108,13 @@ def extract_feature_one_value(feature: str, aa1: str = None, aa2: str = None) ->
         'blosum': get_substitution_matrix_value,
         'plddt_residue': get_plddt,
     }
-
     if feature in feature_mapping:
         feature_function = feature_mapping[feature]
         if feature in ['plddt_residue']:
-            return feature_function(aa1)
+            uniprot_id = tools.get_uniprot_id_from_path(variant_path)
+            af_file_path = f"{variant_path}/AF_{uniprot_id}.pdb"
+            residue_num = tools.get_residue_number_from_variant_folder(tools.get_folder_name_from_path(variant_path))
+            return feature_function(residue_num, af_file_path)
         elif feature in ['blosum']:
             return feature_function(aa1, aa2)
     else:
@@ -132,7 +145,7 @@ def extract_feature_wt_mut(feature: str, variant_path: str, aa1: str = None, aa2
     if feature in feature_mapping:
         feature_function = feature_mapping[feature]
         if feature in ['hydrophobicity', 'volume']:
-            return feature_function(variant_path, aa1, aa2)
+            return feature_function(aa1, aa2)
         elif feature in ['oda', 'opra', 'sasa', 'stability']:
             return feature_function(variant_path)
     else:
@@ -157,9 +170,9 @@ def run_oda(variant_path: str):
     # Run oda for wt and mut
     amino_acid = tools.get_amino_acid_of_variant_from_variant_folder(folder_name)
     three_letter_amino_acid = tools.convert_1_letter_aa_to_3_letter(amino_acid)
-    command = f"pyDock3 {three_letter_amino_acid}{variant_location}_AF_{gene_id}.pdb oda"
+    command = f"run_pyDock_oda_mut {three_letter_amino_acid} {variant_location} {gene_id}"
     sp.run(command, shell=True)
-    command = f"pyDock3 AF_{gene_id}.pdb oda"
+    command = f"run_pyDock_oda_wt {gene_id}"
     sp.run(command, shell=True)
 
 
@@ -200,14 +213,12 @@ def run_opra(variant_path: str, wt_or_mut: str):
     variant_location = tools.get_variant_location_from_variant_folder(folder_name)
     gene_id = folder_name.split('_')[1]
 
-    if wt_or_mut == 'mut':
-        amino_acid = tools.get_amino_acid_of_variant_from_variant_folder(folder_name)
-        three_letter_amino_acid = tools.convert_1_letter_aa_to_3_letter(amino_acid)
-        command = f"pyDock3 {three_letter_amino_acid}{variant_location}_AF_{gene_id}.pdb opra"
-    elif wt_or_mut == 'wt':
-        command = f"pyDock3 AF_{gene_id}.pdb opra"
-    else:
-        raise ValueError("wt_or_mut must be 'wt' or 'mut'")
+    # Run opra for wt and mutq
+    amino_acid = tools.get_amino_acid_of_variant_from_variant_folder(folder_name)
+    three_letter_amino_acid = tools.convert_1_letter_aa_to_3_letter(amino_acid)
+    command = f"run_pyDock_opra_mut {three_letter_amino_acid} {variant_location} {gene_id}"
+    sp.run(command, shell=True)
+    command = f"run_pyDock_opra_wt {gene_id}"
     sp.run(command, shell=True)
 
 
@@ -254,7 +265,6 @@ def run_sasa(path_to_variant_folder: str, wt_or_mut: str):
         command = f"dr_sasa -m 0 -i {three_letter_amino_acid}{variant_location}_AF_{gene_id}.pdb"
     else:
         raise ValueError("wt_or_mut must be 'wt' or 'mut'")
-    print(command)
     sp.run(command, shell=True)
 
 
@@ -334,20 +344,26 @@ def convert_pdb_to_csv(file_name: str):
 def get_plddt(residue_num: str, af_file_path: str):
     """returns the pLDDT score of the residue
     Uses the alphafold pdb file to extract the pLDDT score"""
+    residue_num = int(residue_num)
     # convert file to csv
     af_df = tools.convert_pdb_to_dataframe(af_file_path)
-
-    # get the pLDDT score, which is the first value in the 11th column where the residue number = residue_num
+    # get the pLDDT score, which is the first value in the b_factor column where the residue number = residue_num
     # in the dataframe
-    value = af_df[af_df[5] == residue_num][10].iloc[0]
-    return value
+    matching_rows = af_df.loc[af_df['residue_number'] == residue_num, 'b_factor']
+    if not matching_rows.empty:
+        value = matching_rows.iloc[0]
+        print(value)
+        return value
+    else:
+        print(f"No pLDDT score found for residue number {residue_num}.")
+        return None
 
 
 def get_average_plddt_score(pdb_file_pwd: str):
     pass
 
 
-def get_substitution_matrix_value(wt_aa: str, mut_aa: str):
+def get_substitution_matrix_value(wt_aa: str, mut_aa: str) -> int:
     """Returns the substitution value of the given mutation.
     Uses the BLOSUM62 matrix.
     Args:
