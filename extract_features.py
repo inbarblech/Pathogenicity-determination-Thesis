@@ -203,7 +203,7 @@ def get_oda(variant_path: str) -> (float, float):
     return wt_oda, mut_oda
 
 
-def run_opra(variant_path: str, wt_or_mut: str):
+def run_opra(variant_path: str):
     """creates a file with the OPRA score for the given PDB file."""
     # change the working directory to the variant folder
     os.chdir(variant_path)
@@ -249,7 +249,7 @@ def get_opra(variant_path: str) -> (float, float):
     return wt_opra, mut_opra
 
 
-def run_sasa(path_to_variant_folder: str, wt_or_mut: str):
+def run_sasa(path_to_variant_folder: str):
     """Creates a file with the SASA score for the given PDB file."""
     os.chdir(path_to_variant_folder)
     # get gene_id from folder name
@@ -257,14 +257,11 @@ def run_sasa(path_to_variant_folder: str, wt_or_mut: str):
     variant_location = tools.get_variant_location_from_variant_folder(folder_name)
     gene_id = folder_name.split('_')[1]
 
-    if wt_or_mut == 'wt':
-        command = f"dr_sasa -m 0 -i AF_{gene_id}.pdb"
-    elif wt_or_mut == 'mut':
-        amino_acid = tools.get_amino_acid_of_variant_from_variant_folder(folder_name)
-        three_letter_amino_acid = tools.convert_1_letter_aa_to_3_letter(amino_acid)
-        command = f"dr_sasa -m 0 -i {three_letter_amino_acid}{variant_location}_AF_{gene_id}.pdb"
-    else:
-        raise ValueError("wt_or_mut must be 'wt' or 'mut'")
+    command = f"run_sasa_wt {gene_id}"
+    sp.run(command, shell=True)
+    amino_acid = tools.get_amino_acid_of_variant_from_variant_folder(folder_name)
+    three_letter_amino_acid = tools.convert_1_letter_aa_to_3_letter(amino_acid)
+    command = f"run_sasa_mut {three_letter_amino_acid} {variant_location} {gene_id}"
     sp.run(command, shell=True)
 
 

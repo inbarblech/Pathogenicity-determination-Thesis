@@ -48,9 +48,3 @@ def create_mutation_using_foldx(mut, gene_id):
     mut_with_a = f"{mut[0]}A{mut[1:]}"
     command = f"foldx --command=PositionScan --pdb=AF_{gene_id}.pdb --positions={mut_with_a}"
     sp.run(command, shell=True)
-
-
-if __name__ == "__main__":
-    path = "/home/inbar/variants/Benign/POLR1B/POLR1B_Q9H9Y6_N9S/"
-    sp.run()
-

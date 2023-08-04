@@ -7,6 +7,7 @@ import extract_features as ext_feat
 import pandas as pd
 import general_tools as tools
 import subprocess as sp
+import run_command_line_programs_to_folders as run_command_line_programs
 
 PATH_TO_DATA_FOLDER = "/home/inbar/DVDdata/"
 PATH_TO_CSV_BENIGN = "/home/inbar/all_BENIGN_variants.csv"
@@ -14,6 +15,7 @@ PATH_TO_CSV_PATHOGENIC = "/home/inbar/all_PATHOGENIC_variants.csv"
 PATH_TO_VARIANTS_FOLDER = "/home/inbar/variants/"
 PATH_TO_OUTPUT_FOLDER = "/home/inbar/results/"
 PATHOGENICITY_TYPES = ["Benign", "Pathogenic"]
+EXAMPLE_VARIANT_PATH = "/home/inbar/variants/Benign/AIFM1/AIFM1_O95831_E92K"
 
 
 def create_variants_folders_from_csv(csv_path, output_folder, pathogenicity):
@@ -360,4 +362,4 @@ def main_automation_set_up():  #TODO: Create the functions for this
 
 
 if __name__ == "__main__":
-
+    run_command_line_programs.run_oda(f"{EXAMPLE_VARIANT_PATH}")

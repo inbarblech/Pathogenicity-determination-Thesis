@@ -23,7 +23,8 @@ def convert_variants_list_to_1_letter(variants):
 def convert_1_letter_aa_to_3_letter(letter_variant):
     """Convert a single variant to 3 letter amino acid code.
     for example: A -> Ala"""
-    three_letter_variant = AMINO_ACIDS[letter_variant]
+    # if letter_variant in AMINO_ACIDS.values(), return the key of the value
+    three_letter_variant = [key for key, value in AMINO_ACIDS.items() if value == letter_variant][0]
     return three_letter_variant
 
 
