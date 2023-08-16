@@ -5,7 +5,6 @@ import csv
 import os
 import general_tools as tools
 import residue_properties as rp
-import uniprot_info as uni
 
 """"
 structure of extract_features.py:
@@ -62,9 +61,12 @@ def extract_all_features_for_variant(variant_path: str, features_df: pd.DataFram
     # print("volume done")
     # features_df = write_feature_to_df('plddt_residue', variant_path, features_df, gene, variant)
     # print("plddt done")
-    write_feature_to_df('opra', variant_path, features_df, gene, variant)
-    write_feature_to_df('oda', variant_path, features_df, gene, variant)
-    write_feature_to_df('sasa', variant_path, features_df, gene, variant)
+    features_df = write_feature_to_df('opra', variant_path, features_df, gene, variant)
+    print("opra done")
+    features_df = write_feature_to_df('oda', variant_path, features_df, gene, variant)
+    print("oda done")
+    features_df = write_feature_to_df('sasa', variant_path, features_df, gene, variant)
+    print("sasa done")
     return features_df
 
 
@@ -185,21 +187,26 @@ def get_oda(variant_path: str) -> (float, float):
     Returns:
         tuple of floats: The ODA score for wt and mut.
     """
-    # get all the file names that end with .pdb.oda
-    file_names = [file for file in os.listdir(variant_path) if file.endswith(".pdb.oda")]
+    # get all the file names that end with .oda.pdb
+    file_names = [file for file in os.listdir(variant_path) if file.endswith(".oda.pdb")]
     residue_number = tools.get_variant_location_from_variant_folder(tools.get_folder_name_from_path(variant_path))
     # convert the files to dataframes
     if len(file_names) != 2:
-        print(f"WARNING: There are {len(file_names)} files that end with .pdb.oda in {variant_path}.")
+        print(f"WARNING: There are {len(file_names)} files that end with .oda.pdb in {variant_path}.")
+        # write error to lop file:
+        with open(os.path.join("/home/inbar/log_files/", 'no_two_oda_files.txt'), 'a') as log_file:
+            log_file.write(f"{variant_path}.\n")
         return None, None
+    wt_oda_df = pd.DataFrame()
+    mut_oda_df = pd.DataFrame()
     for file in file_names:
         if file.startswith('AF'):
             wt_oda_df = tools.convert_pdb_to_dataframe(os.path.join(variant_path, file))
         else:
             mut_oda_df = tools.convert_pdb_to_dataframe(os.path.join(variant_path, file))
     # extract the oda values (in the b factor column) for the given residue number
-    wt_oda = wt_oda_df.loc[wt_oda_df['residue_number'] == residue_number, 'b_factor'].values[0]
-    mut_oda = mut_oda_df.loc[mut_oda_df['residue_number'] == residue_number, 'b_factor'].values[0]
+    wt_oda = wt_oda_df.query(f'residue_number == {residue_number}')['b_factor'].iloc[0]
+    mut_oda = mut_oda_df.query(f'residue_number == {residue_number}')['b_factor'].iloc[0]
     return wt_oda, mut_oda
 
 
@@ -231,23 +238,27 @@ def get_opra(variant_path: str) -> (float, float):
     Returns:
         tuple of float: The OPRA scores for wt and mut.
     """
-    # get all the file names that end with .pdb.opra
-    file_names = [file for file in os.listdir(variant_path) if file.endswith(".pdb.opra")]
+    # get all the file names that end with .opra.pdb
+    file_names = [file for file in os.listdir(variant_path) if file.endswith(".opra.pdb")]
     residue_number = tools.get_variant_location_from_variant_folder(tools.get_folder_name_from_path(variant_path))
     # convert the files to dataframes
     if len(file_names) != 2:
-        print(f"WARNING: There are {len(file_names)} files that end with .pdb.opra in {variant_path}.")
+        print(f"WARNING: There are {len(file_names)} files that end with .opra.pdb in {variant_path}.")
+        # write error to lop file:
+        with open(os.path.join("/home/inbar/log_files/", 'no_two_opra_files.txt'), 'a') as log_file:
+            log_file.write(f"{variant_path}.\n")
         return None, None
+    wt_opra_df = pd.DataFrame()
+    mut_opra_df = pd.DataFrame()
     for file in file_names:
         if file.startswith('AF'):
             wt_opra_df = tools.convert_pdb_to_dataframe(os.path.join(variant_path, file))
         else:
             mut_opra_df = tools.convert_pdb_to_dataframe(os.path.join(variant_path, file))
     # extract the opra values (in the b factor column) for the given residue number
-    wt_opra = wt_opra_df.loc[wt_opra_df['residue_number'] == residue_number, 'b_factor'].values[0]
-    mut_opra = mut_opra_df.loc[mut_opra_df['residue_number'] == residue_number, 'b_factor'].values[0]
+    wt_opra = wt_opra_df.query(f'residue_number == {residue_number}')['b_factor'].iloc[0]
+    mut_opra = mut_opra_df.query(f'residue_number == {residue_number}')['b_factor'].iloc[0]
     return wt_opra, mut_opra
-
 
 def run_sasa(path_to_variant_folder: str):
     """Creates a file with the SASA score for the given PDB file."""
@@ -268,22 +279,30 @@ def run_sasa(path_to_variant_folder: str):
 def get_sasa(variant_path: str) -> (float, float):
     """Gets the path for a variant folder, and returns the SASA of the WT and MUT proteins.
     Uses both files created by run_sasa.
+    The sasa value is the sum of the sasa values of all the atoms in the residue.
     Returns a tuple of (WT SASA, MUT SASA)"""
-    # get all the file names that end with .asa.pdb
     file_names = [file for file in os.listdir(variant_path) if file.endswith(".asa.pdb")]
     residue_number = tools.get_variant_location_from_variant_folder(tools.get_folder_name_from_path(variant_path))
     # convert the files to dataframes
     if len(file_names) != 2:
         print(f"WARNING: There are {len(file_names)} files that end with .asa.pdb in {variant_path}.")
+        # write error to lop file:
+        with open(os.path.join("/home/inbar/log_files/", 'no_two_sasa_files.txt'), 'a') as log_file:
+            log_file.write(f"{variant_path}.\n")
         return None, None
+    wt_sasa_df = pd.DataFrame()
+    mut_sasa_df = pd.DataFrame()
     for file in file_names:
         if file.startswith('AF'):
             wt_sasa_df = tools.convert_pdb_to_dataframe(os.path.join(variant_path, file))
         else:
             mut_sasa_df = tools.convert_pdb_to_dataframe(os.path.join(variant_path, file))
-    # extract the SASA from the dataframes, which is the sum of the 11th column where the residue number =residue_number
-    wt_sasa = wt_sasa_df[wt_sasa_df[5] == residue_number][11].sum()
-    mut_sasa = mut_sasa_df[mut_sasa_df[5] == residue_number][11].sum()
+    # extract the sasa values (in the b factor column) for the given residue number
+    wt_sasa_for_residue = wt_sasa_df.query(f'residue_number == {residue_number}')['b_factor']
+    mut_oda_for_residue = mut_sasa_df.query(f'residue_number == {residue_number}')['b_factor']
+    # sum the sasa values
+    wt_sasa = sum(wt_sasa_for_residue)
+    mut_sasa = sum(mut_oda_for_residue)
     return wt_sasa, mut_sasa
 
 
@@ -448,3 +467,7 @@ def get_consurf_conservation_score(path_to_gene_folder: str, path_to_variant_fol
         return int(score)
 
 
+if __name__ == "__main__":
+    path = f"C:/Users/InbarBlech/Downloads/COL4A3/COL4A3_Q01955_G369D/"
+    sasa = get_sasa(path)
+    print(sasa)

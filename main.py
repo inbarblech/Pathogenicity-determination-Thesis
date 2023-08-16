@@ -8,6 +8,7 @@ import pandas as pd
 import general_tools as tools
 import subprocess as sp
 import run_command_line_programs_to_folders as run_command_line_programs
+import handeling_directories as manage_dirs
 
 PATH_TO_DATA_FOLDER = "/home/inbar/DVDdata/"
 PATH_TO_CSV_BENIGN = "/home/inbar/all_BENIGN_variants.csv"
@@ -16,6 +17,52 @@ PATH_TO_VARIANTS_FOLDER = "/home/inbar/variants/"
 PATH_TO_OUTPUT_FOLDER = "/home/inbar/results/"
 PATHOGENICITY_TYPES = ["Benign", "Pathogenic"]
 EXAMPLE_VARIANT_PATH = "/home/inbar/variants/Benign/AIFM1/AIFM1_O95831_E92K"
+
+
+def run_on_gene_folders(path, list_of_genes_to_run_on=None):
+    """Runs a function on all gene folders in path"""
+    errors = []
+    os.chdir(path)
+    # get list of gene folders paths
+    if list_of_genes_to_run_on is None:
+        items_in_folder = os.listdir(path)
+    else:
+        items_in_folder = list_of_genes_to_run_on
+    gene_folders_paths = [os.path.join(path, item) for item in items_in_folder if
+                          os.path.isdir(os.path.join(path, item))]
+    for gene_folder in gene_folders_paths:
+        error = run_command_line_programs_on_folder(gene_folder)
+        errors.append(error)
+
+    with open(f"{path}/log_oda_opra_sasa.txt", "w") as f:
+        for error in errors:
+            f.write(f"{error}\n")
+
+
+def run_command_line_programs_on_folder(path_to_gene_folder):
+    """Runs command line programs on all variant folders in path_to_folder"""
+    errors = []
+    # change directory to the folder containing all the gene folders
+    os.chdir(path_to_gene_folder)
+    # get list of variant folders paths
+    all_items_in_gene_folder = os.listdir(path_to_gene_folder)
+
+    # get list of variant folder paths
+    variant_folders_paths = [os.path.join(path_to_gene_folder, item) for item in all_items_in_gene_folder if
+                             os.path.isdir(os.path.join(path_to_gene_folder, item))]
+
+    print(f"variant_folders_paths: {variant_folders_paths}")
+    # create mutation to all variants in all genes, using the function add_mut.create_mut_using_foldx
+    for variant_folder in variant_folders_paths:
+        try:
+            run_command_line_programs.run_opra_oda_sasa(variant_folder)
+        except Exception as e:
+            errors.append(e)
+
+    with open(f"{path_to_gene_folder}/log_oda_opra_sasa_mut.txt", "w") as f:
+        for error in errors:
+            f.write(f"{error}\n")
+    return errors
 
 
 def create_variants_folders_from_csv(csv_path, output_folder, pathogenicity):
@@ -212,7 +259,6 @@ def create_foldx_mutation_to_variants_in_gene_folder(path_to_gene_folder: str) -
         uniprot_id: uniprot id of the gene.
         gene_name: name of the gene.
     """
-    print("entered create_foldx_mutation_to_variants_in_gene_folder function")
     errors = []
     # change directory to the folder containing all the gene folders
     os.chdir(path_to_gene_folder)
@@ -362,4 +408,7 @@ def main_automation_set_up():  #TODO: Create the functions for this
 
 
 if __name__ == "__main__":
-    run_command_line_programs.run_oda(f"{EXAMPLE_VARIANT_PATH}")
+    features_df = pd.read_csv(f"{PATH_TO_OUTPUT_FOLDER}small_features.csv", header=0)
+    features_df = ext_feat.extract_all_features_for_all_variants_in_df(features_df)
+    features_df.to_csv(f"{PATH_TO_OUTPUT_FOLDER}small_features.csv", index=False, header=True)
+
