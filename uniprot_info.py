@@ -1,3 +1,4 @@
+import pandas as pd
 import requests as req
 import re
 import csv
@@ -32,13 +33,6 @@ def get_sequence(gene_name) -> str:
     data = get_uniprot_json(gene_name)
     sequence = data['results'][0]['sequence']['value']
     return sequence
-
-
-def get_sequence_length(gene_name) -> int:
-    """Returns the length of the sequence for the given Uniprot"""
-    data = get_uniprot_json(gene_name)
-    length = data['results'][0]['sequence']['length']
-    return length
 
 
 def get_go_terms(gene_name) -> dict:
@@ -97,3 +91,41 @@ def get_go_terms_csv(data : dict) -> str:
 
     output.seek(0)  # Move the stream cursor to the beginning of the output
     return output.getvalue()
+
+
+def get_sequence_length(gene_name) -> int:
+    """Returns the length of the protein for the given Uniprot, using the sequence length from Uniprot."""
+    data = get_uniprot_json(gene_name)
+    length = data['results'][0]['sequence']['length']
+    return length
+
+
+def get_secondary_structure(gene_name, position):
+    """Returns the secondary structure of the protein in the given position."""
+    data = get_uniprot_json(gene_name)
+    secondary_structure = data['results'][0]['features']
+    for feature in secondary_structure:
+        if feature['type'] == 'Helix' or feature['type'] == 'Beta strand' or feature['type'] == 'Turn':
+            if feature['location']['start']['value'] <= position <= feature['location']['end']['value']:
+                return feature['type']
+    return 'Loop'
+
+
+if __name__ == "__main__":
+    go_terms = get_go_terms("BRCA1")
+
+    # save dict as df
+    df = pd.DataFrame.from_dict(go_terms, orient='index')
+
+    # split df into 3 dataframes, according to the 3 go categories, and save them to csv
+    df_cellular_component = df[df[0].str.startswith('C:')]
+    df_biological_process = df[df[0].str.startswith('P:')]
+    df_molecular_function = df[df[0].str.startswith('F:')]
+
+
+
+    # # save go terms to csv
+    # csv_data = get_go_terms_csv(go_terms)
+    # # save csv to file
+    # with open("go_terms.csv", "w") as file:
+    #     file.write(csv_data)

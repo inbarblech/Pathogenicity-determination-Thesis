@@ -5,6 +5,7 @@ import csv
 import os
 import general_tools as tools
 import residue_properties as rp
+import uniprot_info as uni
 
 """"
 structure of extract_features.py:
@@ -26,15 +27,17 @@ def extract_all_features_for_all_variants_in_df(features_df: pd.DataFrame):
     Args:
         features_df (pd.DataFrame): The dataframe to add the features to.
     """
+    counter = 0
     for index, row in features_df.iterrows():
         gene = row['gene']
         variant = row['variant']
+        counter += 1
         if row['pathogenicity'] == 'benign':
             pathogenicity = 'Benign'
         else:
             pathogenicity = 'Pathogenic'
         variant_path = tools.get_variant_path(gene, variant, pathogenicity)
-        print(f"extracting features for variant {variant} in gene {gene} in pathogenicity {pathogenicity}")
+        print(f"{counter}...extracting features for variant {variant} in gene {gene} in pathogenicity {pathogenicity}")
         features_df = extract_all_features_for_variant(variant_path, features_df, gene, variant)
     return features_df
 
@@ -53,20 +56,10 @@ def extract_all_features_for_variant(variant_path: str, features_df: pd.DataFram
     folder_name = tools.get_folder_name_from_path(variant_path)
     aa1 = tools.get_amino_acid_of_wt_from_variant_folder(folder_name)
     aa2 = tools.get_amino_acid_of_variant_from_variant_folder(folder_name)
-    # features_df = write_feature_to_df('blosum', variant_path, features_df, gene, variant, aa1=aa1, aa2=aa2)
-    # print("blosum done")
-    # features_df = write_feature_to_df('hydrophobicity', variant_path, features_df, gene, variant, aa1=aa1, aa2=aa2)
-    # print("hydrophobicity done")
-    # features_df = write_feature_to_df('volume', variant_path, features_df, gene, variant, aa1=aa1, aa2=aa2)
-    # print("volume done")
-    # features_df = write_feature_to_df('plddt_residue', variant_path, features_df, gene, variant)
-    # print("plddt done")
-    features_df = write_feature_to_df('opra', variant_path, features_df, gene, variant)
-    print("opra done")
-    features_df = write_feature_to_df('oda', variant_path, features_df, gene, variant)
-    print("oda done")
-    features_df = write_feature_to_df('sasa', variant_path, features_df, gene, variant)
-    print("sasa done")
+    features_df = write_feature_to_df('secondary_structure', variant_path, features_df, gene, variant)
+    print("secondary structure done")
+    features_df = write_feature_to_df('sequence_length', variant_path, features_df, gene, variant)
+    print("sequence length done")
     return features_df
 
 
@@ -82,7 +75,7 @@ def write_feature_to_df(feature: str, variant_path: str, features_df: pd.DataFra
         aa1 (str): The first amino acid.
         aa2 (str): The second amino acid.
     """
-    if feature in ["blosum", "plddt_residue"]:
+    if feature in ["blosum", "plddt_residue", "secondary_structure", "sequence_length"]:
         feature_value = extract_feature_one_value(feature, variant_path, aa1, aa2)
         # Add the feature to the dataframe, in colume 'feature' and row where gene == gene and variant == variant
         features_df.loc[(features_df['gene'] == gene) & (features_df['variant'] == variant), feature] = feature_value
@@ -109,6 +102,8 @@ def extract_feature_one_value(feature: str, variant_path: str, aa1: str = None, 
     feature_mapping = {
         'blosum': get_substitution_matrix_value,
         'plddt_residue': get_plddt,
+        'secondary_structure': get_secondary_structure,
+        'sequence_length': uni.get_sequence_length
     }
     if feature in feature_mapping:
         feature_function = feature_mapping[feature]
@@ -119,6 +114,13 @@ def extract_feature_one_value(feature: str, variant_path: str, aa1: str = None, 
             return feature_function(residue_num, af_file_path)
         elif feature in ['blosum']:
             return feature_function(aa1, aa2)
+        elif feature in ['secondary_structure']:
+            gene_name = tools.get_gene_name_from_path(variant_path)
+            position = tools.get_residue_number_from_variant_folder(tools.get_folder_name_from_path(variant_path))
+            return feature_function(gene_name, position)
+        elif feature in ['sequence_length']:
+            gene_name = tools.get_gene_name_from_path(variant_path)
+            return feature_function(gene_name)
     else:
         raise ValueError(f"Feature {feature} is not supported, or not covered by this function."
                          f"This function only supports the following features: {feature_mapping.keys()}")
@@ -467,7 +469,12 @@ def get_consurf_conservation_score(path_to_gene_folder: str, path_to_variant_fol
         return int(score)
 
 
-if __name__ == "__main__":
-    path = f"C:/Users/InbarBlech/Downloads/COL4A3/COL4A3_Q01955_G369D/"
-    sasa = get_sasa(path)
-    print(sasa)
+def get_secondary_structure(gene_name, position):
+    """Returns the secondary structure of the protein in the given position."""
+    data = uni.get_uniprot_json(gene_name)
+    secondary_structure = data['results'][0]['features']
+    for feature in secondary_structure:
+        if feature['type'] == 'Helix' or feature['type'] == 'Beta strand' or feature['type'] == 'Turn':
+            if feature['location']['start']['value'] <= position <= feature['location']['end']['value']:
+                return feature['type']
+    return 'Loop'

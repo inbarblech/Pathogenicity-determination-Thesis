@@ -109,15 +109,6 @@ def create_variants_folders_from_csv(csv_path, output_folder, pathogenicity):
     return existing_folders
 
 
-def count_number_of_variant_folders(path_to_folder):
-    """Counts the number of folders and sub-folders in the given folder."""
-    counter = 0
-    for root, dirs, files in os.walk(path_to_folder):
-        for dir in dirs:
-            counter += 1
-    return counter
-
-
 def create_pathogenicity_folders(path_to_folder):
     """Creates the pathogenicity folders (Benign and Pathogenic) in the given folder."""
     for pathogenicity in PATHOGENICITY_TYPES:
@@ -317,83 +308,6 @@ def create_mutation_file_to_all_variants(path: str) -> None:
         # return to the path containing all the gene folders
 
 
-def extract_features(path: str, output_file_path: str) -> list:
-    """Extract features for all variants in all genes, and write to csv file.
-    The function checks if there is a pdb file in the variant folder. If there is, it extracts the features.
-    If there is not, it skips the variant and adds the variant and the path to the errors file.
-    Args:
-        path: path to the folder containing all the gene folders.
-        output_file_path: path to the output file (csv file).
-    returns:
-        errors: list of errors
-    """
-    os.chdir(path)
-    # get list of gene folders paths
-    gene_folders = os.listdir(path)
-    # get list of gene folder paths
-    gene_folder_paths = [os.path.join(path, folder) for folder in gene_folders]
-    # create list of features
-    features = []
-    # create list of errors
-    errors = []
-    # extract features for all variants in all genes
-    for gene_folder in gene_folder_paths:
-        # get uniprot id from gene folder name
-        gene_name = gene_folder.split("/")[-1]  # get gene name from path, e.g. "BRCA1" from "path/to/BRCA1"
-        uni_id = uni.get_uniprot_id(gene_name)
-        # get variant from gene folder name, e.g. "A123B" from "KCNQ1_P51787_A2V" then variant="A2V"
-        mut = gene_folder.split("_")[-1]
-        residue_num = mut[1:-1]
-        # get path to pdb file
-        pdb_file_path = f"{gene_folder}/AF_{uni_id}.pdb"
-        extract_features_per_variant(mut, uni_id, residue_num, pdb_file_path)
-    return errors
-
-
-def extract_features_per_variant(variant, uni_id, residue_num, pdb_file_path) -> list:
-    """Extract features
-    Args:
-        variant: variant, e.g. "A2V"
-        uni_id: uniprot id, e.g. "P51787"
-        residue_num: residue number, e.g. "123"
-        pdb_file_path: path to pdb file, e.g. "path/to/KCNQ1_P51787_A2V/AF_P51787.pdb"
-    returns:
-        errors: list of errors
-        """
-
-    # Extract plddt value
-    plddt_residue_value = ext_feat.get_plddt(residue_num, pdb_file_path)  # Get plddt value for residue
-
-    # ODA
-    oda_wt = ext_feat.get_oda(variant, uni_id, "wt")
-    oda_mut = ext_feat.get_oda(variant, uni_id, "mut")
-    delta_oda = ext_feat.get_delta_oda(variant, uni_id)
-
-    # OPRA
-    opra_wt = ext_feat.get_opra(variant, uni_id, "wt")
-    opra_mut = ext_feat.get_opra(variant, uni_id, "mut")
-    delta_opra = ext_feat.get_delta_opra(variant, uni_id)
-
-    # Hydrogen bonds
-    hbonds_wt = ext_feat.get_hbonds(variant, uni_id, "wt")
-    hbonds_mut = ext_feat.get_hbonds(variant, uni_id, "mut")
-    delta_hbonds = ext_feat.get_delta_hbonds(variant, uni_id)
-
-    aa1, aa2 = tools.get_aa1_aa2(variant)
-
-    # Substitution matrix value
-    sub_value = ext_feat.get_substitution_matrix_value(aa1, aa2)
-
-    # Save features as csv row
-    features = {"Gene_name": gene_name, "Variant": variant, "UniProt_ID": uni_id,
-                "PLDDT": plddt_residue_value, "ODA_wt": oda_wt, "ODA_mut": oda_mut,
-                "Delta_ODA": delta_oda, "OPRA_wt": opra_wt, "OPRA_mut": opra_mut,
-                "Delta_OPRA": delta_opra, "HBonds_wt": hbonds_wt, "HBonds_mut": hbonds_mut,
-                "Delta_HBonds": delta_hbonds, "Substitution_matrix": sub_value}
-    df_variant_row = save_data_as_df(pathogenicity, features)
-    df = df.append(df_variant_row)
-
-
 def main_automation_set_up():  #TODO: Create the functions for this
     """This function is used to set up the automation process for the first time in a new environment.
     It creates the folder structure and downloads the necessary files."""
@@ -408,7 +322,7 @@ def main_automation_set_up():  #TODO: Create the functions for this
 
 
 if __name__ == "__main__":
-    features_df = pd.read_csv(f"{PATH_TO_OUTPUT_FOLDER}small_features.csv", header=0)
-    features_df = ext_feat.extract_all_features_for_all_variants_in_df(features_df)
-    features_df.to_csv(f"{PATH_TO_OUTPUT_FOLDER}small_features.csv", index=False, header=True)
+    # extract features for example csv:
+    features_df = pd.read_csv("C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\Thesis\\Findings\\features.csv", header=0)
+
 

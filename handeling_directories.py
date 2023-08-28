@@ -129,6 +129,15 @@ def run_on_gene_folders(path, list_of_genes_to_run_on=None):
         run_change_name_on_folder(gene_folder)
 
 
+def count_number_of_variant_folders(path_to_folder):
+    """Counts the number of folders and sub-folders in the given folder."""
+    counter = 0
+    for root, dirs, files in os.walk(path_to_folder):
+        for dir in dirs:
+            counter += 1
+    return counter
+
+
 def run_change_name_on_folder(path_to_gene_folder):
     """Runs on all variant folders in path_to_folder"""
     errors = []

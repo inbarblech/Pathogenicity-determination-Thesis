@@ -79,6 +79,12 @@ def get_folder_name_from_path(path: str) -> str:
     return folder_name
 
 
+def get_folder_name_from_path_windows(path: str) -> str:
+    path = path.strip()
+    folder_name = os.path.basename(path.rstrip('\\')).split('\\')[-1]
+    return folder_name
+
+
 def extract_files_from_type(files_list: list, type: str) -> list:
     """Extract files from the given type from the given files list."""
     extracted_files = []
@@ -107,3 +113,10 @@ def get_uniprot_id_from_path(path: str) -> str:
     variant_folder = path.split('/')[-2]
     uniprot_id = variant_folder.split('_')[1]
     return uniprot_id
+
+
+def get_gene_name_from_path(path: str) -> str:
+    """Get the gene name from the given path."""
+    variant_folder = path.split('/')[-2]
+    gene_name = variant_folder.split('_')[0]
+    return gene_name
