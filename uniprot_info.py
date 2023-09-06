@@ -1,3 +1,5 @@
+import json
+
 import pandas as pd
 import requests as req
 import re
@@ -28,11 +30,56 @@ def get_uniprot_json(gene_name) -> dict:
     return data
 
 
+def write_uniprot_json_to_file(gene_name):
+    # The base URL for UniProt's search API
+    url = get_uniprot_url(gene_name)
+    # Make a request to the search API
+    response = req.get(url)
+    # Extract the JSON data from the response
+    data = response.json()
+
+    with open('C:\\Users\\InbarBlech\\Downloads\\data_json.txt', 'w') as f:
+        json.dump(data, f)
+
+
 def get_sequence(gene_name) -> str:
     """Returns the sequence for the given Uniprot"""
     data = get_uniprot_json(gene_name)
     sequence = data['results'][0]['sequence']['value']
     return sequence
+
+
+def get_type_of_residue_membrane_or_globular(gene_name, position) -> bool:
+    """Returns True if residue is in transmembranal area, False if in globular."""
+    data = get_uniprot_json(gene_name)
+    cellular_location_info = data['results'][0]['features']
+    for feature in cellular_location_info:
+        if feature['type'] == "Transmembrane":
+            if feature['location']['start']['value'] <= position <= feature['location']['end']['value']:
+                return True
+    return False
+
+
+def is_protein_membranal(gene_name) -> bool:
+    """Returns True if there is any transmembrane part to the protein.
+    False otherwise."""
+    data = get_uniprot_json(gene_name)
+    cellular_location_info = data['results'][0]['features']
+    for feature in cellular_location_info:
+        if feature['type'] == "Transmembrane":
+            return True
+    return False
+
+
+# def get_secondary_structure(gene_name, position):
+#     """Returns the secondary structure of the protein in the given position."""
+#     data = get_uniprot_json(gene_name)
+#     secondary_structure = data['results'][0]['features']
+#     for feature in secondary_structure:
+#         if feature['type'] == 'Helix' or feature['type'] == 'Beta strand' or feature['type'] == 'Turn':
+#             if feature['location']['start']['value'] <= position <= feature['location']['end']['value']:
+#                 return feature['type']
+#     return 'Loop'
 
 
 def get_go_terms(gene_name) -> dict:

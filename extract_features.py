@@ -12,8 +12,9 @@ structure of extract_features.py:
 # extract_all_features_for_all_variants_in_df
 # extract_all_features_for_variant
 # write_feature_to_df
-# extract_feature_one_value / extract_feature_wt_mut
+# extract_feature_one_value / extract_feature_wt_mut / extract_feature_one_value_for_protein
 # get_stability / get_oda / get_opra / get_plddt / get_hydrophobicity / get_aa_volume / get_substitution_matrix_value
+# / functions from other modules 
 
 Calling this script from main, to update the features.csv file:
     features_df = pd.read_csv(f"{PATH_TO_OUTPUT_FOLDER}features.csv", header=0)
@@ -53,13 +54,13 @@ def extract_all_features_for_variant(variant_path: str, features_df: pd.DataFram
         aa2 (str): The second amino acid in the variant. Allows to insert the value in the right position in the csv.
     """
     # write all features to dataframe
-    folder_name = tools.get_folder_name_from_path(variant_path)
-    aa1 = tools.get_amino_acid_of_wt_from_variant_folder(folder_name)
-    aa2 = tools.get_amino_acid_of_variant_from_variant_folder(folder_name)
-    features_df = write_feature_to_df('secondary_structure', variant_path, features_df, gene, variant)
-    print("secondary structure done")
-    features_df = write_feature_to_df('sequence_length', variant_path, features_df, gene, variant)
-    print("sequence length done")
+    # folder_name = tools.get_folder_name_from_path(variant_path)
+    # aa1 = tools.get_amino_acid_of_wt_from_variant_folder(folder_name)
+    # aa2 = tools.get_amino_acid_of_variant_from_variant_folder(folder_name)
+    # features_df = write_feature_to_df('protein_contain_transmembrane', variant_path, features_df, gene, variant)
+    # print('protein_contain_transmembrane_done')
+    features_df = write_feature_to_df('is_residue_transmembranal', variant_path, features_df, gene, variant)
+    print('is_residue_transmembranal done')
     return features_df
 
 
@@ -75,8 +76,8 @@ def write_feature_to_df(feature: str, variant_path: str, features_df: pd.DataFra
         aa1 (str): The first amino acid.
         aa2 (str): The second amino acid.
     """
-    if feature in ["blosum", "plddt_residue", "secondary_structure", "sequence_length"]:
-        feature_value = extract_feature_one_value(feature, variant_path, aa1, aa2)
+    if feature in ["blosum", "plddt_residue", "secondary_structure", "sequence_length", "is_residue_transmembranal"]:
+        feature_value = extract_feature_one_value(feature, variant_path, aa1, aa2, gene_name= gene)
         # Add the feature to the dataframe, in colume 'feature' and row where gene == gene and variant == variant
         features_df.loc[(features_df['gene'] == gene) & (features_df['variant'] == variant), feature] = feature_value
     elif feature in ["opra", "oda", "sasa", "stability", "hydrophobicity", "volume"]:
@@ -85,10 +86,36 @@ def write_feature_to_df(feature: str, variant_path: str, features_df: pd.DataFra
         features_df.loc[(features_df['gene'] == gene) & (features_df['variant'] == variant), feature + "_WT"] = wt_value
         features_df.loc[(features_df['gene'] == gene) & (features_df['variant'] == variant), feature + "_MUT"] = \
             mut_value
+    elif feature in ["protein_contain_transmembrane"]:
+        feature_value = extract_feature_one_value_for_protein(feature, gene)
+        features_df.loc[(features_df['gene'] == gene) & (features_df['variant'] == variant), feature] = feature_value
     return features_df
 
 
-def extract_feature_one_value(feature: str, variant_path: str, aa1: str = None, aa2: str = None) -> float:
+def extract_feature_one_value_for_protein(feature: str, gene_name: str):
+    """Extracts the given feature from the given variant. This is one value for entire protein.
+        When there's no need for calculations on the protein itself.
+        Supports features: 'protein_contain_transmembrane'.
+        Args:
+            feature (str): The feature to extract, e.g. 'blosum', 'hydrophobicity', 'volume'.
+            gene_name (str): The gene to extract for.
+        Returns:
+            float: The value of the feature.
+    """
+    feature_mapping = {
+        "protein_contain_transmembrane": uni.is_protein_membranal
+    }
+
+    if feature in feature_mapping:
+        feature_function = feature_mapping[feature]
+        if feature in ['sequence_length', 'protein_contain_transmembrane']:
+            return feature_function(gene_name)
+    else:
+        raise ValueError(f"Feature {feature} is not supported, or not covered by this function."
+                         f"This function only supports the following features: {feature_mapping.keys()}")
+
+
+def extract_feature_one_value(feature: str, variant_path: str, aa1: str = None, aa2: str = None, gene_name: str = None) -> float:
     """Extracts the given feature from the given variant.
     Supports features: 'blosum', 'plddt_residue'.
     Args:
@@ -96,14 +123,16 @@ def extract_feature_one_value(feature: str, variant_path: str, aa1: str = None, 
         variant_path (str): The path to the variant folder.
         aa1 (str): The first amino acid.
         aa2 (str): The second amino acid.
+        gene_name (str): The gene name.
     Returns:
         float: The value of the feature.
     """
     feature_mapping = {
         'blosum': get_substitution_matrix_value,
         'plddt_residue': get_plddt,
-        'secondary_structure': get_secondary_structure,
-        'sequence_length': uni.get_sequence_length
+        'secondary_structure': uni.get_secondary_structure,
+        'sequence_length': uni.get_sequence_length,
+        'is_residue_transmembranal': uni.get_type_of_residue_membrane_or_globular
     }
     if feature in feature_mapping:
         feature_function = feature_mapping[feature]
@@ -114,12 +143,10 @@ def extract_feature_one_value(feature: str, variant_path: str, aa1: str = None, 
             return feature_function(residue_num, af_file_path)
         elif feature in ['blosum']:
             return feature_function(aa1, aa2)
-        elif feature in ['secondary_structure']:
-            gene_name = tools.get_gene_name_from_path(variant_path)
+        elif feature in ['secondary_structure', 'is_residue_transmembranal']:
             position = tools.get_residue_number_from_variant_folder(tools.get_folder_name_from_path(variant_path))
             return feature_function(gene_name, position)
         elif feature in ['sequence_length']:
-            gene_name = tools.get_gene_name_from_path(variant_path)
             return feature_function(gene_name)
     else:
         raise ValueError(f"Feature {feature} is not supported, or not covered by this function."
@@ -468,13 +495,3 @@ def get_consurf_conservation_score(path_to_gene_folder: str, path_to_variant_fol
     else:
         return int(score)
 
-
-def get_secondary_structure(gene_name, position):
-    """Returns the secondary structure of the protein in the given position."""
-    data = uni.get_uniprot_json(gene_name)
-    secondary_structure = data['results'][0]['features']
-    for feature in secondary_structure:
-        if feature['type'] == 'Helix' or feature['type'] == 'Beta strand' or feature['type'] == 'Turn':
-            if feature['location']['start']['value'] <= position <= feature['location']['end']['value']:
-                return feature['type']
-    return 'Loop'

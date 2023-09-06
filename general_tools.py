@@ -120,3 +120,29 @@ def get_gene_name_from_path(path: str) -> str:
     variant_folder = path.split('/')[-2]
     gene_name = variant_folder.split('_')[0]
     return gene_name
+
+
+def get_uniprot_ids_from_df(df: pd.DataFrame) -> list:
+    genes_set = get_genes_set_from_df(df)
+    uniprot_ids = []
+    for gene in genes_set:
+        uni_id = uni.get_uniprot_id(gene)
+        uniprot_ids.append(uni_id)
+    return uniprot_ids
+
+
+def get_genes_set_from_df(df: pd.DataFrame) -> set:
+    genes = df['gene']
+    genes_set = set(genes)
+    return genes_set
+
+
+def get_number_of_variants_per_gene_dict(df: pd.DataFrame) -> dict:
+    """Recieves a dataframe with one type of pathogenicity.
+    Returns dictionary of number of variants per gene"""
+    gene_set = get_genes_set_from_df(df)
+    number_of_variants_per_gene = dict()
+    for gene in gene_set:
+        number_of_variants = len(df[df["gene"] == gene])
+        number_of_variants_per_gene[gene] = number_of_variants
+    return number_of_variants_per_gene

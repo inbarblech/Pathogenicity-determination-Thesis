@@ -9,14 +9,17 @@ import general_tools as tools
 import subprocess as sp
 import run_command_line_programs_to_folders as run_command_line_programs
 import handeling_directories as manage_dirs
+import make_plots as plots
 
 PATH_TO_DATA_FOLDER = "/home/inbar/DVDdata/"
 PATH_TO_CSV_BENIGN = "/home/inbar/all_BENIGN_variants.csv"
 PATH_TO_CSV_PATHOGENIC = "/home/inbar/all_PATHOGENIC_variants.csv"
 PATH_TO_VARIANTS_FOLDER = "/home/inbar/variants/"
 PATH_TO_OUTPUT_FOLDER = "/home/inbar/results/"
+PATH_TO_INBAR = "/home/inbar/"
 PATHOGENICITY_TYPES = ["Benign", "Pathogenic"]
 EXAMPLE_VARIANT_PATH = "/home/inbar/variants/Benign/AIFM1/AIFM1_O95831_E92K"
+PATH_TO_FEATURES_CSV = "/home/inbar/results/features.csv"
 
 
 def run_on_gene_folders(path, list_of_genes_to_run_on=None):
@@ -321,8 +324,39 @@ def main_automation_set_up():  #TODO: Create the functions for this
     create_mutation_file_to_all_variants(f"{PATH_TO_VARIANTS_FOLDER}Benign/")
 
 
+def get_dataframe_of_number_of_variants_per_gene_per_pathogenicity(features_df) -> pd.DataFrame:
+    """Creates a dataframe that contains the number of variants in each pathogenicity for each gene.
+    For example:
+    Gene    Pathogenic  Benign
+    ADHFK   5           12
+    FKLK    1           0
+    IOI5    120         9
+
+    Input: Dataframe of all data (features.csv)
+    Output: Dataframe of number of variants per pathogenicity per gene."""
+
+    features_df_path = features_df.loc[features_df['pathogenicity'] == 'pathogenic']
+    features_df_benign = features_df.loc[features_df['pathogenicity'] == 'benign']
+    num_of_variants_per_gene_dict_path = tools.get_number_of_variants_per_gene_dict(features_df_path)
+    num_of_variants_per_gene_dict_benign = tools.get_number_of_variants_per_gene_dict(features_df_benign)
+    # create dataframe from the two dictionaries
+    # Convert dictionaries to DataFrames
+    df_pathogenic_values = pd.DataFrame(list(num_of_variants_per_gene_dict_path.items()),
+                                        columns=['gene', 'pathogenic'])
+    df_benign_values = pd.DataFrame(list(num_of_variants_per_gene_dict_benign.items()), columns=['gene', 'benign'])
+    # Merge DataFrames using an outer join to include all keys from both dictionaries
+    merged_df = pd.merge(df_pathogenic_values, df_benign_values, on='gene', how='outer')
+    # Fill NaN values with a specific value if needed
+    merged_df.fillna(0, inplace=True)  # Replace NaN with 0
+    return merged_df
+
+
 if __name__ == "__main__":
-    # extract features for example csv:
-    features_df = pd.read_csv("C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\Thesis\\Findings\\features.csv", header=0)
+    # features_df = pd.read_csv(f"{PATH_TO_INBAR}features.csv", header=0)
+    # features_df = ext_feat.extract_all_features_for_all_variants_in_df(features_df)
+    # features_df.to_csv(f"{PATH_TO_INBAR}features.csv", index=False, header=True)
 
-
+    features_df = pd.read_csv(f"C:\\Users\\InbarBlech\\Downloads\\features.csv", header=0)
+    df = get_dataframe_of_number_of_variants_per_gene_per_pathogenicity(features_df)
+    plots.create_diverged_bar_plot(df)
+    print(df.head())
