@@ -108,7 +108,6 @@ def clean_variants_dataframe(df, list_of_genes):
     # Creates a new "pathogenicity" column, which contains the pathogenicity of the variant
     df['Pathogenicity'] = df['Clinical significance'].apply(lambda x: 'Pathogenic' if 'Pathogenic' in x else 'Benign')
 
-    # Delete columns: Accession, ID, Canonical SPDI, Location (GRCh38), Chromosome, Review status, Name, Condition(S)
     df.drop(columns=['Accession', 'ID', 'Canonical SPDI', 'Chromosome', 'Clinical significance',
                      'Review status', 'Name', 'Location  (GRCh38)', 'Condition(s)'], inplace=True)
 
@@ -136,18 +135,93 @@ def get_set_of_genes(path_to_gene_folders):
     return gene_names
 
 
+def combine_dataframes(df1, df2) -> pd.DataFrame:
+    """Combine two dataframes to one"""
+    if not df1.columns.equals(df2.columns):
+        raise ValueError("Columns in the two datasets are not identical.")
+    # Combine the DataFrames
+    combined_df = pd.concat([df1, df2], ignore_index=True)
+    return combined_df
+
+
+def remove_duplicate_rows(df, column1, column2):
+    # Check if the specified columns exist in the DataFrame
+    if column1 not in df.columns or column2 not in df.columns:
+        raise ValueError("Specified columns do not exist in the DataFrame.")
+    # Remove duplicate rows based on the specified columns
+    df.drop_duplicates(subset=[column1, column2], keep='first', inplace=True)
+    # Reset the index after removing rows
+    df.reset_index(drop=True, inplace=True)
+    return df
+
+
+def find_identical_rows(df1, df2, column1, column2):
+    # Check if the specified columns exist in both DataFrames
+    if column1 not in df1.columns or column2 not in df1.columns or \
+       column1 not in df2.columns or column2 not in df2.columns:
+        raise ValueError("Specified columns do not exist in one or both DataFrames.")
+
+    # Find rows with identical values in the specified columns
+    merged_df = pd.merge(df1, df2, on=[column1, column2], how='inner')
+    return merged_df
+
+
+def remove_rows_by_values(data, remove_rows, column1, column2):
+    # Check if the specified columns exist in both DataFrames
+    if column1 not in data.columns or column2 not in data.columns or \
+       column1 not in remove_rows.columns or column2 not in remove_rows.columns:
+        raise ValueError("Specified columns do not exist in one or both DataFrames.")
+
+    # Create a set of tuples from the values in the specified columns of "remove_rows"
+    values_to_remove = set(zip(remove_rows[column1], remove_rows[column2]))
+
+    # Filter the "data" DataFrame to remove rows with matching values
+    data = data[~data.apply(lambda row: (row[column1], row[column2]) in values_to_remove, axis=1)]
+
+    return data
+
+
 if __name__ == "__main__":
-    path = 'C:\\Users\\InbarBlech\\Downloads\\clinvar_var.txt'
-    paragraphs = create_list_of_variant_dictionaries(path)
-    df = get_dataframe_from_list_of_dict(paragraphs)
-    set_of_hearing_loss_genes_pathogenic = get_set_of_genes("C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\variants\\Pathogenic\\")
-    set_of_hearing_loss_genes_benign = get_set_of_genes("C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\variants\\Benign\\")
-    hearing_loss_genes = set_of_hearing_loss_genes_pathogenic + set_of_hearing_loss_genes_benign
-    hearing_loss_genes = set(hearing_loss_genes)
+    # # Create df from ClinVar txt file
+    # path = 'C:\\Users\\InbarBlech\\Downloads\\clinvar_benign_missense_multiple_hearing_loss.txt'
+    # paragraphs = create_list_of_variant_dictionaries(path)
+    # df_benign_hearing_loss = get_dataframe_from_list_of_dict(paragraphs)
+    # path = 'C:\\Users\\InbarBlech\\Downloads\\clinvar_pathogenic_missense_multiple_hearing_loss.txt'
+    # paragraphs = create_list_of_variant_dictionaries(path)
+    # df_pathogenic_hearing_loss = get_dataframe_from_list_of_dict(paragraphs)
+    # path = 'C:\\Users\\InbarBlech\\Downloads\\clinvar_benign_missense_multiple_deafness.txt'
+    # paragraphs = create_list_of_variant_dictionaries(path)
+    # df_benign_deafness = get_dataframe_from_list_of_dict(paragraphs)
+    # path = 'C:\\Users\\InbarBlech\\Downloads\\clinvar_pathogenic_missense_multiple_deafness.txt'
+    # paragraphs = create_list_of_variant_dictionaries(path)
+    # df_pathogenic_deafness = get_dataframe_from_list_of_dict(paragraphs)
+    #
+    # # Combine dataframes
+    # df_deafness = combine_dataframes(df_pathogenic_deafness, df_benign_deafness)
+    # df_hearing_loss = combine_dataframes(df_pathogenic_hearing_loss, df_benign_hearing_loss)
+    # combined_df = combine_dataframes(df_hearing_loss, df_deafness)
+    #
+    # set_of_hearing_loss_genes_pathogenic = get_set_of_genes("C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\variants\\Pathogenic\\")
+    # set_of_hearing_loss_genes_benign = get_set_of_genes("C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\variants\\Benign\\")
+    # hearing_loss_genes = set_of_hearing_loss_genes_pathogenic + set_of_hearing_loss_genes_benign
+    # hearing_loss_genes = set(hearing_loss_genes)
+    #
+    # df1 = clean_variants_dataframe(combined_df, hearing_loss_genes)
+    #
+    # # Remove duplicates from dataframe
+    # df = remove_duplicate_rows(df1, "Gene(s)", "Protein change")
+    # df.to_csv("C:\\Users\\InbarBlech\\Downloads\\clinvar_variants.csv")
 
-    with open("C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\variants\\genes_set.txt", 'w') as f:
-        for gene in hearing_loss_genes:
-            f.write(f"{gene}\n")
 
-    df1 = clean_variants_dataframe(df, hearing_loss_genes)
-    # Transform the dataframe to csv
+    # Check duplicates in variants from dvd and clinvar
+
+    # Create dvd file with gene and variant
+    df_dvd = pd.read_csv("C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\Thesis\\Findings\\features.csv")
+    df_clinvar = pd.read_csv("C:\\Users\\InbarBlech\\Downloads\\clinvar_variants.csv")
+    duplicate_rows = find_identical_rows(df_dvd, df_clinvar, "gene", "variant")
+    df_without_duplicates = remove_rows_by_values(df_clinvar, duplicate_rows, "gene", "variant")
+    df_without_duplicates.head()
+    df_without_duplicates.to_csv("C:\\Users\\InbarBlech\\Downloads\\clinvar_variants_without_duplicates_of_dvd.csv")
+
+
+

@@ -146,3 +146,21 @@ def get_number_of_variants_per_gene_dict(df: pd.DataFrame) -> dict:
         number_of_variants = len(df[df["gene"] == gene])
         number_of_variants_per_gene[gene] = number_of_variants
     return number_of_variants_per_gene
+
+
+def split_dataframe_by_group(dataframe, group_column, group_value1, group_value2):
+    """
+    Split a DataFrame into two sub-DataFrames based on the values in the 'group_column'.
+
+    Parameters:
+    - dataframe: DataFrame to be split.
+    - group_column: The name of the column used for splitting.
+    - group_value1: The value in 'group_column' to include in the first sub-DataFrame.
+    - group_value2: The value in 'group_column' to include in the second sub-DataFrame.
+
+    Returns:
+    - Two sub-DataFrames.
+    """
+    df_group1 = dataframe[dataframe[group_column] == group_value1]
+    df_group2 = dataframe[dataframe[group_column] == group_value2]
+    return df_group1, df_group2

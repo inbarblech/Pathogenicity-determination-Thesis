@@ -10,6 +10,7 @@ import subprocess as sp
 import run_command_line_programs_to_folders as run_command_line_programs
 import handeling_directories as manage_dirs
 import make_plots as plots
+import matplotlib.pyplot as plt
 
 PATH_TO_DATA_FOLDER = "/home/inbar/DVDdata/"
 PATH_TO_CSV_BENIGN = "/home/inbar/all_BENIGN_variants.csv"
@@ -333,7 +334,11 @@ def get_dataframe_of_number_of_variants_per_gene_per_pathogenicity(features_df) 
     IOI5    120         9
 
     Input: Dataframe of all data (features.csv)
-    Output: Dataframe of number of variants per pathogenicity per gene."""
+    Output: Dataframe of number of variants per pathogenicity per gene.
+
+    Usage:
+    df = get_dataframe_of_number_of_variants_per_gene_per_pathogenicity(features_df)
+    """
 
     features_df_path = features_df.loc[features_df['pathogenicity'] == 'pathogenic']
     features_df_benign = features_df.loc[features_df['pathogenicity'] == 'benign']
@@ -356,7 +361,13 @@ if __name__ == "__main__":
     # features_df = ext_feat.extract_all_features_for_all_variants_in_df(features_df)
     # features_df.to_csv(f"{PATH_TO_INBAR}features.csv", index=False, header=True)
 
-    features_df = pd.read_csv(f"C:\\Users\\InbarBlech\\Downloads\\features.csv", header=0)
-    df = get_dataframe_of_number_of_variants_per_gene_per_pathogenicity(features_df)
-    plots.create_diverged_bar_plot(df)
-    print(df.head())
+    data_file = "C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\Thesis\\Findings\\features.csv"
+    df = pd.read_csv(data_file)
+    trans_residue_df = df[df["is_residue_transmembranal"] == True]
+    globular_residue_df = df[df["is_residue_transmembranal"] == False]
+
+    pathogenic_trans_secondary_structure_percentages_df, benign_trans_secondary_structure_percentages_df =\
+        plots.get_percentage_by_pathogenicity(trans_residue_df, 'secondary_structure')
+    pathogenic_globular_secondary_structure_percentages_df, benign_globular_secondary_structure_percentages_df =\
+        plots.get_percentage_by_pathogenicity(globular_residue_df, 'secondary_structure')
+

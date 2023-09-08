@@ -2,10 +2,44 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+import general_tools as tools
 
 
+def make_density_plot_per_feature_per_group(data, feature, title=None):
+    """Usage:
+    data_file = "C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\Thesis\\Findings\\features.csv"
+    df = pd.read_csv(data_file)
+    # dataframe of first group (first graph)
+    df_transmembranal = df[df["protein_contain_transmembrane"] == True]
+    # dataframe of second group (second graph)
+    df_globular = df[df["protein_contain_transmembrane"] == False]
+    make_density_plot_per_feature_per_group(df_transmembranal, "hydrophobicity_MUT", "hydrophobicity_MUT for transmembranal protein")
+    make_density_plot_per_feature_per_group(df_globular, "hydrophobicity_MUT", "hydrophobicity_MUT for globular protein")"""
+    df1, df2 = tools.split_dataframe_by_group(data, "pathogenicity", "benign", "pathogenic")
 
-def get_percentage_by_pathogenicity(data, feature):
+    # Create density plots for each sub-DataFrame
+    plt.figure(figsize=(12, 6))
+    sns.kdeplot(data=df1[feature], label=f'{"Benign"} - {feature}', shade=True, color="green")
+    sns.kdeplot(data=df2[feature], label=f'{"Pathogenic"} - {feature}', shade=True, color="red")
+
+    # Customize plot labels and title
+    plt.xlabel(feature)
+    plt.ylabel("Density")
+    if title is None:
+        plt.title(f"Density Plot for {feature}")
+    else:
+        plt.title(title)
+
+    # Show legend
+    plt.legend()
+
+    plt.savefig(f"C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\Thesis\\Findings\\Plots\\{title}.png", dpi=1200)
+
+    # Display the plot
+    plt.show()
+
+
+def get_percentage_by_pathogenicity(df, feature) -> (pd.DataFrame, pd.DataFrame):
     """Get the percentage of each instance of feature, in each pathogenicity group
     Example: feature = 'secondary_structure' ->
     pathogenicity  secondary_structure percentage
@@ -20,17 +54,58 @@ def get_percentage_by_pathogenicity(data, feature):
 
     Usage: get_percentage_by_pathogenicity(data_file, 'secondary_structure')
     """
-    df = pd.read_csv(data)
     # split the dataset according to pathogenicity
     df_pathogenic = df[df['pathogenicity'] == "pathogenic"]
     df_non_pathogenic = df[df['pathogenicity'] == "benign"]
+    #
+    # df_secondary_structure_pathogenic = df_pathogenic[df_pathogenic[feature]]
+    # df_secondary_structure_benign = df_non_pathogenic[df_non_pathogenic[feature]]
 
     # Get the percentage of each instance of feature, in each pathogenicity group
-    a = df_pathogenic.groupby(feature).count() / len(df_pathogenic)
-    b = df_non_pathogenic.groupby(feature).count() / len(df_non_pathogenic)
-    print(a)
-    print(b)
+    a = df_pathogenic.groupby(feature).size() / len(df_pathogenic)
+    b = df_non_pathogenic.groupby(feature).size() / len(df_non_pathogenic)
 
+    return a, b
+
+
+def plot_two_pie_charts(series1, series2, title1, title2, path_to_save_fig) -> None:
+    """This function saves two pie charts plots, derived from two pandas series.
+    Args:
+        series1
+        series2:
+        title1 (str): Title for the first plot.
+        title2 (str): Title for the second plot.
+        path_to_save_fig (str): Path to save figure to.
+    Call:
+        # Organize:
+        data_file = "C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\Thesis\\Findings\\features.csv"
+        df = pd.read_csv(data_file)
+        # Get percentages using get_percentage_by_pathogenicity
+        series1, series2 = plots.get_percentage_by_pathogenicity(df, column_to_plot_by)  # For example, secondary structure
+        # Call this function:
+        plots.plot_two_pie_charts(series1, series2, 'title1', 'title2', path_to_save_fig)
+    """
+    color_mapping = {"Loop": 'mediumpurple', "Helix": 'moccasin', "Beta strand": 'powderblue', "Turn": 'lavender'}
+
+    labels1 = series1.index
+    percentages1 = series1.iloc[:]
+    plt.figure(figsize=(10, 5))  # Optional: Adjust the figure size
+    plt.subplot(121)  # Create the first subplot for 'pathogenic'
+    colors1 = [color_mapping[label] for label in labels1]
+    plt.pie(percentages1, labels=labels1, autopct='%1.1f%%', startangle=140, colors=colors1)
+    plt.title(title1, fontsize=12)
+    plt.axis('equal')
+
+    labels2 = series2.index
+    percentages2 = series2.iloc[:]
+    plt.subplot(122)  # Create the second subplot for 'benign'
+    colors2 = [color_mapping[label] for label in labels2]
+    plt.pie(percentages2, labels=labels2, autopct='%1.1f%%', startangle=140, colors=colors2)
+    plt.title(title2, fontsize=12)
+    plt.axis('equal')
+
+    plt.tight_layout()
+    plt.savefig(path_to_save_fig)
 
 
 def create_diverged_bar_plot(df):
@@ -84,7 +159,8 @@ def create_diverged_bar_plot(df):
 
 if __name__ == "__main__":
     data_file = "C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\Thesis\\Findings\\features.csv"
-    # Transform to data frame
     df = pd.read_csv(data_file)
-    df_pathogenic = df[df['pathogenicity'] == "pathogenic"]
-    df_non_pathogenic = df[df['pathogenicity'] == "benign"]
+    df_transmembranal = df[df["protein_contain_transmembrane"] == True]
+    df_globular = df[df["protein_contain_transmembrane"] == False]
+    make_density_plot_per_feature_per_group(df_transmembranal, "plddt_residue", "plddt_residue for transmembranal protein")
+    make_density_plot_per_feature_per_group(df_globular, "plddt_residue", "plddt_residue for globular protein")
