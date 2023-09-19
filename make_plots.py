@@ -39,6 +39,60 @@ def make_density_plot_per_feature_per_group(data, feature, title=None):
     plt.show()
 
 
+def make_unsmoothed_density_plot_per_feature_per_group(data, feature, title=None):
+    """
+    Create density plots for each sub-DataFrame, without smoothing.
+    """
+
+    # Create a bar plot of value frequencies
+    plt.figure(figsize=(12, 6))
+    # Group the data by 'feature' and 'pathogenicity' and count the occurrences
+    grouped = data.groupby(feature)['pathogenicity'].value_counts().unstack().fillna(0)
+
+    # Set the width of each bar
+    bar_width = 0.35
+
+    # Get the unique values from Column B (x-axis values)
+    x_values = grouped.index
+
+    # Get the number of unique values in Column A
+    num_unique_values_a = len(data['pathogenicity'].unique())
+
+    # Calculate the position of bars for two groups
+    group1_positions = range(len(x_values))
+    group2_positions = [pos + bar_width for pos in group1_positions]
+
+    # Create the bar plot
+    plt.bar(group1_positions, grouped.iloc[:, 0], width=bar_width, label='Group 1')
+    plt.bar(group2_positions, grouped.iloc[:, 1], width=bar_width, label='Group 2')
+
+    # Customize the plot
+    plt.xlabel('Values in pathogenicity')
+    plt.ylabel('Frequency')
+    plt.title('Frequency of Values in Column B by Group')
+    plt.xticks([pos + bar_width / 2 for pos in group1_positions], x_values)
+    plt.legend()
+
+    # Show the plot
+    plt.tight_layout()
+    plt.show()
+    #
+    # if title is None:
+    #     plt.title(f"Grouped Bar Plot for {feature}")
+    # else:
+    #     plt.title(title)
+    #
+    # # Show legend
+    # plt.legend(title="Pathogenicity")
+    #
+    # # Save the plot
+    # plt.savefig(f"C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\Thesis\\Findings\\Plots\\{title}.png",
+    #             dpi=1200)
+    #
+    # # Display the plot
+    # plt.show()
+
+
 def get_percentage_by_pathogenicity(df, feature) -> (pd.DataFrame, pd.DataFrame):
     """Get the percentage of each instance of feature, in each pathogenicity group
     Example: feature = 'secondary_structure' ->
@@ -157,10 +211,29 @@ def create_diverged_bar_plot(df):
     plt.show()
 
 
+def create_distribution_of_sequence_length(df: pd.DataFrame, path_to_save):
+    """Creates distribution of sequence length in dataset, diveded by number of variants per gene.
+    If there are multiple variants per gene, the gene is not counted more than once.
+    Assumes
+    sequence_length is a column in the df.
+    Call:
+    features_df = pd.read_csv(path_to_csv_of_features, header=0)
+    plots.create_distribution_of_sequence_length(features_df)"""
+    df = df.drop_duplicates(subset=['gene'], keep='first')
+    sequence_length = df['sequence_length']
+    plt.figure(figsize=(10, 5))
+    plt.hist(sequence_length, bins=100, color='lightblue')
+    plt.title('Distribution of protein sequence length', fontsize=18)
+    plt.xlabel('Sequence length', fontsize=14)
+    plt.ylabel('Number of genes in dataset', fontsize=14)
+    plt.savefig(f"{path_to_save}\\sequence_length_distribution.png", dpi=2000)
+    plt.show()
+
+
 if __name__ == "__main__":
     data_file = "C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\Thesis\\Findings\\features.csv"
     df = pd.read_csv(data_file)
-    df_transmembranal = df[df["protein_contain_transmembrane"] == True]
-    df_globular = df[df["protein_contain_transmembrane"] == False]
-    make_density_plot_per_feature_per_group(df_transmembranal, "plddt_residue", "plddt_residue for transmembranal protein")
-    make_density_plot_per_feature_per_group(df_globular, "plddt_residue", "plddt_residue for globular protein")
+    # df_transmembranal = df[df["protein_contain_transmembrane"] == True]
+    # df_globular = df[df["protein_contain_transmembrane"] == False]
+    # make_density_plot_per_feature_per_group(df_transmembranal, "plddt_residue", "plddt_residue for transmembranal protein")
+    # make_density_plot_per_feature_per_group(df_globular, "plddt_residue", "plddt_residue for globular protein")

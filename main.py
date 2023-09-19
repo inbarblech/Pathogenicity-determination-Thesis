@@ -11,6 +11,7 @@ import run_command_line_programs_to_folders as run_command_line_programs
 import handeling_directories as manage_dirs
 import make_plots as plots
 import matplotlib.pyplot as plt
+import feature_extraction_column_by_column as feat_ext_col_by_col
 
 PATH_TO_DATA_FOLDER = "/home/inbar/DVDdata/"
 PATH_TO_CSV_BENIGN = "/home/inbar/all_BENIGN_variants.csv"
@@ -21,6 +22,8 @@ PATH_TO_INBAR = "/home/inbar/"
 PATHOGENICITY_TYPES = ["Benign", "Pathogenic"]
 EXAMPLE_VARIANT_PATH = "/home/inbar/variants/Benign/AIFM1/AIFM1_O95831_E92K"
 PATH_TO_FEATURES_CSV = "/home/inbar/results/features.csv"
+PATH_TO_SMALL_FEATURES_CSV = "/home/inbar/results/small_features.csv"
+PATH_TO_NOVEL_BENIGN_VARIANTS = "/home/inbar/variants/"
 
 
 def run_on_gene_folders(path, list_of_genes_to_run_on=None):
@@ -247,7 +250,7 @@ def copy_pdb_files_to_all_variant_folders_in_all_gene_folders(path_to_gene_folde
         copy_pdb_files_to_all_variant_folders(gene_folder, uniprot_id, gene_name)
 
 
-def create_foldx_mutation_to_variants_in_gene_folder(path_to_gene_folder: str) -> None:
+def create_foldx_mutation_to_variants_in_gene_folder(path_to_gene_folder: str, count) -> None:
     """This function creates a FoldX mutation file for all the variants in a gene folder.
     Args:
         path_to_gene_folder: path to the gene folder, that contains all the variant folders.
@@ -262,11 +265,22 @@ def create_foldx_mutation_to_variants_in_gene_folder(path_to_gene_folder: str) -
 
     # get list of variant folder paths
     variant_folders_paths = [os.path.join(path_to_gene_folder, item) for item in all_items_in_gene_folder if
-                            os.path.isdir(os.path.join(path_to_gene_folder, item))]
+                             os.path.isdir(os.path.join(path_to_gene_folder, item))]
 
     print(f"variant_folders_paths: {variant_folders_paths}")
     # create mutation to all variants in all genes, using the function add_mut.create_mut_using_foldx
     for variant_folder in variant_folders_paths:
+        foldx_mutation_exists = False
+        files = os.listdir(variant_folder)
+        for file in files:
+            if file.endswith(".txt"):
+                print(f"Mutation file already exists for variant folder {variant_folder}")
+                foldx_mutation_exists = True
+                break
+        if foldx_mutation_exists:
+            continue
+        count += 1
+        print(f"Creating mutation file for variant folder {variant_folder}")
         folder_name = os.path.basename(variant_folder)
         uniprot_id = folder_name.split("_")[1]
         mut = folder_name.split("_")[2]
@@ -286,6 +300,8 @@ def create_mutation_file_to_all_variants(path: str) -> None:
     """Uses the function add_mut.create_mutation to create a mutation to all variants in all genes in the folder.
     Args:
         path: path to the folder containing all the gene folders.
+    Usage:
+        create_mutation_file_to_all_variants(f"{PATH_TO_VARIANTS_FOLDER}Benign_for_gene_specific/
     """
     errors = []
     # change directory to the folder containing all the gene folders
@@ -295,12 +311,13 @@ def create_mutation_file_to_all_variants(path: str) -> None:
     # get list of gene folder paths, do not include files
     gene_folder_paths = [os.path.join(path, folder) for folder in gene_folders if os.path.isdir(os.path.join(path, folder))]
     # create mutation to all variants in all genes
+    count = 0
     for gene_folder in gene_folder_paths:
         print(gene_folder)
-        if not os.path.isfile(f"{gene_folder}/errors.txt"):
-            print(f"No errors.txt file in gene folder {gene_folder}")
-            errors.append(f"No errors.txt file in gene folder {gene_folder}")
-            continue
+        # if not os.path.isfile(f"{gene_folder}/errors.txt"):
+        #     print(f"No errors.txt file in gene folder {gene_folder}")
+        #     errors.append(f"No errors.txt file in gene folder {gene_folder}")
+        #     continue
         # Check if there is a file of type pdb in the gene folder
         if not any(file.endswith(".pdb") for file in os.listdir(gene_folder) if
                    os.path.isfile(os.path.join(gene_folder, file))):
@@ -308,7 +325,7 @@ def create_mutation_file_to_all_variants(path: str) -> None:
             errors.append(f"No pdb file in gene folder {gene_folder}")
             continue
 
-        create_foldx_mutation_to_variants_in_gene_folder(f"{gene_folder}/")
+        create_foldx_mutation_to_variants_in_gene_folder(f"{gene_folder}/", count)
         # return to the path containing all the gene folders
 
 
@@ -321,8 +338,8 @@ def main_automation_set_up():  #TODO: Create the functions for this
     download_files(PATH_TO_VARIANTS_FOLDER)
 
     # create foldX mutation file to all variants in all gene folders
-    create_mutation_file_to_all_variants(f"{PATH_TO_VARIANTS_FOLDER}Pathogenic/")
-    create_mutation_file_to_all_variants(f"{PATH_TO_VARIANTS_FOLDER}Benign/")
+    create_mutation_file_to_all_variants(f"{PATH_TO_VARIANTS_FOLDER}Benign_for_gene_specific/")
+    # create_mutation_file_to_all_variants(f"{PATH_TO_VARIANTS_FOLDER}Benign/")
 
 
 def get_dataframe_of_number_of_variants_per_gene_per_pathogenicity(features_df) -> pd.DataFrame:
@@ -357,17 +374,22 @@ def get_dataframe_of_number_of_variants_per_gene_per_pathogenicity(features_df) 
 
 
 if __name__ == "__main__":
-    # features_df = pd.read_csv(f"{PATH_TO_INBAR}features.csv", header=0)
+    # features_df = pd.read_csv(f"{PATH_TO_FEATURES_CSV}", header=0)
     # features_df = ext_feat.extract_all_features_for_all_variants_in_df(features_df)
-    # features_df.to_csv(f"{PATH_TO_INBAR}features.csv", index=False, header=True)
+    # features_df.to_csv(f"{PATH_TO_FEATURES_CSV}", index=False, header=True)
+    #
+    features_df = pd.read_csv(f"{PATH_TO_NOVEL_BENIGN_VARIANTS}/Benign_for_gene_specific/benign.csv", header=0)
+    feat_ext_col_by_col.main(features_df, PATH_TO_NOVEL_BENIGN_VARIANTS)
 
-    data_file = "C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\Thesis\\Findings\\features.csv"
-    df = pd.read_csv(data_file)
-    trans_residue_df = df[df["is_residue_transmembranal"] == True]
-    globular_residue_df = df[df["is_residue_transmembranal"] == False]
+    # create_mutation_file_to_all_variants(f"{PATH_TO_VARIANTS_FOLDER}Benign_for_gene_specific/")
 
-    pathogenic_trans_secondary_structure_percentages_df, benign_trans_secondary_structure_percentages_df =\
-        plots.get_percentage_by_pathogenicity(trans_residue_df, 'secondary_structure')
-    pathogenic_globular_secondary_structure_percentages_df, benign_globular_secondary_structure_percentages_df =\
-        plots.get_percentage_by_pathogenicity(globular_residue_df, 'secondary_structure')
+    # data_file = "C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\Thesis\\Findings\\features.csv"
+    # df = pd.read_csv(data_file)
+    # trans_residue_df = df[df["is_residue_transmembranal"] == True]
+    # globular_residue_df = df[df["is_residue_transmembranal"] == False]
+    #
+    # plots.make_unsmoothed_density_plot_per_feature_per_group(trans_residue_df, "hydrophobicity_delta",
+    #                                                          "hydrophobicity_delta for transmembranal protein, unsmoothed")
+    # plots.make_unsmoothed_density_plot_per_feature_per_group(globular_residue_df, "hydrophobicity_delta",
+    #                                                          "hydrophobicity_delta for globular protein, unsmoothed")
 

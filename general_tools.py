@@ -51,6 +51,20 @@ def get_residue_number_from_variant_folder(folder_name: str) -> int:
     return residue_number
 
 
+def get_variant_from_variant_folder(folder_name: str) -> str:
+    """Get the variant from the folder name.
+    Example: folder_name = 'ACTB_P60709_A204G' -> variant = 'A204G'"""
+    variant = folder_name.split('_')[-1]
+    return variant
+
+
+def get_gene_from_variant_folder(folder_name: str) -> str:
+    """Get the gene from the folder name.
+    Example: folder_name = 'ACTB_P60709_A204G' -> gene = 'ACTB'"""
+    gene = folder_name.split('_')[0]
+    return gene
+
+
 def get_amino_acid_of_variant_from_variant_folder(folder_name: str) -> str:
     """Get the amino acid of the variant from the folder name.
     Example: folder_name = 'ACTB_P60709_A204G' -> amino_acid = 'G'"""
@@ -73,7 +87,8 @@ def get_variant_location_from_variant_folder(folder_name: str) -> str:
 
 
 def get_folder_name_from_path(path: str) -> str:
-    """Get the folder name from the path."""
+    """Get the folder name from the path.
+    Example: path = '/home/inbar/variants/ACTB_P60709_A204G' -> folder_name = 'ACTB_P60709_A204G'"""
     path = path.strip()
     folder_name = os.path.basename(path.rstrip('/')).split('/')[-1]
     return folder_name
@@ -128,6 +143,15 @@ def get_uniprot_ids_from_df(df: pd.DataFrame) -> list:
     for gene in genes_set:
         uni_id = uni.get_uniprot_id(gene)
         uniprot_ids.append(uni_id)
+    return uniprot_ids
+
+
+def get_uniprot_ids_and_gene_names_from_df(df: pd.DataFrame) -> pd.DataFrame:
+    genes_set = get_genes_set_from_df(df)
+    uniprot_ids = pd.DataFrame(columns=['gene', 'uniprot_id'])
+    for gene in genes_set:
+        uni_id = uni.get_uniprot_id(gene)
+        uniprot_ids = uniprot_ids.append({'gene': gene, 'uniprot_id': uni_id}, ignore_index=True)
     return uniprot_ids
 
 

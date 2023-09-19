@@ -18,9 +18,81 @@ structure of extract_features.py:
 
 Calling this script from main, to update the features.csv file:
     features_df = pd.read_csv(f"{PATH_TO_OUTPUT_FOLDER}features.csv", header=0)
-    features_df = ext_feat.extract_all_features_for_all_variants_in_df(features_df)
-    features_df.to_csv(f"{PATH_TO_OUTPUT_FOLDER}features.csv", index=False, header=True)
+    ext_feat.main(features_df, PATH_TO_OUTPUT_FOLDER)
 """
+
+FEATURES_LIST = ['stability', 'blosum', 'hydrophobicity', 'volume', 'plddt_residue', 'secondary_structure',
+                 'sequence_length', 'protein_contain_transmembrane', 'is_residue_transmembranal', 'aa']
+
+FEATURES_LIST_WITH_DELTA = ['stability', 'hydrophobicity', 'volume']
+
+
+# Run opra, sasa and oda #
+
+def run_sasa(path_to_variant_folder: str):
+    """Creates a file with the SASA score for the given PDB file."""
+    os.chdir(path_to_variant_folder)
+    # get gene_id from folder name
+    folder_name = tools.get_folder_name_from_path(path_to_variant_folder)
+    variant_location = tools.get_variant_location_from_variant_folder(folder_name)
+    gene_id = folder_name.split('_')[1]
+
+    command = f"run_sasa_wt {gene_id}"
+    sp.run(command, shell=True)
+    amino_acid = tools.get_amino_acid_of_variant_from_variant_folder(folder_name)
+    three_letter_amino_acid = tools.convert_1_letter_aa_to_3_letter(amino_acid)
+    command = f"run_sasa_mut {three_letter_amino_acid} {variant_location} {gene_id}"
+    sp.run(command, shell=True)
+
+
+def run_opra(variant_path: str):
+    """creates a file with the OPRA score for the given PDB file."""
+    # change the working directory to the variant folder
+    os.chdir(variant_path)
+
+    # get gene_id from folder name
+    folder_name = tools.get_folder_name_from_path(variant_path)
+    variant_location = tools.get_variant_location_from_variant_folder(folder_name)
+    gene_id = folder_name.split('_')[1]
+
+    # Run opra for wt and mutq
+    amino_acid = tools.get_amino_acid_of_variant_from_variant_folder(folder_name)
+    three_letter_amino_acid = tools.convert_1_letter_aa_to_3_letter(amino_acid)
+    command = f"run_pyDock_opra_mut {three_letter_amino_acid} {variant_location} {gene_id}"
+    sp.run(command, shell=True)
+    command = f"run_pyDock_opra_wt {gene_id}"
+    sp.run(command, shell=True)
+
+
+def run_oda(variant_path: str):
+    """Creates a file with the ODA score for the given PDB file.
+    The file is created in the variant folder.
+    Args:
+        variant_path (str): The path to the variant folder.
+    """
+    # change the working directory to the variant folder
+    os.chdir(variant_path)
+
+    # get gene_id from folder name
+    folder_name = tools.get_folder_name_from_path(variant_path)
+    variant_location = tools.get_variant_location_from_variant_folder(folder_name)
+    gene_id = folder_name.split('_')[1]
+
+    # Run oda for wt and mut
+    amino_acid = tools.get_amino_acid_of_variant_from_variant_folder(folder_name)
+    three_letter_amino_acid = tools.convert_1_letter_aa_to_3_letter(amino_acid)
+    command = f"run_pyDock_oda_mut {three_letter_amino_acid} {variant_location} {gene_id}"
+    sp.run(command, shell=True)
+    command = f"run_pyDock_oda_wt {gene_id}"
+    sp.run(command, shell=True)
+
+
+# Extract features #
+
+def main(features_df: pd.DataFrame, path_to_output_folder: str):
+    """Main function for feature extraction."""
+    features_df = extract_all_features_for_all_variants_in_df(features_df)
+    features_df.to_csv(f"{path_to_output_folder}/Benign_for_gene_specific/benign.csv", index=False, header=True)
 
 
 def extract_all_features_for_all_variants_in_df(features_df: pd.DataFrame):
@@ -33,17 +105,18 @@ def extract_all_features_for_all_variants_in_df(features_df: pd.DataFrame):
         gene = row['gene']
         variant = row['variant']
         counter += 1
-        if row['pathogenicity'] == 'benign':
-            pathogenicity = 'Benign'
-        else:
-            pathogenicity = 'Pathogenic'
-        variant_path = tools.get_variant_path(gene, variant, pathogenicity)
-        print(f"{counter}...extracting features for variant {variant} in gene {gene} in pathogenicity {pathogenicity}")
-        features_df = extract_all_features_for_variant(variant_path, features_df, gene, variant)
+        # if row['pathogenicity'] == 'benign':
+        #     pathogenicity = 'Benign'
+        # else:
+        #     pathogenicity = 'Pathogenic'
+        variant_path = tools.get_variant_path(gene, variant, "Benign_for_gene_specific")
+        print(f"{counter}...extracting features for variant {variant} in gene {gene}")
+        features_df = extract_features_for_variant(variant_path, features_df, gene, variant)
+    features_df = add_delta_columns(features_df)
     return features_df
 
 
-def extract_all_features_for_variant(variant_path: str, features_df: pd.DataFrame, gene: str, variant: str):
+def extract_features_for_variant(variant_path: str, features_df: pd.DataFrame, gene: str, variant: str):
     """Extracts all the features for the given variant.
     Args:
         variant_path (str): The path to the variant folder.
@@ -57,15 +130,22 @@ def extract_all_features_for_variant(variant_path: str, features_df: pd.DataFram
     folder_name = tools.get_folder_name_from_path(variant_path)
     aa1 = tools.get_amino_acid_of_wt_from_variant_folder(folder_name)
     aa2 = tools.get_amino_acid_of_variant_from_variant_folder(folder_name)
-    # features_df = write_feature_to_df('protein_contain_transmembrane', variant_path, features_df, gene, variant)
-    # print('protein_contain_transmembrane_done')
-    # features_df = write_feature_to_df('is_residue_transmembranal', variant_path, features_df, gene, variant)
-    # print('is_residue_transmembranal done')
-    # features_df = write_feature_to_df('aa', variant_path, features_df, gene, variant, aa1, aa2)
-    # print('aa done')
-    features_df = write_feature_to_df('RSA', variant_path, features_df, gene, variant, aa1, aa2)
-    print('RSA done')
+    for feature in FEATURES_LIST:
+        features_df = write_feature_to_df(feature, variant_path, features_df, gene, variant, aa1, aa2)
+        print(f"{feature} done!")
     return features_df
+
+
+def add_delta_columns(df: pd.DataFrame) -> pd.DataFrame:
+    """This function adds a column for each two columns with MUT and WT part.
+    This column contains the subduction of the value in column MUT from the value in column WT.
+    For example,
+    df contains "oda_WT" and "oda_MUT".
+    This function calculates, for each row, the value oda_MUT - oda_WT,
+    and returns this as a column called "oda_delta"."""
+    for feature in FEATURES_LIST_WITH_DELTA:
+        df[f"{feature}_delta"] = df[f"{feature}_MUT"] - df[f"{feature}_WT"]
+    return df
 
 
 def write_feature_to_df(feature: str, variant_path: str, features_df: pd.DataFrame, gene: str, variant: str,
@@ -80,19 +160,20 @@ def write_feature_to_df(feature: str, variant_path: str, features_df: pd.DataFra
         aa1 (str): The first amino acid.
         aa2 (str): The second amino acid.
     """
+    print(f"Feature is: {feature} for variant {variant} in gene {gene}")
     if feature in ["blosum", "plddt_residue", "secondary_structure", "sequence_length", "is_residue_transmembranal",
                    "consurf_score"]:
-        feature_value = extract_feature_one_value(feature, variant_path, aa1, aa2, gene_name= gene)
+        feature_value = extract_feature_one_value(feature, variant_path, aa1=aa1, aa2=aa2, gene_name=gene)
         # Add the feature to the dataframe, in colume 'feature' and row where gene == gene and variant == variant
         features_df.loc[(features_df['gene'] == gene) & (features_df['variant'] == variant), feature] = feature_value
     elif feature in ["opra", "oda", "sasa", "stability", "hydrophobicity", "volume"]:
-        wt_value, mut_value = extract_feature_wt_mut(feature, variant_path, aa1, aa2)
+        wt_value, mut_value = extract_feature_wt_mut(feature, variant_path, aa1=aa1, aa2=aa2)
         # Add the feature to the dataframe, in colume 'feature' and row where gene == gene and variant == variant
         features_df.loc[(features_df['gene'] == gene) & (features_df['variant'] == variant), feature + "_WT"] = wt_value
         features_df.loc[(features_df['gene'] == gene) & (features_df['variant'] == variant), feature + "_MUT"] = \
             mut_value
     elif feature in ["RSA"]:
-        wt_value, mut_value = extract_feature_wt_mut(feature, variant_path, aa1, aa2, df=features_df)
+        wt_value, mut_value = extract_feature_wt_mut(feature, variant_path, aa1=aa1, aa2=aa2, df=features_df)
         # Add the feature to the dataframe, in colume 'feature' and row where gene == gene and variant == variant
         features_df.loc[(features_df['gene'] == gene) & (features_df['variant'] == variant), feature + "_WT"] = wt_value
         features_df.loc[(features_df['gene'] == gene) & (features_df['variant'] == variant), feature + "_MUT"] = \
@@ -215,29 +296,6 @@ def extract_feature_wt_mut(feature: str, variant_path: str, aa1: str = None, aa2
                          f"This function only supports the following features: {feature_mapping.keys()}")
 
 
-def run_oda(variant_path: str):
-    """Creates a file with the ODA score for the given PDB file.
-    The file is created in the variant folder.
-    Args:
-        variant_path (str): The path to the variant folder.
-    """
-    # change the working directory to the variant folder
-    os.chdir(variant_path)
-
-    # get gene_id from folder name
-    folder_name = tools.get_folder_name_from_path(variant_path)
-    variant_location = tools.get_variant_location_from_variant_folder(folder_name)
-    gene_id = folder_name.split('_')[1]
-
-    # Run oda for wt and mut
-    amino_acid = tools.get_amino_acid_of_variant_from_variant_folder(folder_name)
-    three_letter_amino_acid = tools.convert_1_letter_aa_to_3_letter(amino_acid)
-    command = f"run_pyDock_oda_mut {three_letter_amino_acid} {variant_location} {gene_id}"
-    sp.run(command, shell=True)
-    command = f"run_pyDock_oda_wt {gene_id}"
-    sp.run(command, shell=True)
-
-
 def get_oda(variant_path: str) -> (float, float):
     """Returns the ODA score for the given variant.
     ODA is optimal docking area, a score that represents potential binding sites, using protein surface desolvation
@@ -270,25 +328,6 @@ def get_oda(variant_path: str) -> (float, float):
     return wt_oda, mut_oda
 
 
-def run_opra(variant_path: str):
-    """creates a file with the OPRA score for the given PDB file."""
-    # change the working directory to the variant folder
-    os.chdir(variant_path)
-
-    # get gene_id from folder name
-    folder_name = tools.get_folder_name_from_path(variant_path)
-    variant_location = tools.get_variant_location_from_variant_folder(folder_name)
-    gene_id = folder_name.split('_')[1]
-
-    # Run opra for wt and mutq
-    amino_acid = tools.get_amino_acid_of_variant_from_variant_folder(folder_name)
-    three_letter_amino_acid = tools.convert_1_letter_aa_to_3_letter(amino_acid)
-    command = f"run_pyDock_opra_mut {three_letter_amino_acid} {variant_location} {gene_id}"
-    sp.run(command, shell=True)
-    command = f"run_pyDock_opra_wt {gene_id}"
-    sp.run(command, shell=True)
-
-
 def get_opra(variant_path: str) -> (float, float):
     """Extracts the OPRA score from the given variant.
     OPRA is optimal protein-RNA area calculation. It's useful for identifying RNA binding sites on proteins.
@@ -319,22 +358,6 @@ def get_opra(variant_path: str) -> (float, float):
     wt_opra = wt_opra_df.query(f'residue_number == {residue_number}')['b_factor'].iloc[0]
     mut_opra = mut_opra_df.query(f'residue_number == {residue_number}')['b_factor'].iloc[0]
     return wt_opra, mut_opra
-
-
-def run_sasa(path_to_variant_folder: str):
-    """Creates a file with the SASA score for the given PDB file."""
-    os.chdir(path_to_variant_folder)
-    # get gene_id from folder name
-    folder_name = tools.get_folder_name_from_path(path_to_variant_folder)
-    variant_location = tools.get_variant_location_from_variant_folder(folder_name)
-    gene_id = folder_name.split('_')[1]
-
-    command = f"run_sasa_wt {gene_id}"
-    sp.run(command, shell=True)
-    amino_acid = tools.get_amino_acid_of_variant_from_variant_folder(folder_name)
-    three_letter_amino_acid = tools.convert_1_letter_aa_to_3_letter(amino_acid)
-    command = f"run_sasa_mut {three_letter_amino_acid} {variant_location} {gene_id}"
-    sp.run(command, shell=True)
 
 
 def get_sasa(variant_path: str) -> (float, float):
@@ -381,7 +404,7 @@ def get_stability(folder_path: str) -> (float, float, float):
     # get the stability
     wt_stability = float(lines[0].split()[1])
     mut_stability = float(lines[1].split()[1])
-    return wt_stability, mut_stability, mut_stability - wt_stability
+    return wt_stability, mut_stability
 
 
 def get_hydrophobicity(aa: str, aa2: str) -> (float, float):
@@ -608,7 +631,7 @@ def get_consurf_conservation_score(consurf_folder: str, gene_name: str, residue_
 #         return int(score)
 
 
-###################### feature engineering ######################
+# Feature engineering #
 
 def get_RSA_of_aa(aa: str, asa: float) -> float:
     """Returns the relative surface area (RSA) of the given amino acid.
