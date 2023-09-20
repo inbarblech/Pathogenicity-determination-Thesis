@@ -26,82 +26,36 @@ FEATURES_LIST = ['stability', 'blosum', 'hydrophobicity', 'volume', 'plddt_resid
 
 FEATURES_LIST_WITH_DELTA = ['stability', 'hydrophobicity', 'volume']
 
+PATH_TO_ERROR_FILE = "/home/inbar/variants/Benign_for_gene_specific/feature_extraction_errors.csv"
 
-# Run opra, sasa and oda #
-
-def run_sasa(path_to_variant_folder: str):
-    """Creates a file with the SASA score for the given PDB file."""
-    os.chdir(path_to_variant_folder)
-    # get gene_id from folder name
-    folder_name = tools.get_folder_name_from_path(path_to_variant_folder)
-    variant_location = tools.get_variant_location_from_variant_folder(folder_name)
-    gene_id = folder_name.split('_')[1]
-
-    command = f"run_sasa_wt {gene_id}"
-    sp.run(command, shell=True)
-    amino_acid = tools.get_amino_acid_of_variant_from_variant_folder(folder_name)
-    three_letter_amino_acid = tools.convert_1_letter_aa_to_3_letter(amino_acid)
-    command = f"run_sasa_mut {three_letter_amino_acid} {variant_location} {gene_id}"
-    sp.run(command, shell=True)
-
-
-def run_opra(variant_path: str):
-    """creates a file with the OPRA score for the given PDB file."""
-    # change the working directory to the variant folder
-    os.chdir(variant_path)
-
-    # get gene_id from folder name
-    folder_name = tools.get_folder_name_from_path(variant_path)
-    variant_location = tools.get_variant_location_from_variant_folder(folder_name)
-    gene_id = folder_name.split('_')[1]
-
-    # Run opra for wt and mutq
-    amino_acid = tools.get_amino_acid_of_variant_from_variant_folder(folder_name)
-    three_letter_amino_acid = tools.convert_1_letter_aa_to_3_letter(amino_acid)
-    command = f"run_pyDock_opra_mut {three_letter_amino_acid} {variant_location} {gene_id}"
-    sp.run(command, shell=True)
-    command = f"run_pyDock_opra_wt {gene_id}"
-    sp.run(command, shell=True)
-
-
-def run_oda(variant_path: str):
-    """Creates a file with the ODA score for the given PDB file.
-    The file is created in the variant folder.
-    Args:
-        variant_path (str): The path to the variant folder.
-    """
-    # change the working directory to the variant folder
-    os.chdir(variant_path)
-
-    # get gene_id from folder name
-    folder_name = tools.get_folder_name_from_path(variant_path)
-    variant_location = tools.get_variant_location_from_variant_folder(folder_name)
-    gene_id = folder_name.split('_')[1]
-
-    # Run oda for wt and mut
-    amino_acid = tools.get_amino_acid_of_variant_from_variant_folder(folder_name)
-    three_letter_amino_acid = tools.convert_1_letter_aa_to_3_letter(amino_acid)
-    command = f"run_pyDock_oda_mut {three_letter_amino_acid} {variant_location} {gene_id}"
-    sp.run(command, shell=True)
-    command = f"run_pyDock_oda_wt {gene_id}"
-    sp.run(command, shell=True)
-
-
-# Extract features #
 
 def main(features_df: pd.DataFrame, path_to_output_folder: str):
     """Main function for feature extraction."""
-    features_df = extract_all_features_for_all_variants_in_df(features_df)
-    features_df.to_csv(f"{path_to_output_folder}/Benign_for_gene_specific/benign.csv", index=False, header=True)
+    path_to_csv_file = f"{path_to_output_folder}/Benign_for_gene_specific/benign.csv"
+    features_df = extract_all_features_for_all_variants_in_df(features_df, path_to_csv_file)
+    features_df.to_csv(path_to_csv_file, index=False)
 
 
-def extract_all_features_for_all_variants_in_df(features_df: pd.DataFrame):
+def extract_all_features_for_all_variants_in_df(features_df: pd.DataFrame, path_to_csv_file: str):
     """Extracts all the features for all the variants in the given dataframe, and adds them to the dataframe.
     Args:
         features_df (pd.DataFrame): The dataframe to add the features to.
     """
     counter = 0
-    for index, row in features_df.iterrows():
+
+    # If run from the start, get all the variants
+    variant_to_add = features_df
+
+    # If run from some point in the middle, get all the variants that don't have features yet
+    # variant_to_add = features_df[features_df['stability_WT'].isnull()]
+
+    # # If you want to run a specific variant, get the variant
+    # variant = 'N2159L'
+    # gene = 'MYO7A'
+    # variant_to_add = features_df[(features_df['variant'] == variant) & (features_df['gene'] == gene)]
+
+    for index, row in variant_to_add.iterrows():
+        # For re-runs, Check if the variant is already in the dataframe with some features
         gene = row['gene']
         variant = row['variant']
         counter += 1
@@ -111,8 +65,17 @@ def extract_all_features_for_all_variants_in_df(features_df: pd.DataFrame):
         #     pathogenicity = 'Pathogenic'
         variant_path = tools.get_variant_path(gene, variant, "Benign_for_gene_specific")
         print(f"{counter}...extracting features for variant {variant} in gene {gene}")
-        features_df = extract_features_for_variant(variant_path, features_df, gene, variant)
-    features_df = add_delta_columns(features_df)
+
+        # Extract all the features for this variant
+        # To change the features to extract, add them to the FEATURES_LIST up top.
+        # features_df = extract_features_for_variant(variant_path, features_df, gene, variant)
+
+        # Add delta columns using get_delta_feature, for this variant
+        # To change/add more features with delta, add them to the FEATURES_LIST_WITH_DELTA list up top.
+        features_df = extract_delta_values_for_variant(features_df, gene, variant)
+
+        # Append the variant to the csv
+        features_df.to_csv(path_to_csv_file, index=False, header=True)
     return features_df
 
 
@@ -127,13 +90,36 @@ def extract_features_for_variant(variant_path: str, features_df: pd.DataFrame, g
         aa2 (str): The second amino acid in the variant. Allows to insert the value in the right position in the csv.
     """
     # write all features to dataframe
-    folder_name = tools.get_folder_name_from_path(variant_path)
-    aa1 = tools.get_amino_acid_of_wt_from_variant_folder(folder_name)
-    aa2 = tools.get_amino_acid_of_variant_from_variant_folder(folder_name)
-    for feature in FEATURES_LIST:
-        features_df = write_feature_to_df(feature, variant_path, features_df, gene, variant, aa1, aa2)
-        print(f"{feature} done!")
+    try:
+        folder_name = tools.get_folder_name_from_path(variant_path)
+        aa1 = tools.get_amino_acid_of_wt_from_variant_folder(folder_name)
+        aa2 = tools.get_amino_acid_of_variant_from_variant_folder(folder_name)
+        for feature in FEATURES_LIST:
+            features_df = write_feature_to_df(feature, variant_path, features_df, gene, variant, aa1, aa2)
+            print(f"{feature} done!")
+    except Exception as e:
+        print(f"Error in extract_features_for_variant: {e}")
+        # write error to csv with the variant and the error
+        write_error_to_csv(gene, variant, e, PATH_TO_ERROR_FILE)
     return features_df
+
+
+def write_error_to_csv(gene: str, variant: str, error, path_to_errors_csv: str):
+    """Writes the error to an errors csv file."""
+    # Load the errors csv file, or create it if it doesn't exist
+    try:
+        errors_df = pd.read_csv(path_to_errors_csv)
+    except FileNotFoundError:
+        errors_df = pd.DataFrame(columns=['gene', 'variant', 'error'])
+    error = str(error)
+    errors_df = errors_df.append({'gene': gene, 'variant': variant, 'error': error}, ignore_index=True)
+    with open(path_to_errors_csv, 'a') as f:
+        errors_df.to_csv(f, header=False)
+
+
+def get_delta_feature(feature: str, row: pd.Series):
+    """Returns the delta value for the given feature, in the given row of the dataframe."""
+    return row[f"{feature}_MUT"] - row[f"{feature}_WT"]
 
 
 def add_delta_columns(df: pd.DataFrame) -> pd.DataFrame:
@@ -146,6 +132,15 @@ def add_delta_columns(df: pd.DataFrame) -> pd.DataFrame:
     for feature in FEATURES_LIST_WITH_DELTA:
         df[f"{feature}_delta"] = df[f"{feature}_MUT"] - df[f"{feature}_WT"]
     return df
+
+
+def extract_delta_values_for_variant(features_df: pd.DataFrame, gene: str, variant: str):
+    """Extracts the delta values for all the variants in the given dataframe, and adds them to the dataframe."""
+    # For every row in the dataframe, add the delta values, using the add_delta_columns function
+    for feature in FEATURES_LIST_WITH_DELTA:
+        features_df.loc[(features_df['gene'] == gene) & (features_df['variant'] == variant), f"{feature}_delta"] = \
+            get_delta_feature(feature, features_df.loc[(features_df['gene'] == gene) & (features_df['variant'] == variant)])
+    return features_df
 
 
 def write_feature_to_df(feature: str, variant_path: str, features_df: pd.DataFrame, gene: str, variant: str,

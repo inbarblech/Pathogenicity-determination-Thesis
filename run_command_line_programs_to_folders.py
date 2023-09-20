@@ -14,7 +14,7 @@ def run_opra_oda_sasa(variant_path: str):
     variant_location = tools.get_variant_location_from_variant_folder(folder_name)
     gene_id = folder_name.split('_')[1]
 
-    # # Check if there is an AF file in this folder, then run all the functions for wt
+    # Check if there is an AF file in this folder, then run all the functions for wt
     # if not os.path.isfile(f"AF_{gene_id}.pdb"):
     #     raise Exception(f"Error, no AF file for variant {variant_path}")
     # else:
@@ -22,8 +22,8 @@ def run_opra_oda_sasa(variant_path: str):
     #     command_wt = f"pyDock3 AF_{gene_id}.pdb oda"
     #     sp.run(command_wt, shell=True)
     #     # Run opra for wt
-    #     command_wt = f"pyDock3 AF_{gene_id}.pdb opra"
-    #     sp.run(command_wt, shell=True)
+    #     # command_wt = f"pyDock3 AF_{gene_id}.pdb opra"
+    #     # sp.run(command_wt, shell=True)
     #     # Run sasa for wt
     #     command_wt = f"dr_sasa -m 0 -i AF_{gene_id}.pdb"
     #     sp.run(command_wt, shell=True)
@@ -41,8 +41,8 @@ def run_opra_oda_sasa(variant_path: str):
         command_mut = f"pyDock3 {three_letter_amino_acid}{variant_location}_AF_{gene_id}.pdb oda"
         sp.run(command_mut, shell=True)
         # Run opra for mut
-        command_mut = f"pyDock3 {three_letter_amino_acid}{variant_location}_AF_{gene_id}.pdb opra"
-        sp.run(command_mut, shell=True)
+        # command_mut = f"pyDock3 {three_letter_amino_acid}{variant_location}_AF_{gene_id}.pdb opra"
+        # sp.run(command_mut, shell=True)
         # Run sasa for mut
         command_mut = f"dr_sasa -m 0 -i {three_letter_amino_acid}{variant_location}_AF_{gene_id}.pdb"
         sp.run(command_mut, shell=True)

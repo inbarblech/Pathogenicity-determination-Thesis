@@ -77,6 +77,35 @@ def remove_duplicates_from_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+def extract_evolutionary_conservation_from_patmut_arff(path_to_arff: str) -> pd.DataFrame:
+    list_of_uniprot_ids = ['O43511', 'P11362', 'Q01955', 'P29400', 'Q13402', 'P02458', 'O76024']
+
+    dataframes = []
+    for uniprot_id in list_of_uniprot_ids:
+        path_to_arff = f"C:\\Users\\InbarBlech\\Downloads\\{uniprot_id}.arff"
+        df = pd.read_csv(path_to_arff, skiprows=13)
+        df.columns = ['variant', 'uniprot_id', 'vdw_volume', 'hydrophobicity', 'substitution_matrix', 'pssm_native',
+                      'entropy', 'imp_res', 'tag']
+        # Add gene column, by using the uniprot_of_genes dictionary
+        benign_df = df[df['tag'] == 0]
+        benign_df = benign_df.drop_duplicates()
+        benign_df = benign_df.reset_index(drop=True)
+        # add uniprot id column
+        benign_df['uniprot_id'] = uniprot_id
+        # add to list of dataframes
+        dataframes.append(benign_df)
+
+    # create one dataframe with all the benign variants
+    benign_df = pd.DataFrame(columns=['gene', 'variant', 'pathogenicity', 'uniprot_id'])
+    for dataframe in dataframes:
+        benign_df = benign_df.append(dataframe, ignore_index=True)
+
+    # write to file
+    benign_df.to_csv(f"C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\\Thesis\\Classification project\\"
+                     f"Data\\benign_artificial_variants_patmut\\benign.csv", index=False)
+    return benign_df
+
+
 if __name__ == "__main__":
     new_var = pd.read_csv("C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\Thesis"
                           "\\Classification project\\Data\\benign_artificial_variants_patmut\\benign.csv")

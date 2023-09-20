@@ -23,11 +23,13 @@ PATHOGENICITY_TYPES = ["Benign", "Pathogenic"]
 EXAMPLE_VARIANT_PATH = "/home/inbar/variants/Benign/AIFM1/AIFM1_O95831_E92K"
 PATH_TO_FEATURES_CSV = "/home/inbar/results/features.csv"
 PATH_TO_SMALL_FEATURES_CSV = "/home/inbar/results/small_features.csv"
-PATH_TO_NOVEL_BENIGN_VARIANTS = "/home/inbar/variants/"
+PATH_TO_NOVEL_BENIGN_VARIANTS = "/home/inbar/variants"
 
 
 def run_on_gene_folders(path, list_of_genes_to_run_on=None):
-    """Runs a function on all gene folders in path"""
+    """Runs a function on all gene folders in path.
+    Usage:
+    run_on_gene_folders(PATH_TO_VARIANTS_FOLDER)"""
     errors = []
     os.chdir(path)
     # get list of gene folders paths
@@ -60,7 +62,17 @@ def run_command_line_programs_on_folder(path_to_gene_folder):
 
     print(f"variant_folders_paths: {variant_folders_paths}")
     # create mutation to all variants in all genes, using the function add_mut.create_mut_using_foldx
+    already_ran = True
     for variant_folder in variant_folders_paths:
+        # check if there is already a file of type oda in the folder
+        if already_ran:
+            oda_files = [file for file in os.listdir(variant_folder) if file.endswith(".oda")]
+            sasa_files = [file for file in os.listdir(variant_folder) if file.endswith(".asa")]
+            if len(oda_files) == 0 or len(sasa_files) == 0:
+                print("Starting to run oda and sasa")
+                already_ran = False
+            else:
+                continue
         try:
             run_command_line_programs.run_opra_oda_sasa(variant_folder)
         except Exception as e:
@@ -374,12 +386,9 @@ def get_dataframe_of_number_of_variants_per_gene_per_pathogenicity(features_df) 
 
 
 if __name__ == "__main__":
-    # features_df = pd.read_csv(f"{PATH_TO_FEATURES_CSV}", header=0)
-    # features_df = ext_feat.extract_all_features_for_all_variants_in_df(features_df)
-    # features_df.to_csv(f"{PATH_TO_FEATURES_CSV}", index=False, header=True)
-    #
-    features_df = pd.read_csv(f"{PATH_TO_NOVEL_BENIGN_VARIANTS}/Benign_for_gene_specific/benign.csv", header=0)
-    feat_ext_col_by_col.main(features_df, PATH_TO_NOVEL_BENIGN_VARIANTS)
+
+    # features_df = pd.read_csv(f"{PATH_TO_NOVEL_BENIGN_VARIANTS}/Benign_for_gene_specific/benign.csv", header=0)
+    # feat_ext_col_by_col.main(features_df, PATH_TO_NOVEL_BENIGN_VARIANTS)
 
     # create_mutation_file_to_all_variants(f"{PATH_TO_VARIANTS_FOLDER}Benign_for_gene_specific/")
 
@@ -393,3 +402,8 @@ if __name__ == "__main__":
     # plots.make_unsmoothed_density_plot_per_feature_per_group(globular_residue_df, "hydrophobicity_delta",
     #                                                          "hydrophobicity_delta for globular protein, unsmoothed")
 
+    run_on_gene_folders(f"{PATH_TO_NOVEL_BENIGN_VARIANTS}/Benign_for_gene_specific/", ["WFS1"])
+
+    # data_file = "C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\Thesis\\Findings\\features.csv"
+    # df = pd.read_csv(data_file)
+    # plots.make_density_plot_per_feature_per_group(data_file, "RSA_WT", "RSA for all proteins")
