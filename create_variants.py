@@ -7,25 +7,22 @@ def create_variants_df_from_arff(path_to_arff: str) -> pd.DataFrame:
     """Create a dataframe from the given arff file."""
 
 
-def create_benign_variants_df_from_arff(path_to_arff: str) -> pd.DataFrame:
-    # 1 - get uniprot id from gene name
-    list_of_genes = ["SLC26A4", "FGFR1", "COL4A3", "COL4A5", "MYO7A", "COL2A1", "KCNQ1", "WFS1", "GJB2"]
-    uniprot_of_genes = dict()
+def create_benign_variants_df_from_arff(path_to_arff: str, path_to_benign_csv: str) -> pd.DataFrame:
+    """Create a dataframe from the given arff file.
+    The dataframe will contain only the benign variants, from the PatMut file."""
+    list_of_genes = ['GJB2']
 
-    for gene in list_of_genes:
-        uniprot_id = uni.get_uniprot_id(gene)
-        uniprot_of_genes[gene] = uniprot_id
-
-    list_of_uniprot_ids = ['O43511', 'P11362', 'Q01955', 'P29400', 'Q13402', 'P02458', 'O76024']
+    uniprot_of_genes = {gene: uni.get_uniprot_id(gene) for gene in list_of_genes}
+    list_of_uniprot_ids = list(uniprot_of_genes.values())
 
     dataframes = []
     for uniprot_id in list_of_uniprot_ids:
         path_to_arff = f"C:\\Users\\InbarBlech\\Downloads\\{uniprot_id}.arff"
-        df = pd.read_csv(path_to_arff, skiprows=13)
+        df = pd.read_csv(path_to_arff, skiprows=13, header=None, sep=',', engine='python')
         df.columns = ['variant', 'uniprot_id', 'vdw_volume', 'hydrophobicity', 'substitution_matrix', 'pssm_native',
                       'entropy', 'imp_res', 'tag']
         # Add gene column, by using the uniprot_of_genes dictionary
-        benign_df = df[df['tag'] == 0]
+        benign_df = df[df['tag'] == '0']
         # change dataframe to fit the format of the other dataframes: gene, variant, pathogenicity, uniprot_id
         benign_df['gene'] = benign_df['uniprot_id'].map({v: k for k, v in uniprot_of_genes.items()})
         # write "benign" in the pathogenicity column
@@ -77,45 +74,19 @@ def remove_duplicates_from_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def extract_evolutionary_conservation_from_patmut_arff(path_to_arff: str) -> pd.DataFrame:
-    list_of_uniprot_ids = ['O43511', 'P11362', 'Q01955', 'P29400', 'Q13402', 'P02458', 'O76024']
-
-    dataframes = []
-    for uniprot_id in list_of_uniprot_ids:
-        path_to_arff = f"C:\\Users\\InbarBlech\\Downloads\\{uniprot_id}.arff"
-        df = pd.read_csv(path_to_arff, skiprows=13)
-        df.columns = ['variant', 'uniprot_id', 'vdw_volume', 'hydrophobicity', 'substitution_matrix', 'pssm_native',
-                      'entropy', 'imp_res', 'tag']
-        # Add gene column, by using the uniprot_of_genes dictionary
-        benign_df = df[df['tag'] == 0]
-        benign_df = benign_df.drop_duplicates()
-        benign_df = benign_df.reset_index(drop=True)
-        # add uniprot id column
-        benign_df['uniprot_id'] = uniprot_id
-        # add to list of dataframes
-        dataframes.append(benign_df)
-
-    # create one dataframe with all the benign variants
-    benign_df = pd.DataFrame(columns=['gene', 'variant', 'pathogenicity', 'uniprot_id'])
-    for dataframe in dataframes:
-        benign_df = benign_df.append(dataframe, ignore_index=True)
-
-    # write to file
-    benign_df.to_csv(f"C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\\Thesis\\Classification project\\"
-                     f"Data\\benign_artificial_variants_patmut\\benign.csv", index=False)
-    return benign_df
-
-
 if __name__ == "__main__":
-    new_var = pd.read_csv("C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\Thesis"
-                          "\\Classification project\\Data\\benign_artificial_variants_patmut\\benign.csv")
-    existing_var = pd.read_csv("C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\Thesis\\Findings\\"
-                               "features.csv")
-    print(f"First, length is {len(new_var)}")
+    # new_var = pd.read_csv("C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\Thesis"
+    #                       "\\Classification project\\Data\\benign_artificial_variants_patmut\\GJB2_benign.csv")
+    # existing_var = pd.read_csv("C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\Thesis\\Findings\\"
+    #                            "features.csv")
+    # print(f"First, length is {len(new_var)}")
+    #
+    # new_var = get_dataframe_without_overlap(existing_var, new_var)
+    # print(f"After reducing duplicates, length is {len(new_var)}")
+    #
+    # # write to file
+    # new_var.to_csv("C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\Thesis\\Classification project\\Data\\"
+    #                  "\\benign_artificial_variants_patmut\\benign_without_duplicates_with_features.csv", index=False)
 
-    new_var = get_dataframe_without_overlap(existing_var, new_var)
-    print(f"After reducing duplicates, length is {len(new_var)}")
+    create_benign_variants_df_from_arff("C:\\Users\\InbarBlech\\Downloads\\P29033.arff")
 
-    # write to file
-    new_var.to_csv("C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\Thesis\\Classification project\\Data\\"
-                     "\\benign_artificial_variants_patmut\\benign_without_duplicates_with_features.csv", index=False)

@@ -115,6 +115,13 @@ def convert_pdb_to_dataframe(pdb_path: str) -> pd.DataFrame:
     return ppdb_df
 
 
+def dataframe_to_pdb(dataframe, output_pdb_path):
+    with open(output_pdb_path, 'w') as pdb_file:
+        for index, row in dataframe.iterrows():
+            pdb_line = f"ATOM  {index + 1:5} {row['NAME']:^4} {row['RESNAME']:^3} {row['CHAINID']}{row['RESIDUESEQ']:4}    {row['X']:8.3f}{row['Y']:8.3f}{row['Z']:8.3f}{row['OCCUPANCY']:6.2f}{row['TEMPFACTOR']:6.2f}          {row['ELEMENT']:>2}\n"
+            pdb_file.write(pdb_line)
+
+
 def get_variant_path(gene, variant, pathogenicity):
     """Get the variant path from the given gene, variant and pathogenicity."""
     # convert variant from E117K to ACTB_P60709_E117K by adding the gene name and the uniprot id
@@ -188,3 +195,11 @@ def split_dataframe_by_group(dataframe, group_column, group_value1, group_value2
     df_group1 = dataframe[dataframe[group_column] == group_value1]
     df_group2 = dataframe[dataframe[group_column] == group_value2]
     return df_group1, df_group2
+
+
+def get_gene_path_from_variant_path(variant_path: str) -> str:
+    """Get the gene path from the given variant path, for example:
+    variant_path = '/home/inbar/variants/pathogenic/ACTB/ACTB_P60709_A204G'
+    gene_path = '/home/inbar/variants/pathogenic/ACTB'"""
+    gene_path = variant_path[:variant_path.rfind('/')]
+    return gene_path

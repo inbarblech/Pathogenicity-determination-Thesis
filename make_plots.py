@@ -228,12 +228,3 @@ def create_distribution_of_sequence_length(df: pd.DataFrame, path_to_save):
     plt.ylabel('Number of genes in dataset', fontsize=14)
     plt.savefig(f"{path_to_save}\\sequence_length_distribution.png", dpi=2000)
     plt.show()
-
-
-if __name__ == "__main__":
-    data_file = "C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\Thesis\\Findings\\features.csv"
-    df = pd.read_csv(data_file)
-    # df_transmembranal = df[df["protein_contain_transmembrane"] == True]
-    # df_globular = df[df["protein_contain_transmembrane"] == False]
-    # make_density_plot_per_feature_per_group(df_transmembranal, "plddt_residue", "plddt_residue for transmembranal protein")
-    # make_density_plot_per_feature_per_group(df_globular, "plddt_residue", "plddt_residue for globular protein")

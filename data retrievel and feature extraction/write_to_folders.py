@@ -81,19 +81,3 @@ def check_if_aa_is_in_af(data: pd.DataFrame) -> None:
     # write errors to file in gene folder
     errors.to_csv("/home/inbar/variants/Benign_for_gene_specific/not_in_sequence_error.csv")
 
-
-if __name__ == "__main__":
-    path = "/home/inbar/variants/Benign_for_gene_specific/"
-    # benign_df = pd.read_csv("/home/inbar/variants/Benign_for_gene_specific/benign.csv")
-    # create_variant_folders_from_dataframe(path, benign_df)
-
-    # create a list of all gene folders paths inside the given path
-    # gene_folders_paths = []
-    # for root, dirs, files in os.walk(path):
-    #     for dir in dirs:
-    #         gene_folders_paths.append(os.path.join(root, dir))
-    # for path in gene_folders_paths:
-    #     copy_af_file_to_all_subfolders(path)
-
-    benign_df = pd.read_csv("/home/inbar/variants/Benign_for_gene_specific/benign.csv")
-    check_if_aa_is_in_af(benign_df)

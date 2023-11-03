@@ -1,6 +1,5 @@
 import pandas as pd
 import os
-import dvd_data as dvd
 import uniprot_info as uni
 import dvd_data as dvd
 

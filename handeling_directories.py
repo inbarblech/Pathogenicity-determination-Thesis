@@ -1,3 +1,4 @@
+import shutil
 import subprocess as sp
 import os
 
@@ -139,7 +140,10 @@ def count_number_of_variant_folders(path_to_folder):
 
 
 def run_change_name_on_folder(path_to_gene_folder):
-    """Runs on all variant folders in path_to_folder"""
+    """Runs on all variant folders in path_to_folder
+    Usage:
+        run_change_name_on_folder(path_to_gene_folder)
+    """
     errors = []
     # change directory to the folder containing all the gene folders
     os.chdir(path_to_gene_folder)
@@ -157,7 +161,146 @@ def run_change_name_on_folder(path_to_gene_folder):
         print(f"variant_folder: {variant_folder}")
 
 
+def check_two_file_type_exists_in_variant_path(variant_path: str, type: str) -> bool:
+    """Checks if the oda file exists for the given variant.
+    Args:
+        variant_path (str): The path to the variant folder.
+    Returns:
+        bool: True if the oda file exists, False otherwise.
+    """
+    # change the working directory to the variant folder
+    os.chdir(variant_path)
+    # list all files in the variant folder that end with the given type
+    files = [file for file in os.listdir(variant_path) if file.endswith(type)]
+    # if there is no file that ends with the given type, return False
+    if len(files) == 0 or len(files) == 1:
+        return False
+    elif len(files) == 2:
+        return True
+    else:
+        raise False
+
+
+def check_file_type_exists_in_variant_path(variant_path: str, type: str) -> bool:
+    """Checks if the oda file exists for the given variant.
+    Args:
+        variant_path (str): The path to the variant folder.
+    Returns:
+        bool: True if the oda file exists, False otherwise.
+    """
+    # change the working directory to the variant folder
+    os.chdir(variant_path)
+    # list all files in the variant folder that end with the given type
+    files = [file for file in os.listdir(variant_path) if file.endswith(type)]
+    # if there is no file that ends with the given type, return False
+    if len(files) == 0:
+        return False
+    else:
+        return True
+
+
+def copy_file_from_one_directory_to_all_folders_in_path(file_path: str, path_of_directories: str):
+    """Copies the given file to all folders in the given path.
+    Args:
+        file_path (str): The path to the file to copy.
+        path_of_directories (str): The path to the folders to copy the file to. (Gene folder)
+    """
+    source_directory = os.path.dirname(file_path)
+    for root, dirs, files in os.walk(path_of_directories):
+        for directory in dirs:
+            # If the directory is the same as the file path, skip it
+            current_directory = os.path.join(root, directory)
+            # If the current directory is the same as the source directory, skip it
+            if current_directory == source_directory:
+                continue
+            shutil.copy(file_path, os.path.join(path_of_directories, directory))
+
 
 if __name__ == "__main__":
-    run_on_gene_folders("/home/inbar/variants/Pathogenic/")
-    run_on_gene_folders("/home/inbar/variants/Benign/")
+
+
+    files_with_no_oda = []
+    files_with_no_sasa = []
+
+    # # copy wt oda file to all variant folders in genes
+    # paths_of_directories = ["/home/inbar/variants/Benign_for_gene_specific/SLC26A4/",
+    #                         "/home/inbar/variants/Benign_for_gene_specific/WFS1/",
+    #                         "/home/inbar/variants/Benign_for_gene_specific/COL4A5/",
+    #                         "/home/inbar/variants/Benign_for_gene_specific/COL4A3/",
+    #                         "/home/inbar/variants/Benign_for_gene_specific/COL2A1/",
+    #                         "/home/inbar/variants/Benign_for_gene_specific/MYO7A/",
+    #                         "/home/inbar/variants/Benign_for_gene_specific/FGFR1/"]
+    # file_paths = ["/home/inbar/variants/Benign_for_gene_specific/SLC26A4/SLC26A4_O43511_G5R/AF_O43511.pdb.oda",
+    #                    "/home/inbar/variants/Benign_for_gene_specific/WFS1/WFS1_O76024_P7A/AF_O76024.pdb.oda",
+    #                    "/home/inbar/variants/Benign_for_gene_specific/COL4A5/COL4A5_P29400_I43V/AF_P29400.pdb.oda",
+    #                     "/home/inbar/variants/Benign_for_gene_specific/COL4A3/COL4A3_Q01955_Q75T/AF_Q01955.pdb.oda",
+    #                    "/home/inbar/variants/Benign_for_gene_specific/COL2A1/COL2A1_P02458_Q8P/AF_P02458.pdb.oda",
+    #                    "/home/inbar/variants/Benign_for_gene_specific/MYO7A/MYO7A_Q13402_R388K/AF_Q13402.pdb.oda",
+    #                    "/home/inbar/variants/Benign_for_gene_specific/FGFR1/FGFR1_P11362_M1T/AF_P11362.pdb.oda"]
+    # for file_path, paths_of_directory in zip(file_paths, paths_of_directories):
+    #     copy_file_from_one_directory_to_all_folders_in_path(file_path, paths_of_directory)
+    #
+    # file_paths = ["/home/inbar/variants/Benign_for_gene_specific/SLC26A4/SLC26A4_O43511_G5R/AF_O43511.asa.pdb",
+    #               "/home/inbar/variants/Benign_for_gene_specific/WFS1/WFS1_O76024_P7A/AF_O76024.asa.pdb",
+    #               "/home/inbar/variants/Benign_for_gene_specific/COL4A5/COL4A5_P29400_I43V/AF_P29400.asa.pdb",
+    #               "/home/inbar/variants/Benign_for_gene_specific/COL4A3/COL4A3_Q01955_Q75T/AF_Q01955.asa.pdb",
+    #               "/home/inbar/variants/Benign_for_gene_specific/COL2A1/COL2A1_P02458_Q8P/AF_P02458.asa.pdb",
+    #               "/home/inbar/variants/Benign_for_gene_specific/MYO7A/MYO7A_Q13402_R388K/AF_Q13402.asa.pdb",
+    #               "/home/inbar/variants/Benign_for_gene_specific/FGFR1/FGFR1_P11362_M1T/AF_P11362.asa.pdb"]
+    # for file_path, paths_of_directory in zip(file_paths, paths_of_directories):
+    #     copy_file_from_one_directory_to_all_folders_in_path(file_path, paths_of_directory)
+
+    # # Check if all variant folders in genes have 2  file
+    # for gene in ["COL2A1", "COL4A3", "COL4A5", "FGFR1", "MYO7A", "SLC26A4", "WFS1"]:
+    #     gene_path = f"/home/inbar/variants/Benign_for_gene_specific/{gene}/"
+    #     variant_paths = [os.path.join(gene_path, item) for item in os.listdir(gene_path) if
+    #                      os.path.isdir(os.path.join(gene_path, item))]
+    #     for path in variant_paths:
+    #         if check_two_file_type_exists_in_variant_path(path, "pdb.oda"):
+    #             pass
+    #             # Change the name of the file from pdb.oda to oda.pdb
+    #             # change_file_name(path, 'pdb.oda', 'oda.pdb')
+    #         else:
+    #             files_with_no_oda.append(path)
+    #         if check_two_file_type_exists_in_variant_path(path, "asa.pdb"):
+    #             pass
+    #         else:
+    #             files_with_no_sasa.append(path)
+
+    # with open("C:\\Users\\InbarBlech\\Downloads\\asamissingfiles210923.txt", 'w') as f:
+    #     for gene in files_with_no_sasa:
+    #         f.write(f"{gene}\n")
+    # with open("C:\\Users\\InbarBlech\\Downloads\\odamissingfiles210923.txt", 'w') as f:
+    #     for gene in files_with_no_oda:
+    #         f.write(f"{gene}\n")
+    # print(f"files_with_no_sasa: {files_with_no_sasa}")
+    # # print(f"files_with_no_oda: {files_with_no_oda}")
+    # print(f"len(files_with_no_sasa): {len(files_with_no_sasa)}")
+    # # print(f"len(files_with_no_oda): {len(files_with_no_oda)}")
+    # #
+    # # Check overlap between files_with_no_sasa and files_with_no_oda
+    # overlap = set(files_with_no_sasa).intersection(files_with_no_oda)
+    # # print(f"overlap: {overlap}")
+    # print(f"len(overlap): {len(overlap)}")
+    #
+    # # print the files that are in files_with_no_sasa but not in files_with_no_oda
+    # files_with_no_oda_but_with_sasa = set(files_with_no_sasa).difference(files_with_no_oda)
+    # print(f"files_with_no_oda_but_with_sasa: {files_with_no_oda_but_with_sasa}")
+    #
+    # for gene in ["COL2A1", "COL4A3", "COL4A5", "FGFR1", "MYO7A", "SLC26A4", "WFS1"]:
+    #     gene_path = f"/home/inbar/variants/Benign_for_gene_specific/{gene}/"
+    #     variant_paths = [os.path.join(gene_path, item) for item in os.listdir(gene_path) if
+    #                      os.path.isdir(os.path.join(gene_path, item))]
+    #     for path in variant_paths:
+    #         # Change the name of the file from pdb.oda to oda.pdb
+    #         # change_file_name(path, 'pdb.oda', 'oda.pdb')
+    #         # Check if there is any file that ends with pdb.oda
+    #         if not check_two_file_type_exists_in_variant_path(path, "oda.pdb"):
+    #             print(f"pdb.oda file exists in {path}")
+
+    run_change_name_on_folder("/home/inbar/variants/Benign_for_gene_specific/GJB2/")
+
+
+
+
+

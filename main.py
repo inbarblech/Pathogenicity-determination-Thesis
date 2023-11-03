@@ -1,17 +1,14 @@
 import csv
 import shutil
+
 import uniprot_info as uni
 import add_mutation as add_mut
 import os
 import extract_features as ext_feat
 import pandas as pd
 import general_tools as tools
-import subprocess as sp
 import run_command_line_programs_to_folders as run_command_line_programs
-import handeling_directories as manage_dirs
-import make_plots as plots
 import matplotlib.pyplot as plt
-import feature_extraction_column_by_column as feat_ext_col_by_col
 
 PATH_TO_DATA_FOLDER = "/home/inbar/DVDdata/"
 PATH_TO_CSV_BENIGN = "/home/inbar/all_BENIGN_variants.csv"
@@ -203,8 +200,15 @@ def extract_stability_data_to_csv(path_to_pathogenicity_folder: str):
                     print(f"Stability data extracted for variant {variant} from gene {gene}, it is {delta}")
 
 
-def copy_pdb_files_to_all_variant_folders(path_to_gene_folder: str, uniprot_id: str, gene_name) -> None:
+def copy_pdb_files_to_all_variant_folders(path_to_gene_folder: str, uniprot_id: str = None, gene_name: str = None) -> None:
     """Creates a copy of the pdb file in the gene folder, in all the variant folders of the gene."""
+    if gene_name is None:
+        gene_name = path_to_gene_folder.split("/")[-1]  # get gene name from path, e.g. "BRCA1" from "path/to/BRCA1"
+        print(gene_name)
+    if uniprot_id is None:
+        uniprot_id = uni.get_uniprot_id(gene_name)
+    print(uniprot_id)
+    print(gene_name)
     errors = []
     # change directory to the folder containing all the gene folders
     os.chdir(path_to_gene_folder)
@@ -221,7 +225,8 @@ def copy_pdb_files_to_all_variant_folders(path_to_gene_folder: str, uniprot_id: 
     # copy pdb files to all variant folders
     for variant_folder in variant_folder_paths:
         print(f"Copying pdb file to variant folder {variant_folder}")
-        variant = variant_folder.split("_")[2]  # get variant from path, e.g. "A123B" from "path/to/BRCA1_A123B"
+        variant_folder_name = variant_folder.split("/")[-1]  # get variant folder name from path, e.g. "BRCA1_A123B" from "path/to/BRCA1_A123B"
+        variant = variant_folder_name.split("_")[2]  # get variant from path, e.g. "A123B" from "path/to/BRCA1_A123B"
         variant_aa = variant[0]  # get the amino acid from the variant, e.g. "A" from "A123B"
         pos = int(variant[1:-1])  # get the position from the variant, e.g. 123 from "A123B"
         seq = uni.get_sequence(gene_name)
@@ -234,8 +239,12 @@ def copy_pdb_files_to_all_variant_folders(path_to_gene_folder: str, uniprot_id: 
             errors.append(f"Variant {variant} not in sequence for uniprot id {uniprot_id}")
             continue
         # Copy the pdb file to the variant folder
-        if os.path.isfile(f"{path_to_gene_folder}/AF-{uniprot_id}-F1-model_v4.pdb"):
-            shutil.copyfile(f"{path_to_gene_folder}/AF-{uniprot_id}-F1-model_v4.pdb", f"{variant_folder}/AF_{uniprot_id}.pdb")
+        if os.path.isfile(f"{path_to_gene_folder}/AF_{uniprot_id}.pdb"):
+            shutil.copyfile(f"{path_to_gene_folder}/AF_{uniprot_id}.pdb", f"{variant_folder}/AF_{uniprot_id}.pdb")
+            print(f"File {path_to_gene_folder}/AF_{uniprot_id}.pdb copied to {variant_folder}/AF_{uniprot_id}.pdb")
+        else:
+            print(f"File {path_to_gene_folder}/AF_{uniprot_id}.pdb does not exist")
+            errors.append(f"File {path_to_gene_folder}/AF_{uniprot_id}.pdb does not exist")
     # write errors to file in gene folder
     with open(f"{path_to_gene_folder}/errors.txt", "w") as f:
         for error in errors:
@@ -262,7 +271,7 @@ def copy_pdb_files_to_all_variant_folders_in_all_gene_folders(path_to_gene_folde
         copy_pdb_files_to_all_variant_folders(gene_folder, uniprot_id, gene_name)
 
 
-def create_foldx_mutation_to_variants_in_gene_folder(path_to_gene_folder: str, count) -> None:
+def create_foldx_mutation_to_variants_in_gene_folder(path_to_gene_folder: str, count=None) -> None:
     """This function creates a FoldX mutation file for all the variants in a gene folder.
     Args:
         path_to_gene_folder: path to the gene folder, that contains all the variant folders.
@@ -291,7 +300,8 @@ def create_foldx_mutation_to_variants_in_gene_folder(path_to_gene_folder: str, c
                 break
         if foldx_mutation_exists:
             continue
-        count += 1
+        if count is not None:
+            count += 1
         print(f"Creating mutation file for variant folder {variant_folder}")
         folder_name = os.path.basename(variant_folder)
         uniprot_id = folder_name.split("_")[1]
@@ -385,25 +395,262 @@ def get_dataframe_of_number_of_variants_per_gene_per_pathogenicity(features_df) 
     return merged_df
 
 
+def create_one_dataframe_for_genes(genes_list: list, df_list: list) -> pd.DataFrame:
+    """This function creates one dataframe for all the genes in the list.
+    It adds to the new dataframe every row from the two dataframes that corresponds with the genes in the list."""
+    combined_df = pd.DataFrame()
+    for gene in genes_list:
+        for dataframe in df_list:
+            combined_df = combined_df.append(dataframe.loc[dataframe['gene'] == gene])
+    return combined_df
+
+
+def combine_dataframes(df_list: list) -> pd.DataFrame:
+    """This function combines all the dataframes in the list to one dataframe.
+    It adds to the new dataframe every row from the two dataframes that corresponds with the genes in the list.
+    If the dataframes have the same columns, it will combine them to one dataframe.
+    If the dataframes have different columns, it will add the columns to the new dataframe and fill the missing values
+    with NaN."""
+    if not df_list:
+        raise ValueError("The list of dataframes is empty.")
+    combined_df = df_list[0]
+    for dataframe in df_list[1:]:
+        combined_df = combined_df.merge(dataframe, on=None, how="outer")
+    return combined_df
+
+
+def create_sub_dataframe_according_to_gene(df: pd.DataFrame, gene: str) -> pd.DataFrame:
+    """This function creates a new dataframe with only a given gene from the original dataframe.
+    The gene name is a column in the dataframe.
+    Usage:
+        seven_genes_df = pd.read_csv(f"{PATH_TO_NOVEL_BENIGN_VARIANTS}/Benign_for_gene_specific/combined.csv", header=0)
+        WFS1_df = create_sub_dataframe_according_to_gene(seven_genes_df, "WFS1")
+        WFS1_df.to_csv("/home/inbar/results/gene_specific_df/WFS1.csv", index=False)
+    """
+    return df.loc[df['gene'] == gene]
+
+
+def add_source_column(combined_df, features_df, benign_df) -> pd.DataFrame:
+    """This function adds a column to the "combined_df" dataframe that indicates the source of the variant.
+    The source is either DVD (for variants from the features_df) or patmut (for variants from the benign_df).
+    The check is done by the columns "variant" and "gene".
+    """
+    source_dict = {}
+
+    for index, row in combined_df.iterrows():
+        variant = row['variant']
+        gene = row['gene']
+
+        if (variant, gene) in zip(features_df['variant'], features_df['gene']):
+            source_dict[index] = "DVD"
+        elif (variant, gene) in zip(benign_df['variant'], benign_df['gene']):
+            source_dict[index] = "patmut"
+
+    source_df = pd.DataFrame.from_dict(source_dict, orient='index', columns=['source'])
+    result_df = combined_df.join(source_df, how='left')
+
+    return result_df
+
+
+def add_position_column(df: pd.DataFrame) -> pd.DataFrame:
+    """This function recieves a dataframe with a column called "variant" and adds a column called "position",
+    based on the variant"""
+    position_dict = {}
+    for index, row in df.iterrows():
+        variant = row['variant']
+        # get position, which is the number after the first letter
+        position = variant[1:]
+        # remove the last letter, which is the variant
+        position = position[:-1]
+        position_dict[index] = position
+    position_df = pd.DataFrame.from_dict(position_dict, orient='index', columns=['position'])
+    result_df = df.join(position_df, how='left')
+    return result_df
+
+
+def create_predictions_vs_real_csv(path):
+    """This function creates a csv file with the predictions and the real values.
+    It combines all the csv files (columns position, predictions and pathogenicity) in the path folder to one csv file.
+    The file is saved in the path folder.
+    Args:
+        path: the path to the folder with the predictions csv files.
+
+    Usage:
+        path = ("predictions_vs_real/MYO7A")
+        create_predictions_vs_real_csv(path)
+    """
+    # get all the csv files in the path folder
+    csv_files = [f for f in os.listdir(path) if f.endswith('.csv') and not f.startswith('predictions_vs_real')]
+    # create a dataframe for each csv file
+    df_list = []
+    for csv_file in csv_files:
+        df_list.append(pd.read_csv(f"{path}/{csv_file}", header=0))
+    # combine all the dataframes to one dataframe
+    combined_df = combine_dataframes(df_list)
+    # Remove all columns exceps position, variant, predictions and pathogenicity
+    combined_df = combined_df[['position', 'pathogenicity', 'predictions', 'variant']]
+    # save the dataframe to a csv file
+    combined_df.to_csv(f"{path}/predictions_vs_real_with_variant.csv", index=False)
+
+
+def count_position_repetitions(df: pd.DataFrame) -> dict:
+    """
+    This function returns a dictionary where the keys are number of position repetitions and the values are a count of
+    how many times this number of repetitions appears in the dataframe.
+    For example, if position 1 repeats 2 times, position 2 repeats once, and position 3 repeats 2 times,
+    the dictionary will be: {1: 1, 2: 2}.
+    Positions are the numbers in the "position" column.
+    :param df:
+    :return: dictionary of number of repetitions
+    """
+    count_dict = {}
+    for index, row in df.iterrows():
+        # get the position
+        position = row['position']
+        # count how many times this position appears in the dataframe
+        count = df['position'].value_counts()[position]
+        # add the count to the dictionary
+        if count in count_dict:
+            count_dict[count] += 1
+        else:
+            count_dict[count] = 1
+    return count_dict
+
+
+def create_position_repetitions_graph(data: dict, gene: str, path=None) -> None:
+    """
+    Usage:
+    gene = "SLC26A4"
+    path_for_output = f"{PATH_TO_INBAR}results/position_repetition_for_gene_specific/"
+    df = pd.read_csv(f"{PATH_TO_INBAR}results/gene_specific_df/{gene}_with_position.csv", header=0)
+    position_repetition_dict = count_position_repetitions(df)
+    create_position_repetitions_graph(position_repetition_dict, gene, path_for_output)
+    """
+    # Extract the keys (index) and values from your dictionary
+    index = list(data.keys())
+    values = list(data.values())
+    # Create a bar graph
+    plt.bar(index, values)
+    # Add labels to the axes
+    plt.xlabel('Index')
+    plt.ylabel('Values')
+    # Annotate the bars with their respective values
+    for i, value in enumerate(values):
+        plt.text(index[i], value, str(value), ha='center', va='bottom')
+    # Add a title
+    plt.title(f"Position repetitions for {gene}")
+    # Show the bar graph
+    # plt.show()
+    plt.savefig(f"{path}position_repetition_graph_{gene}.png")
+
+
+def create_list_of_variants_from_predictions_vs_real_csv(path):
+    """This function creates a list of variants from the predictions_vs_real csv file."""
+    df = pd.read_csv(f"{path}/predictions_vs_real_with_variant.csv", header=0)
+    variant_list = df['variant'].tolist()
+    return variant_list
+
+
+def create_fasta_file_from_list_of_variants(variant_list, path):
+    """This function creates a fasta file from a list of variants.
+    The fasta file is saved in the path folder.
+    FASTA format:
+    >gene_HUMAN variant1 variant2 ...
+    Args:
+        variant_list: list of variants.
+        path: the path to the folder where the fasta file will be saved.
+    """
+    gene = path.split("/")[-1]
+    # create the fasta file/s, each file contains maximum 100 variants
+    variants_counter = 0
+    # get the sequence of the gene from uniport
+    seq = uni.get_sequence(gene)
+    while variants_counter < len(variant_list):
+        variants = " ".join(variant_list[variants_counter:variants_counter+100])
+        with open(f"{path}/{gene}_{variants_counter}.fasta", "w") as f:
+            f.write(f">{gene}_HUMAN {variants}")
+            f.write(f"\n{seq}")
+        variants_counter += 100
+
+
+def add_source_column_according_to_input(df: pd.DataFrame, source: str):
+    """
+    This function adds a column to the dataframe with the source of the data.
+    :param df: dataframe with the data
+    :param source: the source of the data
+    :return: dataframe with the source column
+    """
+    df['source'] = source
+    return df
+
+
 if __name__ == "__main__":
 
-    # features_df = pd.read_csv(f"{PATH_TO_NOVEL_BENIGN_VARIANTS}/Benign_for_gene_specific/benign.csv", header=0)
+    # # Create fasta file for each gene
+    # path = "predictions_vs_real"
+    # genes = ["WFS1", "SLC26A4", "FGFR1", "MYO7A", "COL2A1", "COL4A5", "COL4A3"]
+    # for gene in genes:
+    #     path_for_gene = f"{path}/{gene}"
+    #     variant_list = create_list_of_variants_from_predictions_vs_real_csv(path_for_gene)
+    #     create_fasta_file_from_list_of_variants(variant_list, path_for_gene)
+
+    # features_df = pd.read_csv(f"{PATH_TO_OUTPUT_FOLDER}features_for_GJB2.csv", header=0)
+    # feat_ext_col_by_col.main(features_df, PATH_TO_OUTPUT_FOLDER, "GJB2_with_positions")
+
+    # features_df = pd.read_csv(f"{PATH_TO_OUTPUT_FOLDER}features.csv", header=0)
+    # features_df = create_sub_dataframe_according_to_gene(features_df, "GJB2")
+    # # save as csv
+    # features_df.to_csv(f"{PATH_TO_OUTPUT_FOLDER}GJB2_dvd_with_source.csv", index=False)
+    #
+    # dvd_df = pd.read_csv(f"{PATH_TO_OUTPUT_FOLDER}GJB2_dvd_with_source.csv", header=0)
+    # feat_ext_col_by_col.main(dvd_df, PATH_TO_OUTPUT_FOLDER, "GJB2_dvd_with_patmut_features.csv")
+
+    # #combine the dataframes of dvd and patmut
+    # dvd_df = pd.read_csv(f"{PATH_TO_OUTPUT_FOLDER}GJB2_dvd_with_patmut_features.csv", header=0)
+    # patmut_df = pd.read_csv(f"{PATH_TO_OUTPUT_FOLDER}GJB2_patmut_with_source.csv", header=0)
+    # combined_df = pd.concat([dvd_df, patmut_df])
+    # combined_df.to_csv(f"{PATH_TO_OUTPUT_FOLDER}GJB2_combined_with_source.csv", index=False)
+    # #
+    # add position column
+    combined_df = pd.read_csv(f"{PATH_TO_OUTPUT_FOLDER}gene_specific_df/GJB2_combined_with_source.csv", header=0)
+    combined_df = add_position_column(combined_df)
+    combined_df.to_csv(f"{PATH_TO_OUTPUT_FOLDER}gene_specific_df/GJB2_combined_with_source_and_position.csv", index=False)
+
+
+    # # save the dictionary to a csv file in the path folder (from path variable)
+    # position_repetition_df = pd.DataFrame.from_dict(position_repetition_dict, orient='index', columns=['count'])
+    # position_repetition_df.to_csv(f"{path_for_output}/position_repetition_{gene}.csv", index=True)
+
+    # features_df = pd.read_csv(f"{PATH_TO_NOVEL_BENIGN_VARIANTS}/Benign_for_gene_specific/combined.csv", header=0)
     # feat_ext_col_by_col.main(features_df, PATH_TO_NOVEL_BENIGN_VARIANTS)
+    #
+    # features_df = pd.read_csv(f"{PATH_TO_OUTPUT_FOLDER}features.csv", header=0)
+    # feat_ext_col_by_col.main(features_df, PATH_TO_OUTPUT_FOLDER)
+    # combined_df = pd.read_csv(f"/home/inbar/variants/Benign_for_gene_specific/combined.csv", header=0)
+    # features_df = pd.read_csv(f"{PATH_TO_OUTPUT_FOLDER}features.csv", header=0)
+    # benign_df = pd.read_csv(f"/home/inbar/variants/Benign_for_gene_specific/benign.csv", header=0)
+    #
+    # df = add_source_column(combined_df, features_df, benign_df)
+    #
+    # # write the dataframe to a csv file
+    # df.to_csv(f"{PATH_TO_OUTPUT_FOLDER}combined_with_source.csv", index=False)
+
+    # # save the dataframe to a csv file
+    # combined_df.to_csv(f"{PATH_TO_NOVEL_BENIGN_VARIANTS}/Benign_for_gene_specific/combined.csv", index=False)
 
     # create_mutation_file_to_all_variants(f"{PATH_TO_VARIANTS_FOLDER}Benign_for_gene_specific/")
 
-    # data_file = "C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\Thesis\\Findings\\features.csv"
-    # df = pd.read_csv(data_file)
-    # trans_residue_df = df[df["is_residue_transmembranal"] == True]
-    # globular_residue_df = df[df["is_residue_transmembranal"] == False]
+    # run_on_gene_folders(f"{PATH_TO_NOVEL_BENIGN_VARIANTS}/Benign_for_gene_specific/", ["MYO7A"])
+
+    # for gene in ["COL2A1", "COL4A3", "COL4A5", "WFS1", "FGFR1", "SLC26A4", "MYO7A"]:
+    #     df_with_position = add_position_column(pd.read_csv(f"{PATH_TO_OUTPUT_FOLDER}/gene_specific_df/{gene}.csv", header=0))
+    #     df_with_position.to_csv(f"{PATH_TO_OUTPUT_FOLDER}/gene_specific_df/{gene}_with_position.csv", index=False)
     #
-    # plots.make_unsmoothed_density_plot_per_feature_per_group(trans_residue_df, "hydrophobicity_delta",
-    #                                                          "hydrophobicity_delta for transmembranal protein, unsmoothed")
-    # plots.make_unsmoothed_density_plot_per_feature_per_group(globular_residue_df, "hydrophobicity_delta",
-    #                                                          "hydrophobicity_delta for globular protein, unsmoothed")
+    #
+    # copy_pdb_files_to_all_variant_folders(f"{PATH_TO_VARIANTS_FOLDER}Benign_for_gene_specific/GJB2/", "P29033", "GJB2")
+    # create_foldx_mutation_to_variants_in_gene_folder(f"{PATH_TO_VARIANTS_FOLDER}Benign_for_gene_specific/GJB2/")
+    # Extract all paths in the folder
 
-    run_on_gene_folders(f"{PATH_TO_NOVEL_BENIGN_VARIANTS}/Benign_for_gene_specific/", ["WFS1"])
-
-    # data_file = "C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\Thesis\\Findings\\features.csv"
-    # df = pd.read_csv(data_file)
-    # plots.make_density_plot_per_feature_per_group(data_file, "RSA_WT", "RSA for all proteins")
+    # paths = [d for d in os.listdir(f"{PATH_TO_VARIANTS_FOLDER}Benign_for_gene_specific/GJB2/") if os.path.isdir(f"{PATH_TO_VARIANTS_FOLDER}Benign_for_gene_specific/GJB2/{d}")]
+    # for path in paths:
+    #     run_command_line_programs.run_opra_oda_sasa(f"{PATH_TO_VARIANTS_FOLDER}Benign_for_gene_specific/GJB2/{path}")

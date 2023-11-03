@@ -1,4 +1,3 @@
-import subprocess as sp
 import pandas as pd
 import blosum as sm  # blosum matrix, from blosum.py in this directory
 import csv
@@ -18,20 +17,22 @@ structure of extract_features.py:
 
 Calling this script from main, to update the features.csv file:
     features_df = pd.read_csv(f"{PATH_TO_OUTPUT_FOLDER}features.csv", header=0)
-    ext_feat.main(features_df, PATH_TO_OUTPUT_FOLDER)
+    feature_extraction_col_by_col.main(features_df, PATH_TO_OUTPUT_FOLDER)
 """
 
-FEATURES_LIST = ['stability', 'blosum', 'hydrophobicity', 'volume', 'plddt_residue', 'secondary_structure',
-                 'sequence_length', 'protein_contain_transmembrane', 'is_residue_transmembranal', 'aa']
 
-FEATURES_LIST_WITH_DELTA = ['stability', 'hydrophobicity', 'volume']
+# FEATURES_LIST = ['position']
+FEATURES_LIST = ['is_residue_transmembranal', 'plddt_residue', 'secondary_structure', 'sequence_length', 'pssm', 'entropy', 'blosum', 'stability', 'hydrophobicity', 'volume', 'protein_contain_transmembrane', 'aa', 'oda', 'sasa', 'RSA']
 
-PATH_TO_ERROR_FILE = "/home/inbar/variants/Benign_for_gene_specific/feature_extraction_errors.csv"
+# FEATURES_LIST = ["pssm", "entropy"]
+# FEATURES_LIST_WITH_DELTA = ['stability', 'hydrophobicity', 'volume', 'oda', 'sasa']
+
+PATH_TO_ERROR_FILE = "/home/inbar/variants/Benign_for_gene_specific/feature_extraction_errors_GJB2.csv"
 
 
-def main(features_df: pd.DataFrame, path_to_output_folder: str):
+def main(features_df: pd.DataFrame, path_to_output_folder: str, name_for_csv_file: str = "features.csv"):
     """Main function for feature extraction."""
-    path_to_csv_file = f"{path_to_output_folder}/Benign_for_gene_specific/benign.csv"
+    path_to_csv_file = f"{path_to_output_folder}/{name_for_csv_file}"
     features_df = extract_all_features_for_all_variants_in_df(features_df, path_to_csv_file)
     features_df.to_csv(path_to_csv_file, index=False)
 
@@ -66,13 +67,16 @@ def extract_all_features_for_all_variants_in_df(features_df: pd.DataFrame, path_
         variant_path = tools.get_variant_path(gene, variant, "Benign_for_gene_specific")
         print(f"{counter}...extracting features for variant {variant} in gene {gene}")
 
+        # # add essential features to the dataframe (Needed for some features)
+        # features_df = add_essential_features_to_df(features_df, gene, variant, variant_path, path_to_csv_file)
+
         # Extract all the features for this variant
         # To change the features to extract, add them to the FEATURES_LIST up top.
-        # features_df = extract_features_for_variant(variant_path, features_df, gene, variant)
+        features_df = extract_features_for_variant(variant_path, features_df, gene, variant)
 
         # Add delta columns using get_delta_feature, for this variant
         # To change/add more features with delta, add them to the FEATURES_LIST_WITH_DELTA list up top.
-        features_df = extract_delta_values_for_variant(features_df, gene, variant)
+        # features_df = extract_delta_values_for_variant(features_df, gene, variant)
 
         # Append the variant to the csv
         features_df.to_csv(path_to_csv_file, index=False, header=True)
@@ -86,14 +90,12 @@ def extract_features_for_variant(variant_path: str, features_df: pd.DataFrame, g
         features_df (pd.DataFrame): The dataframe to add the features to.
         gene (str): The gene of the variant. Allows to insert the value in the right position in the csv.
         variant (str): The variant. Allows to insert the value in the right position in the csv.
-        aa1 (str): The first amino acid in the variant. Allows to insert the value in the right position in the csv.
-        aa2 (str): The second amino acid in the variant. Allows to insert the value in the right position in the csv.
     """
     # write all features to dataframe
     try:
-        folder_name = tools.get_folder_name_from_path(variant_path)
-        aa1 = tools.get_amino_acid_of_wt_from_variant_folder(folder_name)
-        aa2 = tools.get_amino_acid_of_variant_from_variant_folder(folder_name)
+        # Extract the amino acids of the variant.
+        aa1 = variant[0]
+        aa2 = variant[-1]
         for feature in FEATURES_LIST:
             features_df = write_feature_to_df(feature, variant_path, features_df, gene, variant, aa1, aa2)
             print(f"{feature} done!")
@@ -122,16 +124,16 @@ def get_delta_feature(feature: str, row: pd.Series):
     return row[f"{feature}_MUT"] - row[f"{feature}_WT"]
 
 
-def add_delta_columns(df: pd.DataFrame) -> pd.DataFrame:
-    """This function adds a column for each two columns with MUT and WT part.
-    This column contains the subduction of the value in column MUT from the value in column WT.
-    For example,
-    df contains "oda_WT" and "oda_MUT".
-    This function calculates, for each row, the value oda_MUT - oda_WT,
-    and returns this as a column called "oda_delta"."""
-    for feature in FEATURES_LIST_WITH_DELTA:
-        df[f"{feature}_delta"] = df[f"{feature}_MUT"] - df[f"{feature}_WT"]
-    return df
+# def add_delta_columns(df: pd.DataFrame) -> pd.DataFrame:
+#     """This function adds a column for each two columns with MUT and WT part.
+#     This column contains the subduction of the value in column MUT from the value in column WT.
+#     For example,
+#     df contains "oda_WT" and "oda_MUT".
+#     This function calculates, for each row, the value oda_MUT - oda_WT,
+#     and returns this as a column called "oda_delta"."""
+#     for feature in FEATURES_LIST_WITH_DELTA:
+#         df[f"{feature}_delta"] = df[f"{feature}_MUT"] - df[f"{feature}_WT"]
+#     return df
 
 
 def extract_delta_values_for_variant(features_df: pd.DataFrame, gene: str, variant: str):
@@ -157,7 +159,9 @@ def write_feature_to_df(feature: str, variant_path: str, features_df: pd.DataFra
     """
     print(f"Feature is: {feature} for variant {variant} in gene {gene}")
     if feature in ["blosum", "plddt_residue", "secondary_structure", "sequence_length", "is_residue_transmembranal",
-                   "consurf_score"]:
+                   "consurf_score", 'pssm', 'entropy']:
+        # print("enter the if in write_features_to_df") ######################################################################################
+        # print(f"aa1 {aa1}, aa2 {aa2}, gene {gene}, variant {variant_path}")
         feature_value = extract_feature_one_value(feature, variant_path, aa1=aa1, aa2=aa2, gene_name=gene)
         # Add the feature to the dataframe, in colume 'feature' and row where gene == gene and variant == variant
         features_df.loc[(features_df['gene'] == gene) & (features_df['variant'] == variant), feature] = feature_value
@@ -181,6 +185,9 @@ def write_feature_to_df(feature: str, variant_path: str, features_df: pd.DataFra
         features_df.loc[(features_df['gene'] == gene) & (features_df['variant'] == variant), "aa_WT"] = wt_value
         features_df.loc[(features_df['gene'] == gene) & (features_df['variant'] == variant), "aa_MUT"] = \
             mut_value
+    elif feature in ["position"]:
+        position = variant[1:-2]
+        features_df.loc[(features_df['gene'] == gene) & (features_df['variant'] == variant), "position"] = position
     return features_df
 
 
@@ -209,7 +216,8 @@ def extract_feature_one_value_for_protein(feature: str, gene_name: str):
 
 def extract_feature_one_value(feature: str, variant_path: str, aa1: str = None, aa2: str = None, gene_name: str = None) -> float:
     """Extracts the given feature from the given variant.
-    Supports features: 'blosum', 'plddt_residue',
+    Supports features: 'blosum', 'plddt_residue', 'secondary_structure', 'sequence_length', 'is_residue_transmembranal',
+                        'consurf_score', 'pssm', 'entropy'.
     Args:
         feature (str): The feature to extract, e.g. 'blosum', 'hydrophobicity', 'volume'.
         variant_path (str): The path to the variant folder.
@@ -225,7 +233,9 @@ def extract_feature_one_value(feature: str, variant_path: str, aa1: str = None, 
         'secondary_structure': uni.get_secondary_structure,
         'sequence_length': uni.get_sequence_length,
         'is_residue_transmembranal': uni.get_type_of_residue_membrane_or_globular,
-        'consurf_score': get_consurf_conservation_score
+        'consurf_score': get_consurf_conservation_score,
+        'pssm': get_pssm_or_entropy_from_patmut,
+        'entropy': get_pssm_or_entropy_from_patmut
     }
     if feature in feature_mapping:
         feature_function = feature_mapping[feature]
@@ -245,9 +255,35 @@ def extract_feature_one_value(feature: str, variant_path: str, aa1: str = None, 
             return feature_function(gene_name, position)
         elif feature in ['sequence_length']:
             return feature_function(gene_name)
+        elif feature in ['pssm', 'entropy']:
+            # Create the dataframe with the pssm and entropy values
+            residue_num = tools.get_residue_number_from_variant_folder(tools.get_folder_name_from_path(variant_path))
+            return feature_function(variant_path, residue_num, feature)
     else:
         raise ValueError(f"Feature {feature} is not supported, or not covered by this function."
                          f"This function only supports the following features: {feature_mapping.keys()}")
+
+
+# def get_pssm_patmut(variant_path: str) -> int:
+#     """Get the pssm value for the given variant and amino acid.
+#     The pssm value is in the dataframe in the given variant path."""
+#     gene_path = tools.get_gene_path_from_variant_path(variant_path)
+#     # extract residue number from variant path
+#     residue_num = tools.get_residue_number_from_variant_folder(tools.get_folder_name_from_path(variant_path))
+#     pssm_df = pd.read_csv(f"{gene_path}/pssm.csv")
+#     pssm_value = pssm_df.loc[pssm_df['residue_num'] == residue_num, 'PSSM'].values[0]
+#     return pssm_value
+#
+#
+# def get_entropy_patmut(variant_path: str) -> int:
+#     """Get the entropy value for the given variant and amino acid.
+#     The entropy value is in the dataframe in the given variant path."""
+#     gene_path = tools.get_gene_path_from_variant_path(variant_path)
+#     # extract residue number from variant path
+#     residue_num = tools.get_residue_number_from_variant_folder(tools.get_folder_name_from_path(variant_path))
+#     entropy_df = pd.read_csv(f"{gene_path}/entropy.csv")
+#     entropy_value = entropy_df.loc[entropy_df['residue_num'] == residue_num, 'Entropy'].values[0]
+#     return entropy_value
 
 
 def extract_feature_wt_mut(feature: str, variant_path: str, aa1: str = None, aa2: str = None, df: pd.DataFrame = None) -> (float, float):
@@ -470,35 +506,18 @@ def get_substitution_matrix_value(wt_aa: str, mut_aa: str) -> int:
     return sm.get_blosum62_value(wt_aa, mut_aa)
 
 
-# def get_consurf_conservation_score_for_all_residues(path_to_gene_folder: str) -> dict:
-#     """Returns the conservation score of all the residues in the protein.
-#     Uses the consurf file, which is a text file downloaded from the consurf website.
-#     The conservation score is the 5th column in the file, and the residue number is in the first column.
-#     The function finds the value in the 5th column and in the row that corresponds to the given residue number.
-#     It skips the beginning of the file, which ends with a line that starts with "POS".
-#     Args:
-#         path_to_gene_folder: the path to the gene folder, to get the consurf file
-#     Returns:
-#         dict: a dictionary of {residue number: conservation score}
-#     """
-#     # get the consurf file
-#     consurf_file = [file for file in os.listdir(path_to_gene_folder) if file.startswith("consurf")][0]
-#     # read the file
-#     with open(os.path.join(path_to_gene_folder, consurf_file), 'r') as f:
-#         lines = f.readlines()
-#     # get the conservation score for each residue
-#     conservation_scores = {}
-#     for line in lines:
-#         if line.startswith(" POS") or line.startswith("  "):
-#             print("line ", line)
-#             continue
-#     for line in lines:
-#         line_parts = line.split()
-#         print("line parts ", line_parts)
-#         if len(line_parts) > 5:
-#             conservation_scores[line_parts[0]] = line_parts[4]
-#     print(conservation_scores)
-#     return conservation_scores
+def get_pssm_or_entropy_from_patmut(variant_path, residue_number, feature) -> int:
+    """This function extracts the pssm or entropy value for the given residue number.
+    It uses the patmut.csv file, which is in the gene folder."""
+    # get the path for the gene folder
+    path = os.path.dirname(variant_path)
+    gene_path = os.path.dirname(path)
+    residue_number = int(residue_number)
+    # read the patmut file
+    patmut_df = pd.read_csv(os.path.join(gene_path, "patmut.csv"))
+    # get the value for the given residue number
+    value = patmut_df.loc[patmut_df['residue'] == residue_number][feature].values[0]
+    return value
 
 
 def get_conserf_coservation_scores_for_gene(path_to_consurf_folder: str, gene_name: str) -> dict:
@@ -581,51 +600,6 @@ def get_consurf_conservation_score(consurf_folder: str, gene_name: str, residue_
     return get_consurf_conservation_score_for_residue(conservation_scores_dict, residue_num)
 
 
-# def get_consurf_conservation_score(path_to_gene_folder: str, path_to_variant_folder: str) -> int:
-#     """Returns the conservation score of the given residue.
-#     Uses the consurf file, which is a text file downloaded from the consurf website.
-#     The conservation score is the 5th column in the file, and the residue number is in the first column.
-#     The function finds the value in the 5th column and in the row that corresponds to the given residue number.
-#     It skips the beginning of the file, which ends with a line that starts with "POS".
-#     Args:
-#         path_to_gene_folder: the path to the gene folder, to get the consurf file
-#         path_to_variant_folder: the path to the variant folder, to get the residue number
-#     Returns:
-#         float: the conservation score of the given residue
-#
-#     Use:
-#         consurf = ext_feat.get_consurf_conservation_score("/home/inbar/check/ACTB/", "/home/inbar/check/ACTB/ACTB_P60709_Q189R")
-#     """
-#     # get the folder name from the path
-#     folder_name = tools.get_folder_name_from_path(path_to_variant_folder)
-#     # get the residue number from the folder name
-#     residue_num = tools.get_residue_number_from_variant_folder(folder_name)
-#     residue_num = str(residue_num)  # convert to string
-#     score = 0  # the score to be returned
-#     # read the consurf file
-#     consurf_file_path = os.path.join(path_to_gene_folder, "consurf_grades.txt")
-#     with open(consurf_file_path, 'r') as f:
-#         for line in f:
-#             if line.startswith(" POS"):
-#                 break
-#         for line in f:
-#             # find the line that starts with the residue number
-#             if line.strip().startswith(residue_num):
-#                 # get the conservation score
-#                 score = line.split()[4]
-#                 break
-#
-#     # if the residue number was not found, write an error message to the log file
-#     if score == 0:
-#         with open("log.txt", 'a') as log_file:
-#             log_file.write(f"Residue number {residue_num} in path {path_to_gene_folder} was not found in the consurf"
-#                            f" file.\n")
-#     if "*" in str(score):  # if the score has a star, it means that the conservation score is not reliable
-#         return 10  # 10 stands for not reliable
-#     else:
-#         return int(score)
-
-
 # Feature engineering #
 
 def get_RSA_of_aa(aa: str, asa: float) -> float:
@@ -645,3 +619,89 @@ def get_RSA_of_aa(aa: str, asa: float) -> float:
     rsa = asa / max_asa[aa]
     return rsa
 
+
+def create_dataframe_from_patmut_arff(uniprot_id) -> pd.DataFrame:
+    """Function recieves a uniprot id, and returns a dataframe with the patmut features of the variants of the protein.
+    The dataframe is created from the arff file of the protein, which is created by the patmut program.
+    """
+    path_to_arff = f"/home/inbar/variants/patmut/{uniprot_id}.arff"
+    df = pd.read_csv(path_to_arff, skiprows=13)
+    df.columns = ['variant', 'uniprot_id', 'vdw_volume', 'hydrophobicity', 'substitution_matrix', 'pssm_native',
+                  'entropy', 'imp_res', 'tag']
+    # Add gene column, by using the uniprot_of_genes dictionary
+    df = df.drop_duplicates()
+    df = df.reset_index(drop=True)
+
+    return df
+
+
+def create_pssm_scores_dictionary_from_arff_df(df: pd.DataFrame) -> dict:
+    """Function recieves a dataframe, and returns a dictionary with the residue number as key, and the pssm score as
+    value."""
+    # create dictionary of pssm scores
+    pssm_scores = {}
+    for index, row in df.iterrows():
+        # get the residue number
+        residue_number = row['variant'][1:-1]
+        # add to dictionary, if not already there
+        if residue_number not in pssm_scores:
+            # get the pssm score
+            pssm_score = row['pssm_native']
+            # add to dictionary
+            pssm_scores[residue_number] = pssm_score
+    return pssm_scores
+
+
+def create_entropy_scores_dictionary_from_arff_df(df: pd.DataFrame) -> dict:
+    """Function recieves a dataframe, and returns a dictionary with the residue number as key, and the entropy score as
+    value.
+
+    This function is used to create a dictionary of the entropy scores of each residue in the gene, so that we don't
+    have to calculate them again and again.
+    """
+    # create dictionary of entropy scores
+    entropy_scores = {}
+    for index, row in df.iterrows():
+        # get the residue number
+        residue_number = row['variant'][1:-1]
+        # add to dictionary, if not already there
+        if residue_number not in entropy_scores:
+            # get the entropy score
+            entropy_score = row['entropy']
+            # add to dictionary
+            entropy_scores[residue_number] = entropy_score
+    return entropy_scores
+
+
+def save_csv_of_scores_to_gene_folder(paths: list = None):
+    """First call this function to create a csv file of the scores of each residue in each gene folder.
+    Then, you can extract the scores from the csv file, instead of calculating them again."""
+
+    for path in paths:
+        # extract the file name that begins with AF from the path
+        uniprot_id = ""
+        for file_name in os.listdir(path):
+            if file_name.startswith("AF_"):
+                uniprot_id = file_name[3:9]
+                break
+            if file_name.startswith("AF-"):
+                uniprot_id = file_name[3:9]
+                break
+        # create the dataframe
+        df = create_dataframe_from_patmut_arff(uniprot_id)
+        # create entropy and pssm scores dictionaries
+        entropy_scores = create_entropy_scores_dictionary_from_arff_df(df)
+        pssm_scores = create_pssm_scores_dictionary_from_arff_df(df)
+        # create dataframe from the dictionaries, where the residue number (index) is a column
+        entropy_df = pd.DataFrame.from_dict(entropy_scores, orient='index', columns=['entropy'])
+        pssm_df = pd.DataFrame.from_dict(pssm_scores, orient='index', columns=['pssm'])
+        # add residue column to the dataframes
+        entropy_df['residue'] = entropy_df.index
+
+        # merge the dataframes
+        df = pd.merge(entropy_df, pssm_df, left_index=True, right_index=True)
+        print(df.head())
+        # get the path to the gene folder
+        path_to_csv = os.path.join(path, "patmut.csv")
+        # save the dataframe to a csv file
+        df.to_csv(path_to_csv, index=True)

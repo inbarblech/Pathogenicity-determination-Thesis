@@ -1,0 +1,100 @@
+SLC26A4_HUMAN,N392S,0.814,, ELME000053|ELME000063|ELME000197|ELME000336|ELME000337,-
+SLC26A4_HUMAN,S552R,0.820,Altered Ordered interface (Pr = 0.31 | P = 0.01); Altered DNA binding (Pr = 0.29 | P = 2.3e-03); Loss of Allosteric site at F550 (Pr = 0.27 | P = 8.1e-03); Gain of ADP-ribosylation at S552 (Pr = 0.26 | P = 6.2e-03), ELME000062|ELME000136|ELME000146|ELME000159|ELME000197|ELME000336,-
+SLC26A4_HUMAN,S391R,0.863,Gain of Helix (Pr = 0.27 | P = 0.04); Altered Transmembrane protein (Pr = 0.12 | P = 0.03), ELME000053|ELME000146|ELME000197|ELME000336,-
+SLC26A4_HUMAN,D716G,0.707,Altered Transmembrane protein (Pr = 0.16 | P = 0.01), ELME000008|ELME000052|ELME000053|ELME000233|PS00004,-
+SLC26A4_HUMAN,G389R,0.952,Altered Metal binding (Pr = 0.30 | P = 3.8e-03); Gain of Helix (Pr = 0.27 | P = 0.04); Gain of Catalytic site at E384 (Pr = 0.24 | P = 5.5e-03); Altered Transmembrane protein (Pr = 0.20 | P = 5.6e-03), ELME000053|ELME000062|ELME000336,-
+SLC26A4_HUMAN,Q514R,0.699,Gain of ADP-ribosylation at Q514 (Pr = 0.26 | P = 6.6e-03); Altered Transmembrane protein (Pr = 0.09 | P = 0.05); Loss of Pyrrolidone carboxylic acid at Q514 (Pr = 0.06 | P = 0.03); Loss of GPI-anchor amidation at N519 (Pr = 0.04 | P = 7.0e-03), ELME000012|ELME000061|ELME000137|ELME000155,-
+SLC26A4_HUMAN,V196D,0.794,, ELME000052|ELME000063|ELME000220|ELME000321|ELME000333|ELME000335|PS00006,-
+SLC26A4_HUMAN,F335S,0.895,Gain of Intrinsic disorder (Pr = 0.37 | P = 0.01); Altered Ordered interface (Pr = 0.34 | P = 4.7e-03); Altered Transmembrane protein (Pr = 0.30 | P = 1.4e-04); Gain of B-factor (Pr = 0.25 | P = 0.03); Gain of ADP-ribosylation at R333 (Pr = 0.20 | P = 0.03), ELME000062|ELME000146|ELME000155|ELME000239,-
+SLC26A4_HUMAN,T132I,0.832,Loss of Strand (Pr = 0.27 | P = 0.03); Altered Ordered interface (Pr = 0.24 | P = 0.04), ELME000053|ELME000336|PS00005|PS01130,-
+SLC26A4_HUMAN,I199T,0.459,-,-,-
+SLC26A4_HUMAN,V64L,0.128,-,-,-
+SLC26A4_HUMAN,I89V,0.149,-,-,-
+SLC26A4_HUMAN,A98G,0.059,-,-,-
+SLC26A4_HUMAN,T183I,0.208,-,-,-
+SLC26A4_HUMAN,I254S,0.853,Altered Transmembrane protein (Pr = 0.49 | P = 0.0e+00); Altered Stability (Pr = 0.11 | P = 0.03), ELME000020|ELME000053|ELME000064|ELME000220|ELME000333|ELME000336,-
+SLC26A4_HUMAN,L276S,0.829,, ELME000052|ELME000147|ELME000335,-
+SLC26A4_HUMAN,P337S,0.423,-,-,-
+SLC26A4_HUMAN,P342S,0.086,-,-,-
+SLC26A4_HUMAN,L436V,0.044,-,-,-
+SLC26A4_HUMAN,I503V,0.052,-,-,-
+SLC26A4_HUMAN,L627P,0.312,-,-,-
+SLC26A4_HUMAN,S735C,0.101,-,-,-
+SLC26A4_HUMAN,E737Q,0.063,-,-,-
+SLC26A4_HUMAN,G740D,0.031,-,-,-
+SLC26A4_HUMAN,T761A,0.031,-,-,-
+SLC26A4_HUMAN,G663E,0.808,Altered Metal binding (Pr = 0.16 | P = 0.03); Loss of Catalytic site at D661 (Pr = 0.14 | P = 0.03), ELME000313,-
+SLC26A4_HUMAN,G131V,0.896,Altered Ordered interface (Pr = 0.24 | P = 0.05), ELME000053|ELME000336|PS01130,-
+SLC26A4_HUMAN,I426N,0.758,Altered Ordered interface (Pr = 0.27 | P = 0.05); Loss of Pyrrolidone carboxylic acid at Q421 (Pr = 0.20 | P = 2.0e-03); Gain of GPI-anchor amidation at I426 (Pr = 0.10 | P = 1.5e-03), ELME000085|PS00008,-
+SLC26A4_HUMAN,V670A,0.423,-,-,-
+SLC26A4_HUMAN,P525L,0.514,Altered Transmembrane protein (Pr = 0.30 | P = 1.5e-04), ELME000053|ELME000063|PS00008,-
+SLC26A4_HUMAN,V97E,0.847,Altered Transmembrane protein (Pr = 0.26 | P = 1.1e-03), ELME000052|ELME000064|ELME000147|ELME000220|ELME000336|PS00006,-
+SLC26A4_HUMAN,G663R,0.831,Gain of ADP-ribosylation at G663 (Pr = 0.25 | P = 9.4e-03); Altered Metal binding (Pr = 0.16 | P = 0.03); Loss of Catalytic site at D661 (Pr = 0.14 | P = 0.03), ELME000137|ELME000313,-
+SLC26A4_HUMAN,D669V,0.949,Loss of ADP-ribosylation at R674 (Pr = 0.20 | P = 0.05), ELME000313|ELME000335|PS00006,-
+SLC26A4_HUMAN,A104V,0.795,Altered Transmembrane protein (Pr = 0.30 | P = 1.5e-04); Altered Ordered interface (Pr = 0.26 | P = 0.01), PS00008,-
+SLC26A4_HUMAN,F161I,0.393,-,-,-
+SLC26A4_HUMAN,G396E,0.770,Gain of Helix (Pr = 0.28 | P = 0.02), ELME000085|ELME000328|ELME000337,-
+SLC26A4_HUMAN,D697A,0.512,, PS00006,-
+SLC26A4_HUMAN,R677P,0.745,Gain of ADP-ribosylation at R674 (Pr = 0.24 | P = 0.01), ELME000106|ELME000313|ELME000335|ELME000337|PS00005,-
+SLC26A4_HUMAN,S415R,0.550,Gain of ADP-ribosylation at S415 (Pr = 0.28 | P = 4.5e-03); Loss of Ubiquitylation at K419 (Pr = 0.17 | P = 0.03); Loss of Methylation at K419 (Pr = 0.15 | P = 0.02); Gain of Pyrrolidone carboxylic acid at Q413 (Pr = 0.06 | P = 0.03), ELME000053,-
+SLC26A4_HUMAN,V570L,0.455,-,-,-
+SLC26A4_HUMAN,S93R,0.650,Gain of Allosteric site at S93 (Pr = 0.25 | P = 0.01); Altered Transmembrane protein (Pr = 0.18 | P = 8.5e-03), ELME000052|ELME000063|PS00008,-
+SLC26A4_HUMAN,Y530H,0.796,Gain of Intrinsic disorder (Pr = 0.37 | P = 0.01); Altered Transmembrane protein (Pr = 0.30 | P = 1.5e-04); Altered Stability (Pr = 0.22 | P = 0.01), None,-
+SLC26A4_HUMAN,E29Q,0.377,-,-,-
+SLC26A4_HUMAN,S399P,0.774,, ELME000337,-
+SLC26A4_HUMAN,G139A,0.834,Gain of Helix (Pr = 0.28 | P = 0.03); Loss of Strand (Pr = 0.27 | P = 0.02); Altered Ordered interface (Pr = 0.23 | P = 0.05), ELME000065,-
+SLC26A4_HUMAN,V239D,0.826,Altered Ordered interface (Pr = 0.33 | P = 6.4e-03); Altered Transmembrane protein (Pr = 0.31 | P = 1.2e-04); Loss of Strand (Pr = 0.26 | P = 0.04); Altered Stability (Pr = 0.11 | P = 0.03); Gain of N-linked glycosylation at N241 (Pr = 0.03 | P = 0.03), ELME000146|ELME000333,-
+SLC26A4_HUMAN,V138D,0.841,Loss of Strand (Pr = 0.28 | P = 6.9e-03); Gain of Loop (Pr = 0.27 | P = 0.04); Altered Ordered interface (Pr = 0.23 | P = 0.05), ELME000065,-
+SLC26A4_HUMAN,S532R,0.438,-,-,-
+SLC26A4_HUMAN,G116V,0.898,Altered Ordered interface (Pr = 0.28 | P = 6.0e-03); Altered Transmembrane protein (Pr = 0.22 | P = 2.8e-03), ELME000182|PS00008|PS01130,-
+SLC26A4_HUMAN,I539V,0.066,-,-,-
+SLC26A4_HUMAN,Y214C,0.904,Altered Ordered interface (Pr = 0.30 | P = 4.3e-03); Altered Transmembrane protein (Pr = 0.29 | P = 2.1e-04); Gain of Helix (Pr = 0.27 | P = 0.04); Loss of Strand (Pr = 0.26 | P = 0.03), ELME000182|ELME000317,-
+SLC26A4_HUMAN,V231M,0.624,Altered Transmembrane protein (Pr = 0.10 | P = 0.04), ELME000202|ELME000333|ELME000336,-
+SLC26A4_HUMAN,E443Q,0.366,-,-,-
+SLC26A4_HUMAN,N392Y,0.913,Altered Ordered interface (Pr = 0.30 | P = 0.02), ELME000053|ELME000182|ELME000197|ELME000336,-
+SLC26A4_HUMAN,G497S,0.873,Altered Transmembrane protein (Pr = 0.13 | P = 0.02), ELME000147|ELME000335|ELME000336|PS00008,-
+SLC26A4_HUMAN,S314L,0.837,Altered Ordered interface (Pr = 0.43 | P = 5.3e-04); Loss of Relative solvent accessibility (Pr = 0.32 | P = 5.1e-03); Altered Transmembrane protein (Pr = 0.27 | P = 6.5e-04); Altered Metal binding (Pr = 0.18 | P = 0.05), ELME000052,-
+SLC26A4_HUMAN,A434D,0.634,Altered Transmembrane protein (Pr = 0.13 | P = 0.02), ELME000333|ELME000335,-
+SLC26A4_HUMAN,S165R,0.254,-,-,-
+SLC26A4_HUMAN,L441P,0.884,Loss of Helix (Pr = 0.28 | P = 0.02); Altered Transmembrane protein (Pr = 0.12 | P = 0.03); Altered Signal peptide (Pr = 0.01 | P = 8.1e-03), ELME000045|ELME000106|ELME000155,-
+SLC26A4_HUMAN,P651L,0.637,, ELME000155,-
+SLC26A4_HUMAN,D669E,0.831,Gain of ADP-ribosylation at R674 (Pr = 0.20 | P = 0.04), ELME000064|ELME000313|ELME000335|PS00006,-
+SLC26A4_HUMAN,T193I,0.638,, ELME000052|ELME000063|ELME000335,-
+SLC26A4_HUMAN,Y530S,0.875,Gain of Intrinsic disorder (Pr = 0.50 | P = 1.6e-03); Altered Transmembrane protein (Pr = 0.30 | P = 1.6e-04); Altered Ordered interface (Pr = 0.30 | P = 0.02); Gain of Relative solvent accessibility (Pr = 0.25 | P = 0.04); Altered Stability (Pr = 0.24 | P = 8.9e-03); Altered Metal binding (Pr = 0.20 | P = 0.04), ELME000063,-
+SLC26A4_HUMAN,Q413R,0.744,Loss of Pyrrolidone carboxylic acid at Q413 (Pr = 0.05 | P = 0.04), ELME000053|ELME000062|ELME000117,-
+SLC26A4_HUMAN,S657N,0.427,-,-,-
+SLC26A4_HUMAN,E29G,0.584,Loss of Sulfation at Y27 (Pr = 0.02 | P = 0.04), ELME000085|ELME000120,-
+SLC26A4_HUMAN,G222S,0.882,Altered Transmembrane protein (Pr = 0.30 | P = 1.3e-04), ELME000063|ELME000336|PS00008,-
+SLC26A4_HUMAN,T307K,0.899,Altered Metal binding (Pr = 0.17 | P = 0.03), ELME000053|ELME000333,-
+SLC26A4_HUMAN,Y375C,0.506,Altered Ordered interface (Pr = 0.30 | P = 0.02); Altered Transmembrane protein (Pr = 0.29 | P = 2.9e-04); Altered Metal binding (Pr = 0.11 | P = 0.04), ELME000147|ELME000220|PS00006,-
+SLC26A4_HUMAN,F572L,0.684,Altered Disordered interface (Pr = 0.24 | P = 0.03); Altered Coiled coil (Pr = 0.10 | P = 0.04), ELME000052|ELME000233|ELME000276,-
+SLC26A4_HUMAN,K81E,0.743,Altered Ordered interface (Pr = 0.26 | P = 0.02); Altered Transmembrane protein (Pr = 0.21 | P = 4.9e-03), None,-
+SLC26A4_HUMAN,A434T,0.336,-,-,-
+SLC26A4_HUMAN,H723R,0.783,Altered Metal binding (Pr = 0.06 | P = 0.03), ELME000134|ELME000220|ELME000321|ELME000336|PS00005|PS00006,-
+SLC26A4_HUMAN,V328G,0.926,Altered Ordered interface (Pr = 0.31 | P = 0.02); Gain of Relative solvent accessibility (Pr = 0.27 | P = 0.02); Loss of Strand (Pr = 0.26 | P = 0.05); Altered Transmembrane protein (Pr = 0.24 | P = 1.9e-03); Loss of ADP-ribosylation at R333 (Pr = 0.20 | P = 0.05); Gain of Acetylation at K329 (Pr = 0.19 | P = 0.04); Altered Stability (Pr = 0.18 | P = 0.01); Altered Metal binding (Pr = 0.10 | P = 0.05), PS00008,-
+SLC26A4_HUMAN,Q514K,0.754,Loss of Pyrrolidone carboxylic acid at Q514 (Pr = 0.06 | P = 0.03); Loss of GPI-anchor amidation at N519 (Pr = 0.04 | P = 7.0e-03), ELME000137|ELME000155,-
+SLC26A4_HUMAN,V402M,0.358,-,-,-
+SLC26A4_HUMAN,M775T,0.398,-,-,-
+SLC26A4_HUMAN,G222V,0.929,Altered Transmembrane protein (Pr = 0.26 | P = 9.6e-04), PS00008,-
+SLC26A4_HUMAN,G740S,0.165,-,-,-
+SLC26A4_HUMAN,A357T,0.580,Altered Transmembrane protein (Pr = 0.22 | P = 2.8e-03), ELME000053|ELME000335,-
+SLC26A4_HUMAN,G5R,0.319,-,-,-
+SLC26A4_HUMAN,S8L,0.086,-,-,-
+SLC26A4_HUMAN,R39C,0.251,-,-,-
+SLC26A4_HUMAN,V88I,0.034,-,-,-
+SLC26A4_HUMAN,S154R,0.171,-,-,-
+SLC26A4_HUMAN,K245Q,0.235,-,-,-
+SLC26A4_HUMAN,T273I,0.066,-,-,-
+SLC26A4_HUMAN,G316A,0.199,-,-,-
+SLC26A4_HUMAN,I477T,0.130,-,-,-
+SLC26A4_HUMAN,I605V,0.060,-,-,-
+SLC26A4_HUMAN,I726V,0.083,-,-,-
+SLC26A4_HUMAN,N731S,0.122,-,-,-
+SLC26A4_HUMAN,E737K,0.077,-,-,-
+SLC26A4_HUMAN,T745A,0.088,-,-,-
+SLC26A4_HUMAN,G131R,0.902,Gain of Helix (Pr = 0.29 | P = 0.02); Loss of Strand (Pr = 0.27 | P = 0.02); Altered Ordered interface (Pr = 0.25 | P = 0.03), ELME000053|ELME000062|ELME000336|PS01130,-
+SLC26A4_HUMAN,F515C,0.708,Loss of Strand (Pr = 0.26 | P = 0.03); Loss of Pyrrolidone carboxylic acid at Q514 (Pr = 0.05 | P = 0.03); Gain of GPI-anchor amidation at N519 (Pr = 0.04 | P = 6.5e-03), ELME000137|ELME000155,-
+SLC26A4_HUMAN,A406T,0.712,, ELME000052|ELME000053|ELME000336,-
+SLC26A4_HUMAN,R185T,0.799,Loss of Helix (Pr = 0.30 | P = 9.2e-03); Altered Transmembrane protein (Pr = 0.28 | P = 4.6e-04), ELME000051|ELME000052|ELME000062|ELME000106|ELME000335|PS00005,-
+SLC26A4_HUMAN,V304E,0.934,Gain of Helix (Pr = 0.30 | P = 7.8e-03); Altered Metal binding (Pr = 0.28 | P = 3.7e-03); Altered Ordered interface (Pr = 0.27 | P = 0.05); Altered Transmembrane protein (Pr = 0.14 | P = 0.02), ELME000053|ELME000117|ELME000333|ELME000335,-
+SLC26A4_HUMAN,A429E,0.389,-,-,-
