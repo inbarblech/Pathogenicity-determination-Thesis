@@ -1,0 +1,100 @@
+WFS1_HUMAN,V871G,0.733,Altered Stability (Pr = 0.24 | P = 8.9e-03); Altered Transmembrane protein (Pr = 0.22 | P = 3.1e-03); Altered Metal binding (Pr = 0.07 | P = 0.02), ELME000062|ELME000337,-
+WFS1_HUMAN,S631F,0.683,Altered Transmembrane protein (Pr = 0.32 | P = 7.8e-05); Gain of Loop (Pr = 0.31 | P = 4.0e-03); Gain of Strand (Pr = 0.26 | P = 0.04); Altered Ordered interface (Pr = 0.24 | P = 0.04), ELME000062|ELME000148,-
+WFS1_HUMAN,E864G,0.787,Loss of Helix (Pr = 0.29 | P = 0.01); Gain of Strand (Pr = 0.28 | P = 0.01); Altered Transmembrane protein (Pr = 0.21 | P = 4.1e-03); Altered Stability (Pr = 0.15 | P = 0.02), ELME000002,-
+WFS1_HUMAN,K843M,0.572,Altered Metal binding (Pr = 0.33 | P = 9.8e-03); Altered Transmembrane protein (Pr = 0.26 | P = 7.4e-04), ELME000336,-
+WFS1_HUMAN,L459R,0.935,Gain of Intrinsic disorder (Pr = 0.32 | P = 0.03); Altered Transmembrane protein (Pr = 0.30 | P = 2.3e-04); Altered Ordered interface (Pr = 0.26 | P = 0.01); Altered Stability (Pr = 0.17 | P = 0.02), ELME000012|ELME000062|ELME000146,-
+WFS1_HUMAN,G831S,0.690,Altered Transmembrane protein (Pr = 0.29 | P = 2.7e-04), ELME000053|ELME000220,-
+WFS1_HUMAN,C505S,0.636,Altered Ordered interface (Pr = 0.24 | P = 0.04); Altered Transmembrane protein (Pr = 0.15 | P = 0.01); Gain of N-linked glycosylation at N500 (Pr = 0.07 | P = 0.02), ELME000063|ELME000335,-
+WFS1_HUMAN,R375H,0.357,-,-,-
+WFS1_HUMAN,L592P,0.841,Altered Transmembrane protein (Pr = 0.41 | P = 0.0e+00); Loss of Helix (Pr = 0.28 | P = 0.03); Gain of Loop (Pr = 0.27 | P = 0.03), ELME000048|ELME000051|ELME000053|ELME000064|ELME000136|ELME000159|ELME000220|ELME000336|PS00006,-
+WFS1_HUMAN,M683R,0.844,Altered Transmembrane protein (Pr = 0.33 | P = 5.8e-05); Gain of Helix (Pr = 0.28 | P = 0.03); Altered Ordered interface (Pr = 0.25 | P = 0.02), ELME000173|ELME000202|ELME000336|PS00005,-
+WFS1_HUMAN,Y528D,0.932,Altered Ordered interface (Pr = 0.33 | P = 3.1e-03); Altered Transmembrane protein (Pr = 0.29 | P = 3.1e-04); Altered DNA binding (Pr = 0.17 | P = 0.03), ELME000120|ELME000182|ELME000336,-
+WFS1_HUMAN,V709M,0.615,Altered DNA binding (Pr = 0.29 | P = 4.1e-03); Altered Ordered interface (Pr = 0.27 | P = 9.1e-03); Loss of Relative solvent accessibility (Pr = 0.26 | P = 0.03); Altered Metal binding (Pr = 0.23 | P = 5.0e-03); Altered Transmembrane protein (Pr = 0.14 | P = 0.02), ELME000062|ELME000083|ELME000120|ELME000182|ELME000220,-
+WFS1_HUMAN,R177P,0.917,Altered Disordered interface (Pr = 0.44 | P = 5.0e-03); Loss of Helix (Pr = 0.29 | P = 0.01); Altered Coiled coil (Pr = 0.17 | P = 0.03), ELME000102|ELME000149|ELME000276,-
+WFS1_HUMAN,S430L,0.774,Altered Transmembrane protein (Pr = 0.24 | P = 1.5e-03), ELME000007|ELME000335,-
+WFS1_HUMAN,C742G,0.788,Loss of Disulfide linkage at C742 (Pr = 0.74 | P = 1.6e-04); Gain of Intrinsic disorder (Pr = 0.41 | P = 7.2e-03); Gain of B-factor (Pr = 0.26 | P = 0.02); Altered Ordered interface (Pr = 0.24 | P = 0.04); Altered Metal binding (Pr = 0.22 | P = 0.05); Altered Transmembrane protein (Pr = 0.22 | P = 3.8e-03); Loss of N-linked glycosylation at N746 (Pr = 0.09 | P = 0.01); Altered Stability (Pr = 0.09 | P = 0.05), ELME000053|ELME000136|ELME000159|PS00008,-
+WFS1_HUMAN,K836T,0.568,Altered Transmembrane protein (Pr = 0.25 | P = 1.3e-03), ELME000052|ELME000336,-
+WFS1_HUMAN,L664R,0.953,Altered Transmembrane protein (Pr = 0.27 | P = 6.7e-04); Gain of N-linked glycosylation at N661 (Pr = 0.27 | P = 3.5e-04); Altered Ordered interface (Pr = 0.26 | P = 0.01); Loss of Sulfation at Y660 (Pr = 0.03 | P = 0.02); Gain of GPI-anchor amidation at N661 (Pr = 0.01 | P = 0.03), ELME000063|ELME000070|PS00001|PS00005,-
+WFS1_HUMAN,E202G,0.701,Altered Stability (Pr = 0.23 | P = 9.2e-03), None,-
+WFS1_HUMAN,F350V,0.818,Altered Ordered interface (Pr = 0.27 | P = 9.5e-03); Altered Transmembrane protein (Pr = 0.11 | P = 0.04), ELME000328|ELME000333|ELME000336,-
+WFS1_HUMAN,S446R,0.733,Altered Ordered interface (Pr = 0.26 | P = 0.01); Altered Transmembrane protein (Pr = 0.21 | P = 3.6e-03), ELME000052|ELME000062|ELME000063|ELME000064|ELME000120|ELME000182|ELME000336,-
+WFS1_HUMAN,E462G,0.675,Loss of Helix (Pr = 0.37 | P = 1.8e-04); Gain of Strand (Pr = 0.34 | P = 2.1e-04); Altered Transmembrane protein (Pr = 0.20 | P = 5.1e-03), ELME000052|ELME000147|PS00008,-
+WFS1_HUMAN,I720V,0.166,-,-,-
+WFS1_HUMAN,M306T,0.267,-,-,-
+WFS1_HUMAN,P17L,0.040,-,-,-
+WFS1_HUMAN,P17S,0.057,-,-,-
+WFS1_HUMAN,P19L,0.058,-,-,-
+WFS1_HUMAN,P41L,0.114,-,-,-
+WFS1_HUMAN,Q47P,0.260,-,-,-
+WFS1_HUMAN,G49S,0.073,-,-,-
+WFS1_HUMAN,Q64H,0.058,-,-,-
+WFS1_HUMAN,D116N,0.065,-,-,-
+WFS1_HUMAN,D116P,0.127,-,-,-
+WFS1_HUMAN,N122K,0.653,, ELME000079,-
+WFS1_HUMAN,D151T,0.450,-,-,-
+WFS1_HUMAN,D245E,0.260,-,-,-
+WFS1_HUMAN,V258I,0.024,-,-,-
+WFS1_HUMAN,F264L,0.090,-,-,-
+WFS1_HUMAN,L315M,0.458,-,-,-
+WFS1_HUMAN,V333I,0.029,-,-,-
+WFS1_HUMAN,V483F,0.262,-,-,-
+WFS1_HUMAN,L484F,0.208,-,-,-
+WFS1_HUMAN,Q520R,0.407,-,-,-
+WFS1_HUMAN,F725L,0.208,-,-,-
+WFS1_HUMAN,G786S,0.148,-,-,-
+WFS1_HUMAN,S816G,0.072,-,-,-
+WFS1_HUMAN,L822V,0.075,-,-,-
+WFS1_HUMAN,V606L,0.175,-,-,-
+WFS1_HUMAN,G494S,0.743,Gain of Strand (Pr = 0.27 | P = 0.02); Gain of Loop (Pr = 0.26 | P = 0.05); Altered Transmembrane protein (Pr = 0.23 | P = 2.6e-03), ELME000052|ELME000053,-
+WFS1_HUMAN,A58E,0.162,-,-,-
+WFS1_HUMAN,S807R,0.436,-,-,-
+WFS1_HUMAN,G736R,0.929,Gain of Helix (Pr = 0.29 | P = 0.01); Altered Metal binding (Pr = 0.28 | P = 0.02); Altered Transmembrane protein (Pr = 0.28 | P = 4.2e-04); Loss of Loop (Pr = 0.26 | P = 0.05); Altered Ordered interface (Pr = 0.25 | P = 0.02); Loss of Disulfide linkage at C733 (Pr = 0.17 | P = 0.03), None,-
+WFS1_HUMAN,K634T,0.717,Gain of Strand (Pr = 0.27 | P = 0.02); Altered Transmembrane protein (Pr = 0.22 | P = 3.1e-03); Gain of ADP-ribosylation at R629 (Pr = 0.19 | P = 0.05), ELME000052|ELME000062|ELME000063|ELME000146|ELME000335,-
+WFS1_HUMAN,G780A,0.750,Loss of Strand (Pr = 0.26 | P = 0.04); Altered Transmembrane protein (Pr = 0.15 | P = 0.02), ELME000147|ELME000155|ELME000336|PS00008,-
+WFS1_HUMAN,A874T,0.474,-,-,-
+WFS1_HUMAN,G674R,0.863,Altered Ordered interface (Pr = 0.36 | P = 3.4e-03); Altered Transmembrane protein (Pr = 0.31 | P = 1.3e-04); Loss of Disulfide linkage at C673 (Pr = 0.18 | P = 0.03), None,-
+WFS1_HUMAN,H696Y,0.837,Altered Ordered interface (Pr = 0.42 | P = 5.4e-04); Altered Transmembrane protein (Pr = 0.31 | P = 1.3e-04); Altered Metal binding (Pr = 0.30 | P = 0.01); Gain of Allosteric site at W700 (Pr = 0.29 | P = 2.9e-03); Gain of Relative solvent accessibility (Pr = 0.24 | P = 0.04); Altered DNA binding (Pr = 0.21 | P = 0.02), ELME000062|ELME000137,-
+WFS1_HUMAN,R457S,0.635,Loss of Helix (Pr = 0.40 | P = 3.9e-05); Gain of Strand (Pr = 0.33 | P = 3.3e-04); Gain of Loop (Pr = 0.27 | P = 0.04); Altered Ordered interface (Pr = 0.25 | P = 0.02); Altered Transmembrane protein (Pr = 0.24 | P = 1.8e-03); Gain of Sulfation at Y454 (Pr = 0.02 | P = 0.04), ELME000053|ELME000085|ELME000102|ELME000108|ELME000146|ELME000182|PS00005,-
+WFS1_HUMAN,A126T,0.769,, ELME000063|ELME000220|PS00006,-
+WFS1_HUMAN,I427N,0.806,Altered Transmembrane protein (Pr = 0.30 | P = 1.4e-04), ELME000007,-
+WFS1_HUMAN,V861G,0.633,Gain of Intrinsic disorder (Pr = 0.34 | P = 0.02); Altered Stability (Pr = 0.31 | P = 5.3e-03); Loss of Helix (Pr = 0.28 | P = 0.03); Gain of Strand (Pr = 0.26 | P = 0.04); Altered Transmembrane protein (Pr = 0.22 | P = 3.9e-03), ELME000002|ELME000146,-
+WFS1_HUMAN,G702S,0.852,Altered Transmembrane protein (Pr = 0.29 | P = 2.9e-04); Altered Ordered interface (Pr = 0.29 | P = 0.03); Altered DNA binding (Pr = 0.28 | P = 3.3e-03); Gain of Relative solvent accessibility (Pr = 0.26 | P = 0.03); Loss of Allosteric site at W700 (Pr = 0.26 | P = 0.01), ELME000062|ELME000080|PS00005,-
+WFS1_HUMAN,R793P,0.143,-,-,-
+WFS1_HUMAN,S888L,0.574,Loss of Intrinsic disorder (Pr = 0.67 | P = 2.1e-04); Altered Transmembrane protein (Pr = 0.33 | P = 5.4e-05); Altered Ordered interface (Pr = 0.28 | P = 0.04), ELME000085|ELME000086|ELME000091,-
+WFS1_HUMAN,V248G,0.816,Altered Disordered interface (Pr = 0.27 | P = 0.04); Gain of Acetylation at K253 (Pr = 0.24 | P = 0.02); Altered Stability (Pr = 0.17 | P = 0.02), None,-
+WFS1_HUMAN,P428R,0.820,Loss of Loop (Pr = 0.27 | P = 0.03); Altered Transmembrane protein (Pr = 0.26 | P = 9.8e-04), ELME000007|ELME000062,-
+WFS1_HUMAN,D729N,0.497,-,-,-
+WFS1_HUMAN,K705N,0.731,Altered Ordered interface (Pr = 0.34 | P = 5.7e-03); Altered DNA binding (Pr = 0.30 | P = 2.9e-03); Altered Transmembrane protein (Pr = 0.29 | P = 3.6e-04); Loss of Allosteric site at W700 (Pr = 0.26 | P = 0.01), None,-
+WFS1_HUMAN,D771H,0.821,Altered Metal binding (Pr = 0.23 | P = 0.05); Altered DNA binding (Pr = 0.22 | P = 0.02); Loss of Acetylation at K768 (Pr = 0.19 | P = 0.05), ELME000233,-
+WFS1_HUMAN,R232P,0.643,Loss of Helix (Pr = 0.28 | P = 0.03); Gain of Loop (Pr = 0.27 | P = 0.04); Loss of Phosphorylation at S235 (Pr = 0.27 | P = 0.03), ELME000106|ELME000173|ELME000231|ELME000239,-
+WFS1_HUMAN,Y650H,0.811,Altered Transmembrane protein (Pr = 0.30 | P = 1.4e-04); Altered Ordered interface (Pr = 0.29 | P = 5.2e-03); Loss of Sulfation at Y650 (Pr = 0.02 | P = 0.03), ELME000080|ELME000182,-
+WFS1_HUMAN,D797Y,0.638,Loss of Intrinsic disorder (Pr = 0.48 | P = 8.8e-03); Loss of B-factor (Pr = 0.27 | P = 0.03); Loss of Loop (Pr = 0.27 | P = 0.04); Gain of Phosphorylation at D797 (Pr = 0.27 | P = 0.02); Altered Metal binding (Pr = 0.16 | P = 0.04); Loss of Ubiquitylation at K800 (Pr = 0.16 | P = 0.03); Altered Transmembrane protein (Pr = 0.14 | P = 0.02); Gain of Sulfation at D797 (Pr = 0.04 | P = 0.01), ELME000052|ELME000182|PS00007,-
+WFS1_HUMAN,W678R,0.886,Altered Ordered interface (Pr = 0.30 | P = 4.3e-03); Altered Transmembrane protein (Pr = 0.29 | P = 2.6e-04); Gain of Helix (Pr = 0.28 | P = 0.02); Loss of Loop (Pr = 0.27 | P = 0.04); Gain of Disulfide linkage at C673 (Pr = 0.24 | P = 7.9e-03), ELME000008|ELME000012|ELME000061|ELME000102|PS00004,-
+WFS1_HUMAN,G107R,0.814,Loss of Loop (Pr = 0.33 | P = 2.6e-03); Loss of Acetylation at K108 (Pr = 0.33 | P = 2.7e-03); Gain of Helix (Pr = 0.32 | P = 3.3e-03), ELME000102|ELME000233,-
+WFS1_HUMAN,V546D,0.712,Altered Transmembrane protein (Pr = 0.25 | P = 1.4e-03), ELME000147|ELME000313|ELME000333|ELME000335,-
+WFS1_HUMAN,N661S,0.709,Loss of N-linked glycosylation at N661 (Pr = 0.51 | P = 5.8e-05); Altered Transmembrane protein (Pr = 0.28 | P = 3.8e-04); Altered Ordered interface (Pr = 0.25 | P = 0.02); Loss of Sulfation at Y660 (Pr = 0.03 | P = 0.02), ELME000053|ELME000070|ELME000173|PS00001,-
+WFS1_HUMAN,V709G,0.852,Altered Stability (Pr = 0.70 | P = 5.5e-04); Altered DNA binding (Pr = 0.27 | P = 3.8e-03); Altered Ordered interface (Pr = 0.26 | P = 0.02); Gain of Relative solvent accessibility (Pr = 0.26 | P = 0.03); Altered Metal binding (Pr = 0.23 | P = 0.02); Altered Transmembrane protein (Pr = 0.14 | P = 0.02), ELME000062|ELME000083|ELME000120|ELME000182|ELME000220,-
+WFS1_HUMAN,G780S,0.747,Gain of Intrinsic disorder (Pr = 0.31 | P = 0.04); Altered Transmembrane protein (Pr = 0.16 | P = 0.01), ELME000053|ELME000147|ELME000155|ELME000197|ELME000336|PS00008,-
+WFS1_HUMAN,E809K,0.612,, ELME000053|ELME000062|ELME000065|ELME000173|ELME000197|ELME000233|ELME000336|PS00005,-
+WFS1_HUMAN,W678L,0.837,Altered Ordered interface (Pr = 0.34 | P = 2.7e-03); Altered Transmembrane protein (Pr = 0.29 | P = 3.9e-04); Gain of Disulfide linkage at C673 (Pr = 0.20 | P = 0.02), ELME000146|ELME000336,-
+WFS1_HUMAN,R868P,0.826,Loss of Helix (Pr = 0.30 | P = 5.1e-03); Altered Transmembrane protein (Pr = 0.22 | P = 3.3e-03); Altered Metal binding (Pr = 0.20 | P = 0.03), ELME000062|ELME000337,-
+WFS1_HUMAN,E794K,0.399,-,-,-
+WFS1_HUMAN,R285H,0.273,-,-,-
+WFS1_HUMAN,E776V,0.896,, ELME000120|ELME000147|ELME000155|ELME000233|ELME000336,-
+WFS1_HUMAN,Q14R,0.046,-,-,-
+WFS1_HUMAN,T5A,0.039,-,-,-
+WFS1_HUMAN,P7A,0.041,-,-,-
+WFS1_HUMAN,R40G,0.069,-,-,-
+WFS1_HUMAN,P44S,0.070,-,-,-
+WFS1_HUMAN,A57V,0.095,-,-,-
+WFS1_HUMAN,A65T,0.082,-,-,-
+WFS1_HUMAN,G76C,0.160,-,-,-
+WFS1_HUMAN,D118V,0.465,-,-,-
+WFS1_HUMAN,C124A,0.448,-,-,-
+WFS1_HUMAN,R146S,0.631,Altered Disordered interface (Pr = 0.38 | P = 7.5e-03); Altered Coiled coil (Pr = 0.25 | P = 0.02); Loss of Acetylation at K143 (Pr = 0.19 | P = 0.05); Altered Transmembrane protein (Pr = 0.12 | P = 0.03); Loss of Proteolytic cleavage at R147 (Pr = 0.12 | P = 0.04); Gain of Disulfide linkage at C148 (Pr = 0.09 | P = 0.05), ELME000012|ELME000102|ELME000108|ELME000333,-
+WFS1_HUMAN,G213E,0.113,-,-,-
+WFS1_HUMAN,L223V,0.063,-,-,-
+WFS1_HUMAN,A422S,0.307,-,-,-
+WFS1_HUMAN,V503I,0.074,-,-,-
+WFS1_HUMAN,T590M,0.079,-,-,-
+WFS1_HUMAN,V620M,0.086,-,-,-

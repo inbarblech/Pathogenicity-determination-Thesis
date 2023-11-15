@@ -1,0 +1,100 @@
+COL4A5_HUMAN,G612V,0.954,Altered Disordered interface (Pr = 0.28 | P = 0.04); Loss of B-factor (Pr = 0.26 | P = 0.04), PS00008,-
+COL4A5_HUMAN,G799D,0.959,Gain of Loop (Pr = 0.29 | P = 8.0e-03); Gain of B-factor (Pr = 0.24 | P = 0.04); Loss of Acetylation at K798 (Pr = 0.20 | P = 0.04); Loss of Methylation at K798 (Pr = 0.18 | P = 9.0e-03); Altered Metal binding (Pr = 0.15 | P = 0.02), None,-
+COL4A5_HUMAN,G322D,0.947,Altered Disordered interface (Pr = 0.27 | P = 0.04); Gain of Phosphorylation at Y320 (Pr = 0.26 | P = 0.03); Altered Metal binding (Pr = 0.18 | P = 0.05); Gain of Sulfation at Y320 (Pr = 0.05 | P = 6.8e-03), ELME000006,-
+COL4A5_HUMAN,G828R,0.951,Gain of Loop (Pr = 0.30 | P = 5.1e-03); Loss of B-factor (Pr = 0.29 | P = 0.02); Altered Disordered interface (Pr = 0.28 | P = 0.03), ELME000006|ELME000135|ELME000155,-
+COL4A5_HUMAN,M901V,0.351,-,-,-
+COL4A5_HUMAN,G527E,0.902,Loss of Methylation at K526 (Pr = 0.22 | P = 4.1e-03); Gain of SUMOylation at K526 (Pr = 0.20 | P = 0.03); Loss of Acetylation at K526 (Pr = 0.19 | P = 0.05), ELME000005|ELME000106|ELME000155,-
+COL4A5_HUMAN,G1069V,0.813,Loss of B-factor (Pr = 0.30 | P = 0.01); Gain of Acetylation at K1065 (Pr = 0.21 | P = 0.03); Loss of Methylation at K1065 (Pr = 0.18 | P = 8.8e-03); Gain of O-linked glycosylation at S1071 (Pr = 0.12 | P = 0.04), None,-
+COL4A5_HUMAN,G1137D,0.961,Loss of B-factor (Pr = 0.26 | P = 0.05); Loss of Acetylation at K1133 (Pr = 0.22 | P = 0.03); Loss of Methylation at K1133 (Pr = 0.22 | P = 4.6e-03); Loss of SUMOylation at K1133 (Pr = 0.19 | P = 0.05); Altered Metal binding (Pr = 0.17 | P = 0.01), ELME000085|ELME000155,-
+COL4A5_HUMAN,G545D,0.943,Gain of Loop (Pr = 0.27 | P = 0.03); Gain of SUMOylation at K544 (Pr = 0.27 | P = 4.9e-03); Loss of B-factor (Pr = 0.26 | P = 0.05); Loss of Methylation at K544 (Pr = 0.19 | P = 8.0e-03); Gain of Ubiquitylation at K544 (Pr = 0.17 | P = 0.03); Gain of Proteolytic cleavage at D549 (Pr = 0.14 | P = 0.02), ELME000064|PS00006,-
+COL4A5_HUMAN,S916G,0.283,-,-,-
+COL4A5_HUMAN,G371E,0.957,Gain of SUMOylation at K370 (Pr = 0.32 | P = 2.6e-03); Gain of Loop (Pr = 0.28 | P = 0.02); Gain of B-factor (Pr = 0.25 | P = 0.03); Loss of Acetylation at K370 (Pr = 0.22 | P = 0.03); Loss of Methylation at K370 (Pr = 0.16 | P = 0.01), ELME000133,-
+COL4A5_HUMAN,G412V,0.872,Loss of B-factor (Pr = 0.34 | P = 2.2e-03); Altered Disordered interface (Pr = 0.28 | P = 0.04); Gain of Acetylation at K408 (Pr = 0.22 | P = 0.03); Loss of Methylation at K408 (Pr = 0.20 | P = 7.1e-03); Gain of SUMOylation at K408 (Pr = 0.20 | P = 0.03); Gain of O-linked glycosylation at S417 (Pr = 0.15 | P = 0.03); Loss of Pyrrolidone carboxylic acid at Q407 (Pr = 0.05 | P = 0.03), None,-
+COL4A5_HUMAN,G319V,0.952,Altered Disordered interface (Pr = 0.30 | P = 0.02); Loss of B-factor (Pr = 0.29 | P = 0.01); Gain of Phosphorylation at Y320 (Pr = 0.28 | P = 0.02); Gain of Sulfation at Y320 (Pr = 0.04 | P = 0.01), ELME000155,-
+COL4A5_HUMAN,G201V,0.959,Loss of B-factor (Pr = 0.31 | P = 5.7e-03); Gain of Loop (Pr = 0.28 | P = 0.02); Altered Disordered interface (Pr = 0.27 | P = 0.04), None,-
+COL4A5_HUMAN,G1241C,0.925,Loss of B-factor (Pr = 0.36 | P = 9.1e-04); Loss of O-linked glycosylation at S1242 (Pr = 0.17 | P = 0.03), ELME000136|ELME000155|ELME000159,-
+COL4A5_HUMAN,G822R,0.934,Gain of Loop (Pr = 0.31 | P = 4.2e-03); Altered Disordered interface (Pr = 0.29 | P = 0.03); Loss of B-factor (Pr = 0.28 | P = 0.02), ELME000155,-
+COL4A5_HUMAN,G1196E,0.891,Gain of Loop (Pr = 0.32 | P = 2.6e-03); Loss of B-factor (Pr = 0.26 | P = 0.03), None,-
+COL4A5_HUMAN,G669A,0.868,Loss of B-factor (Pr = 0.28 | P = 0.02); Loss of Acetylation at K664 (Pr = 0.22 | P = 0.03); Loss of Methylation at K664 (Pr = 0.14 | P = 0.02), ELME000006,-
+COL4A5_HUMAN,G524C,0.940,Loss of B-factor (Pr = 0.26 | P = 0.04); Loss of Methylation at K526 (Pr = 0.26 | P = 1.4e-03); Loss of Acetylation at K526 (Pr = 0.21 | P = 0.03), None,-
+COL4A5_HUMAN,G1063V,0.945,Loss of B-factor (Pr = 0.34 | P = 1.6e-03); Gain of Acetylation at K1065 (Pr = 0.24 | P = 0.02); Loss of Methylation at K1065 (Pr = 0.19 | P = 7.6e-03); Gain of SUMOylation at K1065 (Pr = 0.18 | P = 0.04), ELME000118,-
+COL4A5_HUMAN,G409D,0.952,Gain of B-factor (Pr = 0.26 | P = 0.02); Loss of Acetylation at K408 (Pr = 0.21 | P = 0.03); Gain of SUMOylation at K408 (Pr = 0.20 | P = 0.03); Loss of Methylation at K408 (Pr = 0.19 | P = 7.6e-03); Gain of Pyrrolidone carboxylic acid at Q407 (Pr = 0.05 | P = 0.03), None,-
+COL4A5_HUMAN,G420E,0.841,Altered Disordered interface (Pr = 0.27 | P = 0.04); Gain of Loop (Pr = 0.27 | P = 0.03); Loss of O-linked glycosylation at S417 (Pr = 0.15 | P = 0.04), ELME000064|ELME000155|PS00006,-
+COL4A5_HUMAN,G423E,0.863,Gain of Loop (Pr = 0.27 | P = 0.02); Loss of Pyrrolidone carboxylic acid at Q427 (Pr = 0.04 | P = 0.04), None,-
+COL4A5_HUMAN,G796R,0.961,Loss of B-factor (Pr = 0.28 | P = 0.02); Loss of Loop (Pr = 0.28 | P = 0.02); Loss of Acetylation at K798 (Pr = 0.21 | P = 0.04); Loss of Methylation at K798 (Pr = 0.19 | P = 8.1e-03); Altered Metal binding (Pr = 0.10 | P = 0.05), None,-
+COL4A5_HUMAN,G1143S,0.948,Loss of B-factor (Pr = 0.27 | P = 0.03); Altered Metal binding (Pr = 0.17 | P = 0.01), None,-
+COL4A5_HUMAN,Q260R,0.380,-,-,-
+COL4A5_HUMAN,I444S,0.549,Gain of B-factor (Pr = 0.32 | P = 7.5e-04), ELME000063|ELME000136|ELME000159,-
+COL4A5_HUMAN,A28T,0.374,-,-,-
+COL4A5_HUMAN,I181L,0.106,-,-,-
+COL4A5_HUMAN,I181V,0.062,-,-,-
+COL4A5_HUMAN,R275H,0.127,-,-,-
+COL4A5_HUMAN,G350E,0.553,Gain of O-linked glycosylation at T354 (Pr = 0.15 | P = 0.03); Loss of Proteolytic cleavage at P349 (Pr = 0.12 | P = 0.03), PS00008,-
+COL4A5_HUMAN,G352S,0.384,-,-,-
+COL4A5_HUMAN,M393I,0.084,-,-,-
+COL4A5_HUMAN,P421S,0.058,-,-,-
+COL4A5_HUMAN,H443Y,0.104,-,-,-
+COL4A5_HUMAN,S447G,0.138,-,-,-
+COL4A5_HUMAN,P529A,0.206,-,-,-
+COL4A5_HUMAN,L613H,0.244,-,-,-
+COL4A5_HUMAN,M620S,0.215,-,-,-
+COL4A5_HUMAN,N642S,0.073,-,-,-
+COL4A5_HUMAN,A754G,0.052,-,-,-
+COL4A5_HUMAN,A770T,0.023,-,-,-
+COL4A5_HUMAN,L791V,0.082,-,-,-
+COL4A5_HUMAN,I833T,0.177,-,-,-
+COL4A5_HUMAN,H839P,0.384,-,-,-
+COL4A5_HUMAN,I874M,0.051,-,-,-
+COL4A5_HUMAN,S879P,0.134,-,-,-
+COL4A5_HUMAN,P907Q,0.170,-,-,-
+COL4A5_HUMAN,T1028N,0.042,-,-,-
+COL4A5_HUMAN,P1043S,0.065,-,-,-
+COL4A5_HUMAN,V1049A,0.065,-,-,-
+COL4A5_HUMAN,P1103T,0.068,-,-,-
+COL4A5_HUMAN,L1120F,0.304,-,-,-
+COL4A5_HUMAN,H1156R,0.075,-,-,-
+COL4A5_HUMAN,H1228P,0.413,-,-,-
+COL4A5_HUMAN,V1233L,0.050,-,-,-
+COL4A5_HUMAN,L1265S,0.281,-,-,-
+COL4A5_HUMAN,P1271S,0.282,-,-,-
+COL4A5_HUMAN,G1279A,0.473,-,-,-
+COL4A5_HUMAN,Q1302H,0.255,-,-,-
+COL4A5_HUMAN,P1332S,0.480,-,-,-
+COL4A5_HUMAN,I1353T,0.069,-,-,-
+COL4A5_HUMAN,L1361I,0.080,-,-,-
+COL4A5_HUMAN,K1387Q,0.310,-,-,-
+COL4A5_HUMAN,T1402V,0.110,-,-,-
+COL4A5_HUMAN,P1404S,0.139,-,-,-
+COL4A5_HUMAN,R1410H,0.169,-,-,-
+COL4A5_HUMAN,T1455M,0.102,-,-,-
+COL4A5_HUMAN,L1481V,0.032,-,-,-
+COL4A5_HUMAN,H1585R,0.087,-,-,-
+COL4A5_HUMAN,G1433C,0.962,Loss of B-factor (Pr = 0.26 | P = 0.05), ELME000052|PS00008,-
+COL4A5_HUMAN,G1143D,0.960,Loss of B-factor (Pr = 0.26 | P = 0.04); Altered Metal binding (Pr = 0.18 | P = 0.01), None,-
+COL4A5_HUMAN,G1042V,0.956,Loss of B-factor (Pr = 0.31 | P = 6.8e-03); Altered Disordered interface (Pr = 0.27 | P = 0.05); Gain of O-linked glycosylation at S1047 (Pr = 0.21 | P = 0.01), ELME000155,-
+COL4A5_HUMAN,G177R,0.966,Altered Disordered interface (Pr = 0.29 | P = 0.03); Loss of B-factor (Pr = 0.28 | P = 0.02); Loss of Sulfation at Y175 (Pr = 0.02 | P = 0.03), ELME000057,-
+COL4A5_HUMAN,G460R,0.923,Loss of B-factor (Pr = 0.31 | P = 6.0e-03); Loss of Loop (Pr = 0.29 | P = 9.2e-03); Gain of Acetylation at K465 (Pr = 0.24 | P = 0.02); Loss of Methylation at K465 (Pr = 0.19 | P = 7.4e-03), ELME000006|ELME000135|ELME000136|ELME000159,-
+COL4A5_HUMAN,G872R,0.941,Gain of Methylation at G872 (Pr = 0.09 | P = 0.05), ELME000155,-
+COL4A5_HUMAN,G1170V,0.965,Loss of B-factor (Pr = 0.32 | P = 4.4e-03); Loss of Methylation at K1168 (Pr = 0.24 | P = 2.7e-03); Gain of Acetylation at K1168 (Pr = 0.22 | P = 0.03); Gain of SUMOylation at K1166 (Pr = 0.20 | P = 0.03), None,-
+COL4A5_HUMAN,G831R,0.960,Altered Disordered interface (Pr = 0.28 | P = 0.03); Loss of B-factor (Pr = 0.26 | P = 0.04), None,-
+COL4A5_HUMAN,G1027V,0.964,Altered Disordered interface (Pr = 0.29 | P = 0.03); Gain of SUMOylation at K1026 (Pr = 0.22 | P = 0.02); Loss of Acetylation at K1026 (Pr = 0.19 | P = 0.05); Loss of Methylation at K1026 (Pr = 0.16 | P = 0.01), ELME000220|ELME000336|PS00008,-
+COL4A5_HUMAN,G1167S,0.948,Loss of B-factor (Pr = 0.28 | P = 0.02); Loss of Methylation at K1168 (Pr = 0.24 | P = 2.9e-03); Loss of Acetylation at K1166 (Pr = 0.22 | P = 0.03); Gain of SUMOylation at K1166 (Pr = 0.20 | P = 0.03), None,-
+COL4A5_HUMAN,G1454S,0.863,Loss of B-factor (Pr = 0.27 | P = 0.03); Gain of O-linked glycosylation at T1455 (Pr = 0.24 | P = 9.7e-03), ELME000052|ELME000063|ELME000239,-
+COL4A5_HUMAN,G1229S,0.935,, None,-
+COL4A5_HUMAN,G594D,0.853,Gain of Loop (Pr = 0.30 | P = 6.4e-03); Loss of Acetylation at K599 (Pr = 0.28 | P = 5.6e-03); Loss of B-factor (Pr = 0.26 | P = 0.04); Gain of SUMOylation at K599 (Pr = 0.20 | P = 0.03); Loss of Methylation at K599 (Pr = 0.19 | P = 7.5e-03), ELME000337,-
+COL4A5_HUMAN,G615E,0.938,Gain of Loop (Pr = 0.30 | P = 4.4e-03); Altered Disordered interface (Pr = 0.27 | P = 0.04), PS00008,-
+COL4A5_HUMAN,G834R,0.943,Altered Disordered interface (Pr = 0.29 | P = 0.03); Gain of Pyrrolidone carboxylic acid at Q835 (Pr = 0.04 | P = 0.05), None,-
+COL4A5_HUMAN,G144S,0.929,Loss of B-factor (Pr = 0.27 | P = 0.03), ELME000136|ELME000155|ELME000159,-
+COL4A5_HUMAN,G429E,0.922,Loss of Pyrrolidone carboxylic acid at Q427 (Pr = 0.04 | P = 0.04), ELME000155,-
+COL4A5_HUMAN,G51V,0.955,Loss of B-factor (Pr = 0.27 | P = 0.03); Gain of SUMOylation at K47 (Pr = 0.24 | P = 0.01), ELME000259,-
+COL4A5_HUMAN,G1030S,0.933,Altered Disordered interface (Pr = 0.27 | P = 0.04); Loss of SUMOylation at K1026 (Pr = 0.19 | P = 0.04); Loss of Methylation at K1026 (Pr = 0.16 | P = 0.01), ELME000220|ELME000336|PS00006,-
+COL4A5_HUMAN,G264R,0.959,Loss of B-factor (Pr = 0.26 | P = 0.04); Loss of Methylation at R266 (Pr = 0.11 | P = 0.03); Gain of Proteolytic cleavage at D265 (Pr = 0.10 | P = 0.05), None,-
+COL4A5_HUMAN,G716R,0.945,Altered Disordered interface (Pr = 0.28 | P = 0.03); Loss of B-factor (Pr = 0.28 | P = 0.02); Gain of Loop (Pr = 0.27 | P = 0.03); Gain of Acetylation at K715 (Pr = 0.23 | P = 0.02); Loss of Methylation at K715 (Pr = 0.22 | P = 4.7e-03); Gain of SUMOylation at K715 (Pr = 0.22 | P = 0.02), ELME000005|ELME000006|ELME000100|ELME000108|ELME000155,-
+COL4A5_HUMAN,E633K,0.414,-,-,-
+COL4A5_HUMAN,G852E,0.889,Gain of Loop (Pr = 0.27 | P = 0.02); Loss of B-factor (Pr = 0.26 | P = 0.04), ELME000155,-
+COL4A5_HUMAN,G1045E,0.914,Loss of B-factor (Pr = 0.27 | P = 0.03); Gain of Loop (Pr = 0.27 | P = 0.03); Loss of O-linked glycosylation at S1047 (Pr = 0.17 | P = 0.03), ELME000085|ELME000239,-
+COL4A5_HUMAN,G579R,0.967,Loss of B-factor (Pr = 0.26 | P = 0.04); Gain of O-linked glycosylation at T577 (Pr = 0.11 | P = 0.05), ELME000136|ELME000159|ELME000358|PS00005,-
+COL4A5_HUMAN,G710E,0.901,Altered Disordered interface (Pr = 0.30 | P = 0.02); Gain of Loop (Pr = 0.30 | P = 6.4e-03); Loss of B-factor (Pr = 0.27 | P = 0.03); Loss of Methylation at K715 (Pr = 0.22 | P = 4.8e-03); Gain of SUMOylation at K715 (Pr = 0.22 | P = 0.02); Loss of Acetylation at K715 (Pr = 0.21 | P = 0.04), ELME000057|ELME000155,-
+COL4A5_HUMAN,G1104V,0.964,Loss of B-factor (Pr = 0.26 | P = 0.03), None,-
+COL4A5_HUMAN,G941C,0.954,Loss of B-factor (Pr = 0.33 | P = 3.2e-03); Loss of Methylation at K943 (Pr = 0.28 | P = 9.1e-04); Gain of SUMOylation at K943 (Pr = 0.25 | P = 8.8e-03); Loss of Acetylation at K943 (Pr = 0.23 | P = 0.02), ELME000064,-
+COL4A5_HUMAN,G362V,0.946,Altered Disordered interface (Pr = 0.32 | P = 0.01); Gain of Loop (Pr = 0.27 | P = 0.03); Loss of Acetylation at K358 (Pr = 0.25 | P = 0.01); Loss of Methylation at K358 (Pr = 0.18 | P = 0.01), ELME000155,-

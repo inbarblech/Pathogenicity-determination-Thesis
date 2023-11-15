@@ -1,0 +1,100 @@
+MYO7A_HUMAN,A391V,0.788,Gain of Relative solvent accessibility (Pr = 0.26 | P = 0.03); Loss of Allosteric site at D396 (Pr = 0.25 | P = 0.02); Altered Metal binding (Pr = 0.19 | P = 0.04); Altered Transmembrane protein (Pr = 0.16 | P = 0.01); Gain of Pyrrolidone carboxylic acid at Q390 (Pr = 0.09 | P = 0.01); Loss of Catalytic site at R395 (Pr = 0.08 | P = 0.05), None,-
+MYO7A_HUMAN,R212H,0.871,Altered Disordered interface (Pr = 0.34 | P = 0.01); Loss of Allosteric site at R212 (Pr = 0.32 | P = 2.5e-03); Altered DNA binding (Pr = 0.30 | P = 2.6e-03); Altered Metal binding (Pr = 0.28 | P = 4.8e-03); Loss of Relative solvent accessibility (Pr = 0.26 | P = 0.03); Altered Ordered interface (Pr = 0.25 | P = 0.02); Gain of Catalytic site at S210 (Pr = 0.23 | P = 7.5e-03); Loss of Methylation at K215 (Pr = 0.19 | P = 8.7e-03); Altered Transmembrane protein (Pr = 0.15 | P = 0.02); Gain of N-linked glycosylation at N209 (Pr = 0.03 | P = 0.03), ELME000070|ELME000197|ELME000198|ELME000233|PS00001|PS00005,-
+MYO7A_HUMAN,P1183T,0.638,Loss of Loop (Pr = 0.27 | P = 0.05); Gain of N-linked glycosylation at N1182 (Pr = 0.02 | P = 0.03), ELME000070|ELME000239|PS00001|PS00005,-
+MYO7A_HUMAN,T193I,0.763,Altered Transmembrane protein (Pr = 0.19 | P = 7.1e-03); Loss of Allosteric site at E197 (Pr = 0.19 | P = 0.05); Altered Metal binding (Pr = 0.10 | P = 0.05), ELME000052|ELME000136|ELME000159|ELME000292|ELME000333,-
+MYO7A_HUMAN,A397D,0.946,Altered Ordered interface (Pr = 0.29 | P = 0.02); Altered Metal binding (Pr = 0.28 | P = 0.02); Gain of Allosteric site at D396 (Pr = 0.26 | P = 6.6e-03); Gain of Acetylation at K400 (Pr = 0.25 | P = 0.01); Altered Transmembrane protein (Pr = 0.16 | P = 0.01); Gain of Catalytic site at R395 (Pr = 0.09 | P = 0.04), ELME000146|ELME000321,-
+MYO7A_HUMAN,L73P,0.966,Loss of Helix (Pr = 0.29 | P = 0.01); Gain of Loop (Pr = 0.27 | P = 0.03); Altered Stability (Pr = 0.11 | P = 0.04), None,-
+MYO7A_HUMAN,G1374R,0.909,Altered Transmembrane protein (Pr = 0.09 | P = 0.05), ELME000012|ELME000102|ELME000108|ELME000137|ELME000146|PS00008,-
+MYO7A_HUMAN,R88C,0.932,Altered Ordered interface (Pr = 0.30 | P = 4.6e-03); Loss of Allosteric site at Y89 (Pr = 0.22 | P = 0.03); Altered Transmembrane protein (Pr = 0.19 | P = 7.0e-03), PS00007,-
+MYO7A_HUMAN,A1492V,0.902,Altered Transmembrane protein (Pr = 0.34 | P = 4.4e-05); Loss of Relative solvent accessibility (Pr = 0.27 | P = 0.02); Gain of Strand (Pr = 0.27 | P = 0.03); Loss of N-linked glycosylation at N1494 (Pr = 0.03 | P = 0.03), ELME000335,-
+MYO7A_HUMAN,N415S,0.866,Altered Ordered interface (Pr = 0.29 | P = 0.03); Altered Disordered interface (Pr = 0.28 | P = 0.04); Altered DNA binding (Pr = 0.24 | P = 0.01); Loss of Relative solvent accessibility (Pr = 0.23 | P = 0.05); Loss of Allosteric site at N415 (Pr = 0.19 | P = 0.05); Gain of Ubiquitylation at K420 (Pr = 0.18 | P = 0.02), ELME000085,-
+MYO7A_HUMAN,E442G,0.940,Altered Ordered interface (Pr = 0.28 | P = 0.04); Loss of Allosteric site at D437 (Pr = 0.27 | P = 8.6e-03); Altered Metal binding (Pr = 0.18 | P = 0.03); Altered Transmembrane protein (Pr = 0.15 | P = 0.01); Loss of Catalytic site at D437 (Pr = 0.10 | P = 0.04), ELME000193,-
+MYO7A_HUMAN,S583P,0.751,Loss of Helix (Pr = 0.28 | P = 0.03); Altered Coiled coil (Pr = 0.09 | P = 0.05), ELME000336|PS00005,-
+MYO7A_HUMAN,Y1017D,0.818,Gain of Intrinsic disorder (Pr = 0.36 | P = 0.02); Gain of Helix (Pr = 0.29 | P = 0.02); Altered Transmembrane protein (Pr = 0.13 | P = 0.02), ELME000173|ELME000182|ELME000220|PS00006,-
+MYO7A_HUMAN,R1230H,0.749,Altered Metal binding (Pr = 0.72 | P = 1.3e-03); Altered DNA binding (Pr = 0.23 | P = 0.01); Altered Transmembrane protein (Pr = 0.14 | P = 0.02), ELME000012|ELME000101,-
+MYO7A_HUMAN,R241P,0.968,Loss of Allosteric site at R241 (Pr = 0.37 | P = 9.9e-04); Altered Ordered interface (Pr = 0.31 | P = 0.02); Altered Metal binding (Pr = 0.25 | P = 7.5e-03); Altered DNA binding (Pr = 0.22 | P = 0.01); Gain of Catalytic site at E238 (Pr = 0.09 | P = 0.04); Gain of Pyrrolidone carboxylic acid at Q245 (Pr = 0.06 | P = 0.03), ELME000136|ELME000159|ELME000336,-
+MYO7A_HUMAN,L1836P,0.951,Loss of Helix (Pr = 0.27 | P = 0.04); Gain of Loop (Pr = 0.27 | P = 0.03); Gain of Allosteric site at W1834 (Pr = 0.23 | P = 0.02), ELME000149|ELME000335,-
+MYO7A_HUMAN,E1349K,0.951,Gain of Relative solvent accessibility (Pr = 0.23 | P = 0.05); Altered DNA binding (Pr = 0.19 | P = 0.02); Altered Transmembrane protein (Pr = 0.18 | P = 9.0e-03), ELME000053|ELME000136|ELME000146|ELME000155|ELME000159,-
+MYO7A_HUMAN,A2039P,0.936,Gain of Allosteric site at Y2042 (Pr = 0.23 | P = 0.02), ELME000149,-
+MYO7A_HUMAN,L1954I,0.034,-,-,-
+MYO7A_HUMAN,L16S,0.092,-,-,-
+MYO7A_HUMAN,L4V,0.628,Altered Metal binding (Pr = 0.27 | P = 0.03); Gain of N-terminal acetylation at M1 (Pr = 0.23 | P = 3.8e-04); Altered Stability (Pr = 0.16 | P = 0.02), None,-
+MYO7A_HUMAN,L4W,0.850,Loss of Intrinsic disorder (Pr = 0.35 | P = 0.04); Altered Metal binding (Pr = 0.32 | P = 0.01); Loss of N-terminal acetylation at M1 (Pr = 0.22 | P = 6.9e-04); Altered Stability (Pr = 0.21 | P = 0.01), None,-
+MYO7A_HUMAN,Q6A,0.542,Loss of Intrinsic disorder (Pr = 0.36 | P = 0.04); Altered Metal binding (Pr = 0.26 | P = 0.03); Loss of N-terminal acetylation at M1 (Pr = 0.20 | P = 8.6e-04), None,-
+MYO7A_HUMAN,V39M,0.208,-,-,-
+MYO7A_HUMAN,N52K,0.307,-,-,-
+MYO7A_HUMAN,N52T,0.338,-,-,-
+MYO7A_HUMAN,T54M,0.143,-,-,-
+MYO7A_HUMAN,T54R,0.294,-,-,-
+MYO7A_HUMAN,H55N,0.204,-,-,-
+MYO7A_HUMAN,I56V,0.301,-,-,-
+MYO7A_HUMAN,H118N,0.633,Altered Ordered interface (Pr = 0.37 | P = 2.4e-03); Altered Metal binding (Pr = 0.34 | P = 9.2e-03); Gain of Relative solvent accessibility (Pr = 0.33 | P = 2.3e-03); Altered Transmembrane protein (Pr = 0.29 | P = 2.9e-04); Gain of Allosteric site at Y114 (Pr = 0.26 | P = 6.5e-03), ELME000063|ELME000159|ELME000334,-
+MYO7A_HUMAN,S149N,0.219,-,-,-
+MYO7A_HUMAN,I171M,0.651,Altered Ordered interface (Pr = 0.30 | P = 0.03); Loss of Methylation at K169 (Pr = 0.19 | P = 8.7e-03), ELME000052|ELME000146|ELME000149,-
+MYO7A_HUMAN,N222T,0.807,Altered Metal binding (Pr = 0.33 | P = 1.8e-03); Altered Ordered interface (Pr = 0.29 | P = 0.03); Loss of Relative solvent accessibility (Pr = 0.28 | P = 0.02); Gain of Acetylation at K223 (Pr = 0.26 | P = 9.8e-03); Loss of Allosteric site at R224 (Pr = 0.25 | P = 0.02); Altered DNA binding (Pr = 0.21 | P = 0.02); Gain of Methylation at K223 (Pr = 0.10 | P = 0.04), PS00005,-
+MYO7A_HUMAN,E260A,0.417,-,-,-
+MYO7A_HUMAN,E264A,0.127,-,-,-
+MYO7A_HUMAN,E264V,0.209,-,-,-
+MYO7A_HUMAN,D265E,0.085,-,-,-
+MYO7A_HUMAN,D265G,0.397,-,-,-
+MYO7A_HUMAN,Q266E,0.162,-,-,-
+MYO7A_HUMAN,K268A,0.300,-,-,-
+MYO7A_HUMAN,K269Q,0.183,-,-,-
+MYO7A_HUMAN,K269R,0.091,-,-,-
+MYO7A_HUMAN,V293E,0.249,-,-,-
+MYO7A_HUMAN,R302C,0.627,Altered Ordered interface (Pr = 0.43 | P = 6.0e-04); Loss of Relative solvent accessibility (Pr = 0.32 | P = 5.3e-03); Altered Metal binding (Pr = 0.26 | P = 0.03); Gain of Allosteric site at M305 (Pr = 0.23 | P = 0.02); Altered Transmembrane protein (Pr = 0.13 | P = 0.02), ELME000079|ELME000085,-
+MYO7A_HUMAN,M309L,0.535,Altered Ordered interface (Pr = 0.27 | P = 0.05); Gain of Relative solvent accessibility (Pr = 0.27 | P = 0.02); Gain of Allosteric site at M305 (Pr = 0.23 | P = 0.02); Altered Transmembrane protein (Pr = 0.16 | P = 0.01); Altered Metal binding (Pr = 0.12 | P = 0.03), ELME000064|ELME000106|ELME000137|ELME000146|ELME000220,-
+MYO7A_HUMAN,L328M,0.227,-,-,-
+MYO7A_HUMAN,E334K,0.508,Gain of Allosteric site at N330 (Pr = 0.28 | P = 3.6e-03); Altered Metal binding (Pr = 0.27 | P = 1.2e-03); Gain of Catalytic site at N330 (Pr = 0.15 | P = 0.02); Altered Transmembrane protein (Pr = 0.13 | P = 0.02), ELME000122|ELME000173,-
+MYO7A_HUMAN,T337M,0.202,-,-,-
+MYO7A_HUMAN,P350T,0.205,-,-,-
+MYO7A_HUMAN,A355T,0.344,-,-,-
+MYO7A_HUMAN,D365K,0.268,-,-,-
+MYO7A_HUMAN,L366V,0.267,-,-,-
+MYO7A_HUMAN,S368T,0.132,-,-,-
+MYO7A_HUMAN,A416V,0.393,-,-,-
+MYO7A_HUMAN,P422A,0.129,-,-,-
+MYO7A_HUMAN,Q424H,0.162,-,-,-
+MYO7A_HUMAN,Q424L,0.196,-,-,-
+MYO7A_HUMAN,K427Q,0.183,-,-,-
+MYO7A_HUMAN,S429C,0.182,-,-,-
+MYO7A_HUMAN,R430C,0.637,Loss of Intrinsic disorder (Pr = 0.51 | P = 6.4e-03); Altered Transmembrane protein (Pr = 0.28 | P = 3.9e-04); Altered Ordered interface (Pr = 0.28 | P = 0.05); Gain of Strand (Pr = 0.27 | P = 0.03); Loss of Allosteric site at L435 (Pr = 0.20 | P = 0.04), ELME000062|ELME000063|ELME000079|ELME000102|ELME000108|ELME000233|PS00005,-
+MYO7A_HUMAN,K518R,0.185,-,-,-
+MYO7A_HUMAN,S530G,0.291,-,-,-
+MYO7A_HUMAN,I539V,0.073,-,-,-
+MYO7A_HUMAN,E546D,0.358,-,-,-
+MYO7A_HUMAN,S607A,0.329,-,-,-
+MYO7A_HUMAN,L620Q,0.532,Gain of Intrinsic disorder (Pr = 0.34 | P = 0.02), ELME000106|ELME000125|ELME000149|ELME000335,-
+MYO7A_HUMAN,R623P,0.907,Loss of Helix (Pr = 0.27 | P = 0.05), ELME000125|ELME000336,-
+MYO7A_HUMAN,G626S,0.334,-,-,-
+MYO7A_HUMAN,M708R,0.795,, ELME000102|ELME000108,-
+MYO7A_HUMAN,A711V,0.152,-,-,-
+MYO7A_HUMAN,T715V,0.388,-,-,-
+MYO7A_HUMAN,H716Q,0.336,-,-,-
+MYO7A_HUMAN,I721M,0.638,Altered Metal binding (Pr = 0.25 | P = 0.03); Altered DNA binding (Pr = 0.16 | P = 0.04), ELME000336,-
+MYO7A_HUMAN,L735M,0.211,-,-,-
+MYO7A_HUMAN,D741G,0.873,Altered Coiled coil (Pr = 0.13 | P = 0.03); Altered Stability (Pr = 0.13 | P = 0.03), None,-
+MYO7A_HUMAN,I749V,0.165,-,-,-
+MYO7A_HUMAN,F764Y,0.452,-,-,-
+MYO7A_HUMAN,L792M,0.114,-,-,-
+MYO7A_HUMAN,R802H,0.714,Altered Disordered interface (Pr = 0.48 | P = 3.1e-03); Altered DNA binding (Pr = 0.24 | P = 9.9e-03); Altered Coiled coil (Pr = 0.12 | P = 0.04), ELME000336,-
+MYO7A_HUMAN,S803T,0.349,-,-,-
+MYO7A_HUMAN,Q808F,0.256,-,-,-
+MYO7A_HUMAN,Q815W,0.225,-,-,-
+MYO7A_HUMAN,R816S,0.359,-,-,-
+MYO7A_HUMAN,I818A,0.424,-,-,-
+MYO7A_HUMAN,I818V,0.131,-,-,-
+MYO7A_HUMAN,Q819G,0.211,-,-,-
+MYO7A_HUMAN,Q819V,0.262,-,-,-
+MYO7A_HUMAN,V840L,0.507,Altered Disordered interface (Pr = 0.28 | P = 0.02), ELME000045|ELME000134|ELME000149|ELME000231|ELME000233,-
+MYO7A_HUMAN,A861V,0.102,-,-,-
+MYO7A_HUMAN,L864R,0.178,-,-,-
+MYO7A_HUMAN,L864W,0.179,-,-,-
+MYO7A_HUMAN,K916R,0.153,-,-,-
+MYO7A_HUMAN,E917A,0.204,-,-,-
+MYO7A_HUMAN,E935Q,0.238,-,-,-
+MYO7A_HUMAN,N938S,0.096,-,-,-
+MYO7A_HUMAN,S953T,0.088,-,-,-
+MYO7A_HUMAN,G954S,0.081,-,-,-
+MYO7A_HUMAN,L956A,0.321,-,-,-
+MYO7A_HUMAN,G961D,0.556,Gain of Loop (Pr = 0.40 | P = 9.3e-05); Gain of Helix (Pr = 0.32 | P = 3.1e-03); Gain of Phosphorylation at S965 (Pr = 0.23 | P = 0.05), PS00008,-

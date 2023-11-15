@@ -1,7 +1,7 @@
 import os
-import uniprot_info as uni
+from data_retrievel_and_feature_extraction import uniprot_info as uni
 import pandas as pd
-import add_mutation as add_mut
+from data_retrievel_and_feature_extraction import add_mutation as add_mut
 
 
 def create_variant_folders_from_dataframe(path_to_genes_folder, variants_df):

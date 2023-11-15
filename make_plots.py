@@ -228,3 +228,23 @@ def create_distribution_of_sequence_length(df: pd.DataFrame, path_to_save):
     plt.ylabel('Number of genes in dataset', fontsize=14)
     plt.savefig(f"{path_to_save}\\sequence_length_distribution.png", dpi=2000)
     plt.show()
+
+
+def get_number_of_transmembrane_globular_residues_in_df(df: pd.DataFrame):
+    """Returns the number of transmembrane and globular residues in the df.
+    Assumes
+    'transmembrane_residues' and 'globular_residues' are columns in the df.
+    Call:
+    features_df = pd.read_csv(path_to_csv_of_features, header=0)
+    plots.get_number_of_transmembrane_globular_residues_in_df(features_df)"""
+    transmembrane_residues = len(df[df['is_residue_transmembranal']])
+    globular_residues = len(df[~df['is_residue_transmembranal']])
+    return transmembrane_residues, globular_residues
+
+
+if __name__ == "__main__":
+    gene = 'GJB2'
+    df = pd.read_csv(f"gene_specific_df/{gene}.csv")
+    print(len(df))
+    # df = pd.read_csv(f'/home/inbar/results/gene_specific_df/{gene}.csv', header=0)
+    print(f"transmename and globular residues in gene {gene}: {get_number_of_transmembrane_globular_residues_in_df(df)}")

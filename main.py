@@ -1,14 +1,15 @@
 import csv
 import shutil
 
-import uniprot_info as uni
-import add_mutation as add_mut
+from data_retrievel_and_feature_extraction import uniprot_info as uni
+from data_retrievel_and_feature_extraction import add_mutation as add_mut
 import os
-import extract_features as ext_feat
+from data_retrievel_and_feature_extraction import feature_extraction_column_by_column as ext_feat
 import pandas as pd
 import general_tools as tools
-import run_command_line_programs_to_folders as run_command_line_programs
+from data_retrievel_and_feature_extraction import run_command_line_programs_to_folders as run_command_line_programs
 import matplotlib.pyplot as plt
+from data_retrievel_and_feature_extraction import write_to_folders as write_to_folders
 
 PATH_TO_DATA_FOLDER = "/home/inbar/DVDdata/"
 PATH_TO_CSV_BENIGN = "/home/inbar/all_BENIGN_variants.csv"
@@ -585,6 +586,16 @@ def add_source_column_according_to_input(df: pd.DataFrame, source: str):
 
 
 if __name__ == "__main__":
+    # path_to_folders = "/home/inbar/variants/clinvar_variants/"
+    # df = pd.read_csv(f"/home/inbar/clinvar_variants_for_validation_set_without_redundancy1.csv", header=0)
+    # write_to_folders.create_variant_folders_from_dataframe(path_to_folders, df)
+
+    # # Get AF structure
+    # copy_pdb_files_to_all_variant_folders_in_all_gene_folders("/home/inbar/variants/clinvar_variants/")
+
+    # Run FoldX
+    path = "/home/inbar/variants/clinvar_variants/"
+    create_mutation_file_to_all_variants(path)
 
     # # Create fasta file for each gene
     # path = "predictions_vs_real"
@@ -612,9 +623,9 @@ if __name__ == "__main__":
     # combined_df.to_csv(f"{PATH_TO_OUTPUT_FOLDER}GJB2_combined_with_source.csv", index=False)
     # #
     # add position column
-    combined_df = pd.read_csv(f"{PATH_TO_OUTPUT_FOLDER}gene_specific_df/GJB2_combined_with_source.csv", header=0)
-    combined_df = add_position_column(combined_df)
-    combined_df.to_csv(f"{PATH_TO_OUTPUT_FOLDER}gene_specific_df/GJB2_combined_with_source_and_position.csv", index=False)
+    # combined_df = pd.read_csv(f"{PATH_TO_OUTPUT_FOLDER}gene_specific_df/GJB2_combined_with_source.csv", header=0)
+    # combined_df = add_position_column(combined_df)
+    # combined_df.to_csv(f"{PATH_TO_OUTPUT_FOLDER}gene_specific_df/GJB2_combined_with_source_and_position.csv", index=False)
 
 
     # # save the dictionary to a csv file in the path folder (from path variable)

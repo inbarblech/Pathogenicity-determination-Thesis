@@ -1,7 +1,7 @@
 import os
-
 import pandas as pd
 import general_tools as tools
+from data_retrievel_and_feature_extraction import uniprot_info as uni
 
 
 def create_list_of_variant_dictionaries(txt_file):
@@ -106,7 +106,7 @@ def clean_variants_dataframe(df, list_of_genes):
     df = df.append(new_df)
 
     # Creates a new "pathogenicity" column, which contains the pathogenicity of the variant
-    df['Pathogenicity'] = df['Clinical significance'].apply(lambda x: 'Pathogenic' if 'Pathogenic' in x else 'Benign')
+    df['pathogenicity'] = df['Clinical significance'].apply(lambda x: 'pathogenic' if 'Pathogenic' in x else 'benign')
 
     df.drop(columns=['Accession', 'ID', 'Canonical SPDI', 'Chromosome', 'Clinical significance',
                      'Review status', 'Name', 'Location  (GRCh38)', 'Condition(s)'], inplace=True)
@@ -182,19 +182,31 @@ def remove_rows_by_values(data, remove_rows, column1, column2):
 
 
 if __name__ == "__main__":
-    # # Create df from ClinVar txt file
-    # path = 'C:\\Users\\InbarBlech\\Downloads\\clinvar_benign_missense_multiple_hearing_loss.txt'
-    # paragraphs = create_list_of_variant_dictionaries(path)
-    # df_benign_hearing_loss = get_dataframe_from_list_of_dict(paragraphs)
-    # path = 'C:\\Users\\InbarBlech\\Downloads\\clinvar_pathogenic_missense_multiple_hearing_loss.txt'
-    # paragraphs = create_list_of_variant_dictionaries(path)
-    # df_pathogenic_hearing_loss = get_dataframe_from_list_of_dict(paragraphs)
-    # path = 'C:\\Users\\InbarBlech\\Downloads\\clinvar_benign_missense_multiple_deafness.txt'
-    # paragraphs = create_list_of_variant_dictionaries(path)
-    # df_benign_deafness = get_dataframe_from_list_of_dict(paragraphs)
-    # path = 'C:\\Users\\InbarBlech\\Downloads\\clinvar_pathogenic_missense_multiple_deafness.txt'
-    # paragraphs = create_list_of_variant_dictionaries(path)
-    # df_pathogenic_deafness = get_dataframe_from_list_of_dict(paragraphs)
+    # Create df from ClinVar txt file
+    path = 'C:\\Users\\InbarBlech\\Downloads\\clinvar_all_eight_genes.txt'
+    paragraphs = create_list_of_variant_dictionaries(path)
+    df_hearing_loss = get_dataframe_from_list_of_dict(paragraphs)
+
+    genes = ["GJB2", "SLC26A4", "COL4A5", "COL4A3", "COL2A1", "MYO7A", "FGFR1", "WFS1"]
+
+    df_hearing_loss = clean_variants_dataframe(df_hearing_loss, genes)
+
+    #change the name of the column "Gene(s)" to "Gene" and "Protein change" to "variant"
+    df_hearing_loss.rename(columns={'Gene(s)': 'gene', 'Protein change': 'variant'}, inplace=True)
+    # Add a column with uniprot ID
+    for gene in genes:
+        df_hearing_loss.loc[df_hearing_loss['gene'] == gene, 'uniprot_id'] = uni.get_uniprot_id(gene)
+    # Save df_hearing_loss to csv
+    df_hearing_loss.to_csv("C:\\Users\\InbarBlech\\PycharmProjects\\Thesis\\validation\\clinvar_variants_all_genes.csv")
+    variants_num_dict = {}
+    for gene in genes:
+        # print number of rows where (
+        variants_num = len(df_hearing_loss[df_hearing_loss["gene"] == gene])
+        variants_num_dict[gene] = variants_num
+
+    print(variants_num_dict)
+
+
     #
     # # Combine dataframes
     # df_deafness = combine_dataframes(df_pathogenic_deafness, df_benign_deafness)
@@ -215,13 +227,13 @@ if __name__ == "__main__":
 
     # Check duplicates in variants from dvd and clinvar
 
-    # Create dvd file with gene and variant
-    df_dvd = pd.read_csv("C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\Thesis\\Findings\\features.csv")
-    df_clinvar = pd.read_csv("C:\\Users\\InbarBlech\\Downloads\\clinvar_variants.csv")
-    duplicate_rows = find_identical_rows(df_dvd, df_clinvar, "gene", "variant")
-    df_without_duplicates = remove_rows_by_values(df_clinvar, duplicate_rows, "gene", "variant")
-    df_without_duplicates.head()
-    df_without_duplicates.to_csv("C:\\Users\\InbarBlech\\Downloads\\clinvar_variants_without_duplicates_of_dvd.csv")
+    # # Create dvd file with gene and variant
+    # df_dvd = pd.read_csv("C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\Thesis\\Findings\\features.csv")
+    # df_clinvar = pd.read_csv("C:\\Users\\InbarBlech\\Downloads\\clinvar_variants.csv")
+    # duplicate_rows = find_identical_rows(df_dvd, df_clinvar, "gene", "variant")
+    # df_without_duplicates = remove_rows_by_values(df_clinvar, duplicate_rows, "gene", "variant")
+    # df_without_duplicates.head()
+    # df_without_duplicates.to_csv("C:\\Users\\InbarBlech\\Downloads\\clinvar_variants_without_duplicates_of_dvd.csv")
 
 
 

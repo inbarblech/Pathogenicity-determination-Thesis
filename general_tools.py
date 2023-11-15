@@ -2,7 +2,7 @@ import os
 
 import pandas as pd
 from biopandas.pdb import PandasPdb
-import uniprot_info as uni
+from data_retrievel_and_feature_extraction import uniprot_info as uni
 
 PATH_TO_VARIANTS_FOLDER = "/home/inbar/variants/"
 

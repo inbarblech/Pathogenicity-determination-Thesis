@@ -1,10 +1,10 @@
 import pandas as pd
-import blosum as sm  # blosum matrix, from blosum.py in this directory
+from data_retrievel_and_feature_extraction import blosum as sm  # blosum matrix, from blosum.py in this directory
 import csv
 import os
 import general_tools as tools
-import residue_properties as rp
-import uniprot_info as uni
+from data_retrievel_and_feature_extraction import residue_properties as rp
+from data_retrievel_and_feature_extraction import uniprot_info as uni
 
 """"
 structure of extract_features.py:

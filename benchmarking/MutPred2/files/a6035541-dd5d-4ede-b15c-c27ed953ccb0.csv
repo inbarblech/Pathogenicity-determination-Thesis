@@ -1,0 +1,100 @@
+FGFR1_HUMAN,C6G,0.467,-,-,-
+FGFR1_HUMAN,C6Y,0.404,-,-,-
+FGFR1_HUMAN,F9M,0.759,Altered Disordered interface (Pr = 0.25 | P = 0.02); Altered Ordered interface (Pr = 0.24 | P = 0.04); Altered Signal peptide (Pr = 0.19 | P = 7.5e-04), ELME000041|ELME000106|ELME000137|ELME000146,-
+FGFR1_HUMAN,A11E,0.879,Altered Signal peptide (Pr = 0.15 | P = 1.6e-03), ELME000041|ELME000335,-
+FGFR1_HUMAN,V12L,0.710,Altered Signal peptide (Pr = 0.21 | P = 2.4e-04), ELME000041|ELME000333|ELME000336,-
+FGFR1_HUMAN,V12Q,0.886,Altered Signal peptide (Pr = 0.18 | P = 4.2e-04); Altered Disordered interface (Pr = 0.17 | P = 0.04); Gain of Pyrrolidone carboxylic acid at V12 (Pr = 0.04 | P = 0.04), ELME000041|ELME000333,-
+FGFR1_HUMAN,A16E,0.919,Altered Signal peptide (Pr = 0.19 | P = 3.3e-04), ELME000041|ELME000052|ELME000333,-
+FGFR1_HUMAN,T17G,0.832,Gain of Loop (Pr = 0.27 | P = 0.04); Loss of ADP-ribosylation at R22 (Pr = 0.20 | P = 0.05); Altered Signal peptide (Pr = 0.19 | P = 3.3e-04), ELME000052|ELME000053|PS00008,-
+FGFR1_HUMAN,C19G,0.832,Gain of Intrinsic disorder (Pr = 0.38 | P = 0.01); Altered Signal peptide (Pr = 0.25 | P = 4.0e-04); Gain of ADP-ribosylation at R22 (Pr = 0.20 | P = 0.03), ELME000052|ELME000053,-
+FGFR1_HUMAN,C19K,0.927,Gain of Intrinsic disorder (Pr = 0.37 | P = 0.01); Gain of ADP-ribosylation at R22 (Pr = 0.21 | P = 0.02); Altered Signal peptide (Pr = 0.18 | P = 4.0e-04), ELME000052|ELME000053|ELME000313|PS00005,-
+FGFR1_HUMAN,C19L,0.914,Altered Signal peptide (Pr = 0.28 | P = 9.3e-05); Gain of ADP-ribosylation at R22 (Pr = 0.20 | P = 0.04), ELME000052|ELME000053,-
+FGFR1_HUMAN,T20K,0.751,Altered Signal peptide (Pr = 0.21 | P = 2.3e-04); Gain of ADP-ribosylation at R22 (Pr = 0.20 | P = 0.03); Altered Transmembrane protein (Pr = 0.11 | P = 0.04), ELME000053|PS00005,-
+FGFR1_HUMAN,A21W,0.929,Gain of Loop (Pr = 0.27 | P = 0.03); Loss of ADP-ribosylation at R22 (Pr = 0.20 | P = 0.04); Altered Signal peptide (Pr = 0.19 | P = 3.3e-04); Altered Transmembrane protein (Pr = 0.11 | P = 0.03), ELME000053|ELME000136|ELME000159|PS00005,-
+FGFR1_HUMAN,P23V,0.721,Altered Signal peptide (Pr = 0.36 | P = 3.4e-05); Gain of ADP-ribosylation at R22 (Pr = 0.20 | P = 0.03); Altered Transmembrane protein (Pr = 0.10 | P = 0.04), ELME000005|ELME000053|ELME000064|ELME000136|ELME000155|ELME000159|ELME000259,-
+FGFR1_HUMAN,P25A,0.404,-,-,-
+FGFR1_HUMAN,T26A,0.636,Altered Signal peptide (Pr = 0.20 | P = 3.1e-04); Gain of ADP-ribosylation at R22 (Pr = 0.20 | P = 0.04); Altered Transmembrane protein (Pr = 0.14 | P = 0.02); Gain of Pyrrolidone carboxylic acid at Q30 (Pr = 0.07 | P = 0.02), ELME000005|ELME000064|ELME000136|ELME000155|ELME000159|ELME000220|PS00006,-
+FGFR1_HUMAN,T26V,0.697,Altered Signal peptide (Pr = 0.26 | P = 1.2e-04); Gain of ADP-ribosylation at R22 (Pr = 0.20 | P = 0.03); Altered Transmembrane protein (Pr = 0.14 | P = 0.02); Gain of Pyrrolidone carboxylic acid at Q30 (Pr = 0.07 | P = 0.02), ELME000005|ELME000064|ELME000136|ELME000155|ELME000159|ELME000220|PS00006,-
+FGFR1_HUMAN,L27S,0.811,Gain of Intrinsic disorder (Pr = 0.50 | P = 1.7e-03); Gain of B-factor (Pr = 0.27 | P = 0.01); Loss of ADP-ribosylation at R22 (Pr = 0.20 | P = 0.05); Altered Transmembrane protein (Pr = 0.14 | P = 0.02); Gain of Pyrrolidone carboxylic acid at Q32 (Pr = 0.08 | P = 0.02); Altered Signal peptide (Pr = 0.04 | P = 2.4e-03), ELME000005|ELME000063|ELME000064|ELME000155|ELME000159|ELME000220|PS00006,-
+FGFR1_HUMAN,P28T,0.555,Altered Transmembrane protein (Pr = 0.13 | P = 0.02); Loss of Pyrrolidone carboxylic acid at Q32 (Pr = 0.07 | P = 0.02); Altered Signal peptide (Pr = 0.01 | P = 4.9e-03), ELME000005|ELME000064|ELME000155|ELME000220|PS00006,-
+FGFR1_HUMAN,E29G,0.836,Altered Transmembrane protein (Pr = 0.13 | P = 0.02); Gain of Pyrrolidone carboxylic acid at Q30 (Pr = 0.08 | P = 0.02); Altered Signal peptide (Pr = 0.01 | P = 5.3e-03), ELME000064|ELME000220|PS00006,-
+FGFR1_HUMAN,Q30K,0.360,-,-,-
+FGFR1_HUMAN,Q32R,0.225,-,-,-
+FGFR1_HUMAN,P33S,0.365,-,-,-
+FGFR1_HUMAN,A36D,0.314,-,-,-
+FGFR1_HUMAN,A36G,0.163,-,-,-
+FGFR1_HUMAN,A36V,0.145,-,-,-
+FGFR1_HUMAN,D59E,0.521,Altered Transmembrane protein (Pr = 0.30 | P = 1.7e-04); Altered Metal binding (Pr = 0.26 | P = 0.01); Loss of Relative solvent accessibility (Pr = 0.23 | P = 0.05); Gain of Disulfide linkage at C55 (Pr = 0.22 | P = 0.01), None,-
+FGFR1_HUMAN,A74V,0.120,-,-,-
+FGFR1_HUMAN,E75D,0.320,-,-,-
+FGFR1_HUMAN,D90A,0.393,-,-,-
+FGFR1_HUMAN,S91A,0.261,-,-,-
+FGFR1_HUMAN,V92I,0.063,-,-,-
+FGFR1_HUMAN,A94T,0.161,-,-,-
+FGFR1_HUMAN,S104T,0.195,-,-,-
+FGFR1_HUMAN,T111I,0.251,-,-,-
+FGFR1_HUMAN,T141N,0.212,-,-,-
+FGFR1_HUMAN,P150A,0.337,-,-,-
+FGFR1_HUMAN,N185Y,0.513,Altered Ordered interface (Pr = 0.31 | P = 0.02); Loss of Relative solvent accessibility (Pr = 0.29 | P = 0.01); Gain of Strand (Pr = 0.28 | P = 0.01); Altered Transmembrane protein (Pr = 0.27 | P = 6.8e-04); Gain of Allosteric site at W190 (Pr = 0.27 | P = 4.8e-03); Loss of B-factor (Pr = 0.26 | P = 0.04); Altered DNA binding (Pr = 0.23 | P = 0.01); Altered Metal binding (Pr = 0.22 | P = 0.03); Gain of O-linked glycosylation at S181 (Pr = 0.20 | P = 0.02), ELME000053|ELME000063|ELME000120|ELME000136|ELME000159,-
+FGFR1_HUMAN,D246F,0.910,Altered Transmembrane protein (Pr = 0.29 | P = 1.9e-04); Loss of Sulfation at Y243 (Pr = 0.02 | P = 0.04), ELME000047|ELME000052|ELME000120|ELME000333,-
+FGFR1_HUMAN,E294K,0.856,Loss of Strand (Pr = 0.27 | P = 0.03); Altered DNA binding (Pr = 0.17 | P = 0.03); Altered Transmembrane protein (Pr = 0.13 | P = 0.02); Altered Stability (Pr = 0.11 | P = 0.03); Loss of N-linked glycosylation at N296 (Pr = 0.08 | P = 0.02), ELME000146,-
+FGFR1_HUMAN,G315P,0.802,Altered Transmembrane protein (Pr = 0.26 | P = 1.2e-03); Loss of N-linked glycosylation at N317 (Pr = 0.19 | P = 4.0e-03), ELME000052|PS00008,-
+FGFR1_HUMAN,V316I,0.177,-,-,-
+FGFR1_HUMAN,T319S,0.372,-,-,-
+FGFR1_HUMAN,K321A,0.845,Altered Transmembrane protein (Pr = 0.29 | P = 2.9e-04); Gain of N-linked glycosylation at N317 (Pr = 0.23 | P = 1.3e-03); Loss of Ubiquitylation at K321 (Pr = 0.17 | P = 0.03), ELME000064|ELME000070|ELME000220|PS00005|PS00006,-
+FGFR1_HUMAN,L326S,0.921,Altered Transmembrane protein (Pr = 0.31 | P = 1.2e-04); Gain of Relative solvent accessibility (Pr = 0.24 | P = 0.04); Altered Stability (Pr = 0.21 | P = 0.01); Gain of Ubiquitylation at K321 (Pr = 0.15 | P = 0.04); Gain of N-linked glycosylation at N330 (Pr = 0.10 | P = 0.01), ELME000335|ELME000336,-
+FGFR1_HUMAN,S332P,0.936,Altered Transmembrane protein (Pr = 0.28 | P = 4.6e-04); Loss of Strand (Pr = 0.27 | P = 0.03); Altered Metal binding (Pr = 0.17 | P = 0.04); Loss of N-linked glycosylation at N330 (Pr = 0.11 | P = 0.01); Altered Stability (Pr = 0.11 | P = 0.04), ELME000070|ELME000122|ELME000137|ELME000334|PS00001|PS00006,-
+FGFR1_HUMAN,Y339R,0.970,Altered Ordered interface (Pr = 0.34 | P = 2.9e-03); Altered Metal binding (Pr = 0.29 | P = 0.01); Altered Transmembrane protein (Pr = 0.28 | P = 3.9e-04); Loss of Loop (Pr = 0.27 | P = 0.02); Gain of Disulfide linkage at C341 (Pr = 0.19 | P = 0.02), ELME000120|ELME000182,-
+FGFR1_HUMAN,T340V,0.877,Altered Transmembrane protein (Pr = 0.31 | P = 9.7e-05); Altered Metal binding (Pr = 0.26 | P = 0.03); Altered Ordered interface (Pr = 0.25 | P = 0.02); Loss of Disulfide linkage at C341 (Pr = 0.19 | P = 0.02), ELME000083|ELME000120|ELME000182,-
+FGFR1_HUMAN,G344S,0.797,Altered Metal binding (Pr = 0.31 | P = 0.02); Altered Transmembrane protein (Pr = 0.27 | P = 9.5e-04); Altered Ordered interface (Pr = 0.25 | P = 0.03); Gain of Disulfide linkage at C341 (Pr = 0.20 | P = 0.02); Gain of Catalytic site at N345 (Pr = 0.11 | P = 0.03), ELME000053|ELME000239|PS00008,-
+FGFR1_HUMAN,L349E,0.628,Altered Stability (Pr = 0.40 | P = 3.0e-03); Altered Transmembrane protein (Pr = 0.29 | P = 2.4e-04); Gain of Loop (Pr = 0.27 | P = 0.02); Gain of Strand (Pr = 0.26 | P = 0.04); Altered Metal binding (Pr = 0.05 | P = 0.05); Gain of GPI-anchor amidation at N345 (Pr = 0.01 | P = 0.03), ELME000053|ELME000064|PS00006|PS00008,-
+FGFR1_HUMAN,L349P,0.758,Altered Stability (Pr = 0.67 | P = 6.3e-04); Altered Transmembrane protein (Pr = 0.30 | P = 1.3e-04); Gain of Loop (Pr = 0.28 | P = 0.02); Gain of Strand (Pr = 0.27 | P = 0.03); Gain of Catalytic site at N345 (Pr = 0.09 | P = 0.05), ELME000053|PS00008,-
+FGFR1_HUMAN,H351M,0.781,Altered Transmembrane protein (Pr = 0.31 | P = 1.1e-04); Loss of Strand (Pr = 0.26 | P = 0.03), ELME000063,-
+FGFR1_HUMAN,S353G,0.736,Altered Transmembrane protein (Pr = 0.28 | P = 4.9e-04), ELME000063|ELME000085|PS00008,-
+FGFR1_HUMAN,E360K,0.748,Altered Transmembrane protein (Pr = 0.31 | P = 8.3e-05); Gain of Strand (Pr = 0.27 | P = 0.02), ELME000064|ELME000220|ELME000333|PS00006,-
+FGFR1_HUMAN,V368A,0.181,-,-,-
+FGFR1_HUMAN,S393T,0.178,-,-,-
+FGFR1_HUMAN,I395V,0.122,-,-,-
+FGFR1_HUMAN,V396I,0.025,-,-,-
+FGFR1_HUMAN,S588R,0.168,-,-,-
+FGFR1_HUMAN,N590D,0.093,-,-,-
+FGFR1_HUMAN,K598Q,0.542,, ELME000106|ELME000202|PS00005|PS00006,-
+FGFR1_HUMAN,R661G,0.900,Altered Ordered interface (Pr = 0.27 | P = 7.3e-03); Gain of Loop (Pr = 0.27 | P = 0.03); Altered Stability (Pr = 0.12 | P = 0.03); Altered Transmembrane protein (Pr = 0.10 | P = 0.04); Gain of GPI-anchor amidation at N659 (Pr = 0.01 | P = 0.03), ELME000008|ELME000316,-
+FGFR1_HUMAN,K665C,0.930,Altered Ordered interface (Pr = 0.26 | P = 0.01); Altered Transmembrane protein (Pr = 0.10 | P = 0.04), None,-
+FGFR1_HUMAN,H810P,0.353,-,-,-
+FGFR1_HUMAN,H810R,0.143,-,-,-
+FGFR1_HUMAN,P811Q,0.311,-,-,-
+FGFR1_HUMAN,A812P,0.181,-,-,-
+FGFR1_HUMAN,K820N,0.599,Altered Disordered interface (Pr = 0.35 | P = 9.8e-03); Altered DNA binding (Pr = 0.26 | P = 5.9e-03); Loss of Acetylation at K820 (Pr = 0.20 | P = 0.04); Loss of Methylation at K820 (Pr = 0.13 | P = 0.03); Loss of Proteolytic cleavage at R822 (Pr = 0.12 | P = 0.03), ELME000100|ELME000108,-
+FGFR1_HUMAN,N296I,0.920,Gain of Strand (Pr = 0.27 | P = 0.03); Loss of N-linked glycosylation at N296 (Pr = 0.08 | P = 0.01), ELME000070|PS00001,-
+FGFR1_HUMAN,S353C,0.747,Altered Transmembrane protein (Pr = 0.34 | P = 4.9e-05), ELME000063|ELME000085,-
+FGFR1_HUMAN,L191S,0.891,Altered Stability (Pr = 0.68 | P = 6.3e-04); Altered Ordered interface (Pr = 0.33 | P = 9.5e-03); Gain of Intrinsic disorder (Pr = 0.33 | P = 0.02); Altered Transmembrane protein (Pr = 0.25 | P = 1.4e-03); Loss of Allosteric site at W190 (Pr = 0.25 | P = 0.02); Gain of Relative solvent accessibility (Pr = 0.24 | P = 0.04); Altered DNA binding (Pr = 0.23 | P = 0.01); Loss of Acetylation at K195 (Pr = 0.20 | P = 0.04); Altered Metal binding (Pr = 0.13 | P = 0.05), ELME000062|ELME000146|ELME000336,-
+FGFR1_HUMAN,A512V,0.897,Loss of Strand (Pr = 0.29 | P = 4.8e-03); Altered DNA binding (Pr = 0.26 | P = 6.6e-03); Loss of Acetylation at K514 (Pr = 0.26 | P = 8.6e-03); Gain of ADP-ribosylation at R507 (Pr = 0.25 | P = 8.2e-03); Loss of Methylation at K517 (Pr = 0.21 | P = 5.7e-03); Altered Coiled coil (Pr = 0.11 | P = 0.03), ELME000052|ELME000062|ELME000233|PS00107,-
+FGFR1_HUMAN,M217T,0.820,Altered Stability (Pr = 0.50 | P = 1.7e-03); Altered Transmembrane protein (Pr = 0.31 | P = 1.2e-04), ELME000053|ELME000063,-
+FGFR1_HUMAN,I693F,0.918,Altered Ordered interface (Pr = 0.25 | P = 0.02); Gain of Allosteric site at W691 (Pr = 0.19 | P = 0.05); Altered Transmembrane protein (Pr = 0.11 | P = 0.03), ELME000053,-
+FGFR1_HUMAN,G48S,0.831,Loss of Strand (Pr = 0.29 | P = 3.6e-03); Altered Transmembrane protein (Pr = 0.11 | P = 0.04), ELME000134|ELME000335|PS00430,-
+FGFR1_HUMAN,A645V,0.906,Altered Metal binding (Pr = 0.27 | P = 0.02); Loss of Allosteric site at F642 (Pr = 0.22 | P = 0.03); Altered DNA binding (Pr = 0.17 | P = 0.03); Altered Transmembrane protein (Pr = 0.11 | P = 0.03), None,-
+FGFR1_HUMAN,R622Q,0.733,Altered DNA binding (Pr = 0.25 | P = 6.1e-03); Altered Transmembrane protein (Pr = 0.23 | P = 2.4e-03); Loss of Allosteric site at R627 (Pr = 0.23 | P = 0.02); Gain of Catalytic site at R627 (Pr = 0.13 | P = 0.03), PS00109,-
+FGFR1_HUMAN,C341Y,0.967,Altered Metal binding (Pr = 0.48 | P = 4.2e-03); Altered Ordered interface (Pr = 0.27 | P = 6.9e-03); Gain of Loop (Pr = 0.27 | P = 0.03); Altered Transmembrane protein (Pr = 0.24 | P = 2.0e-03); Loss of Disulfide linkage at C341 (Pr = 0.24 | P = 9.7e-03); Gain of Catalytic site at C341 (Pr = 0.10 | P = 0.04), ELME000120|ELME000182,-
+FGFR1_HUMAN,Y228D,0.967,Altered Metal binding (Pr = 0.38 | P = 2.8e-04); Altered Ordered interface (Pr = 0.32 | P = 0.01); Gain of Disulfide linkage at C230 (Pr = 0.29 | P = 9.6e-04); Gain of B-factor (Pr = 0.26 | P = 0.02); Gain of Relative solvent accessibility (Pr = 0.26 | P = 0.03); Altered Transmembrane protein (Pr = 0.25 | P = 1.2e-03); Gain of N-linked glycosylation at N227 (Pr = 0.17 | P = 4.7e-03), ELME000052|ELME000070|ELME000120|ELME000182|PS00001|PS00008,-
+FGFR1_HUMAN,Q764H,0.496,-,-,-
+FGFR1_HUMAN,V174A,0.808,Gain of Intrinsic disorder (Pr = 0.35 | P = 0.02); Loss of Strand (Pr = 0.27 | P = 0.02); Loss of Disulfide linkage at C178 (Pr = 0.25 | P = 6.3e-03); Altered Metal binding (Pr = 0.24 | P = 0.03); Altered Transmembrane protein (Pr = 0.23 | P = 2.3e-03); Altered Stability (Pr = 0.22 | P = 0.01); Loss of Acetylation at K172 (Pr = 0.20 | P = 0.04), ELME000137|ELME000146|ELME000337|PS00005,-
+FGFR1_HUMAN,G237D,0.930,Altered Transmembrane protein (Pr = 0.31 | P = 1.3e-04); Altered Ordered interface (Pr = 0.29 | P = 0.02); Gain of Relative solvent accessibility (Pr = 0.27 | P = 0.02); Altered Metal binding (Pr = 0.26 | P = 9.5e-03); Gain of N-linked glycosylation at N240 (Pr = 0.14 | P = 7.1e-03); Gain of Sulfation at Y236 (Pr = 0.02 | P = 0.03), ELME000053|ELME000120,-
+FGFR1_HUMAN,D623E,0.699,Altered DNA binding (Pr = 0.29 | P = 4.1e-03); Gain of Allosteric site at R627 (Pr = 0.23 | P = 0.02); Altered Transmembrane protein (Pr = 0.21 | P = 4.0e-03); Altered Metal binding (Pr = 0.12 | P = 0.03); Gain of Catalytic site at R627 (Pr = 0.12 | P = 0.03), PS00109,-
+FGFR1_HUMAN,P800L,0.256,-,-,-
+FGFR1_HUMAN,D335V,0.945,Altered Transmembrane protein (Pr = 0.37 | P = 1.9e-05); Altered Ordered interface (Pr = 0.26 | P = 0.01); Altered Metal binding (Pr = 0.20 | P = 0.03); Gain of N-linked glycosylation at N330 (Pr = 0.10 | P = 0.01), PS00006,-
+FGFR1_HUMAN,S685F,0.913,Altered Ordered interface (Pr = 0.33 | P = 9.6e-03); Altered Transmembrane protein (Pr = 0.24 | P = 1.7e-03); Altered Metal binding (Pr = 0.17 | P = 0.04); Gain of Pyrrolidone carboxylic acid at Q680 (Pr = 0.05 | P = 0.03), ELME000053,-
+FGFR1_HUMAN,N628S,0.909,Altered DNA binding (Pr = 0.28 | P = 5.0e-03); Gain of Relative solvent accessibility (Pr = 0.27 | P = 0.02); Gain of Strand (Pr = 0.27 | P = 0.03); Altered Metal binding (Pr = 0.26 | P = 0.01); Loss of Allosteric site at R627 (Pr = 0.25 | P = 0.02); Altered Transmembrane protein (Pr = 0.22 | P = 2.9e-03); Gain of Proteolytic cleavage at R627 (Pr = 0.14 | P = 0.01); Gain of Catalytic site at R627 (Pr = 0.12 | P = 0.03), ELME000053|ELME000146|ELME000239|ELME000335|PS00109,-
+FGFR1_HUMAN,R250Q,0.825,Altered Transmembrane protein (Pr = 0.32 | P = 7.8e-05); Altered Metal binding (Pr = 0.24 | P = 0.04), ELME000136|ELME000153|ELME000155|ELME000159,-
+FGFR1_HUMAN,G70R,0.744,Altered Transmembrane protein (Pr = 0.33 | P = 5.8e-05); Loss of Strand (Pr = 0.31 | P = 1.3e-03); Altered Disordered interface (Pr = 0.27 | P = 0.05); Loss of Relative solvent accessibility (Pr = 0.25 | P = 0.03); Altered Metal binding (Pr = 0.19 | P = 0.05); Gain of Proteolytic cleavage at D69 (Pr = 0.12 | P = 0.03), ELME000193|PS00008,-
+FGFR1_HUMAN,W4C,0.875,Altered Ordered interface (Pr = 0.25 | P = 0.03); Altered Disordered interface (Pr = 0.24 | P = 0.02); Altered Signal peptide (Pr = 0.12 | P = 1.5e-03); Loss of N-terminal acetylation at M1 (Pr = 0.02 | P = 6.1e-03), ELME000137|PS00005,-
+FGFR1_HUMAN,N546K,0.903,Gain of Acetylation at K542 (Pr = 0.19 | P = 0.05); Gain of Catalytic site at C551 (Pr = 0.13 | P = 0.03), ELME000233,-
+FGFR1_HUMAN,C277Y,0.966,Loss of Disulfide linkage at C277 (Pr = 0.58 | P = 2.9e-04); Altered Metal binding (Pr = 0.57 | P = 2.6e-03); Gain of Relative solvent accessibility (Pr = 0.30 | P = 9.0e-03); Altered Ordered interface (Pr = 0.28 | P = 0.03); Altered Transmembrane protein (Pr = 0.25 | P = 1.5e-03); Gain of Catalytic site at C277 (Pr = 0.14 | P = 0.03); Altered Stability (Pr = 0.13 | P = 0.03), None,-
+FGFR1_HUMAN,L245P,0.969,Altered Stability (Pr = 0.63 | P = 7.9e-04); Altered Transmembrane protein (Pr = 0.32 | P = 8.3e-05); Altered Ordered interface (Pr = 0.31 | P = 0.01); Gain of N-linked glycosylation at N240 (Pr = 0.13 | P = 7.3e-03); Gain of Sulfation at Y243 (Pr = 0.03 | P = 0.01), ELME000052|ELME000333,-
+FGFR1_HUMAN,Y374C,0.666,Altered Transmembrane protein (Pr = 0.12 | P = 0.03), ELME000052|ELME000081|ELME000120|ELME000159|ELME000182,-
+FGFR1_HUMAN,N628K,0.950,Altered DNA binding (Pr = 0.27 | P = 4.4e-03); Altered Metal binding (Pr = 0.26 | P = 6.0e-03); Gain of Strand (Pr = 0.26 | P = 0.05); Loss of Relative solvent accessibility (Pr = 0.25 | P = 0.03); Loss of Allosteric site at R627 (Pr = 0.25 | P = 0.02); Altered Transmembrane protein (Pr = 0.21 | P = 4.2e-03); Loss of Catalytic site at R627 (Pr = 0.13 | P = 0.03), ELME000102|ELME000106|ELME000146|PS00109,-
+FGFR1_HUMAN,P772S,0.366,-,-,-
+FGFR1_HUMAN,W2E,0.872,Gain of Intrinsic disorder (Pr = 0.38 | P = 0.01); Altered Ordered interface (Pr = 0.25 | P = 0.03); Altered Disordered interface (Pr = 0.25 | P = 0.02); Altered Signal peptide (Pr = 0.12 | P = 1.6e-03); Gain of N-terminal acetylation at M1 (Pr = 0.03 | P = 4.3e-03), ELME000352|ELME000355,-
+FGFR1_HUMAN,K5N,0.395,-,-,-
+FGFR1_HUMAN,C6N,0.593,Altered Disordered interface (Pr = 0.30 | P = 7.8e-03); Altered Signal peptide (Pr = 0.17 | P = 9.2e-04); Gain of N-terminal acetylation at M1 (Pr = 0.03 | P = 4.6e-03); Gain of GPI-anchor amidation at C6 (Pr = 0.02 | P = 0.02), ELME000106|ELME000137|ELME000146,-
+FGFR1_HUMAN,L8G,0.909,Altered Disordered interface (Pr = 0.20 | P = 0.03); Altered Signal peptide (Pr = 0.12 | P = 1.6e-03), ELME000106|ELME000137|ELME000146,-
