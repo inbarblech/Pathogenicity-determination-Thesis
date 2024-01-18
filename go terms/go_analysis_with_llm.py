@@ -1,7 +1,5 @@
-import uniprot_info as uni
+from data_retrievel_and_feature_extraction import uniprot_info as uni
 import pandas as pd
-
-
 
 def transofrm_go_terms_to_df(go_terms: dict) -> pd.DataFrame:
     data = pd.DataFrame.from_dict(go_terms, orient='index')

@@ -1,0 +1,77 @@
+GJB2_HUMAN,F115Y,0.106,-,-,-
+GJB2_HUMAN,I33T,0.802,Loss of Helix (Pr = 0.29 | P = 0.01); Gain of Strand (Pr = 0.28 | P = 9.9e-03); Altered Transmembrane protein (Pr = 0.14 | P = 0.02); Gain of Catalytic site at R32 (Pr = 0.08 | P = 0.05), ELME000052|ELME000148|ELME000149,-
+GJB2_HUMAN,I33V,0.353,-,-,-
+GJB2_HUMAN,T18I,0.860,Altered Transmembrane protein (Pr = 0.27 | P = 8.5e-04); Loss of Catalytic site at K22 (Pr = 0.16 | P = 0.02), None,-
+GJB2_HUMAN,H16R,0.730,Altered Transmembrane protein (Pr = 0.29 | P = 3.1e-04); Loss of Relative solvent accessibility (Pr = 0.27 | P = 0.02), ELME000008|ELME000062|ELME000065|ELME000100|ELME000108|PS00004,-
+GJB2_HUMAN,H16Y,0.423,-,-,-
+GJB2_HUMAN,E42D,0.333,-,-,-
+GJB2_HUMAN,E42K,0.471,-,-,-
+GJB2_HUMAN,L10P,0.917,Gain of Intrinsic disorder (Pr = 0.31 | P = 0.04); Altered Transmembrane protein (Pr = 0.28 | P = 4.4e-04); Gain of Relative solvent accessibility (Pr = 0.26 | P = 0.03); Altered Stability (Pr = 0.16 | P = 0.02), None,-
+GJB2_HUMAN,L10W,0.841,Altered Transmembrane protein (Pr = 0.29 | P = 2.9e-04); Loss of Relative solvent accessibility (Pr = 0.25 | P = 0.03); Gain of GPI-anchor amidation at N14 (Pr = 0.02 | P = 0.02), None,-
+GJB2_HUMAN,P225L,0.400,-,-,-
+GJB2_HUMAN,L6P,0.852,Gain of Intrinsic disorder (Pr = 0.51 | P = 1.6e-03); Altered Transmembrane protein (Pr = 0.28 | P = 4.6e-04); Gain of Relative solvent accessibility (Pr = 0.27 | P = 0.02); Altered Metal binding (Pr = 0.20 | P = 0.03); Gain of N-terminal acetylation at M1 (Pr = 0.14 | P = 1.1e-03), ELME000136|ELME000159|ELME000358|PS00008,-
+GJB2_HUMAN,C169Y,0.957,Loss of Disulfide linkage at C169 (Pr = 0.48 | P = 4.0e-04); Altered Metal binding (Pr = 0.46 | P = 4.7e-03); Altered Ordered interface (Pr = 0.27 | P = 6.6e-03); Altered Transmembrane protein (Pr = 0.26 | P = 1.3e-03); Loss of Relative solvent accessibility (Pr = 0.23 | P = 0.05); Gain of Catalytic site at C169 (Pr = 0.09 | P = 0.04), ELME000146|PS00408,-
+GJB2_HUMAN,C60G,0.960,Altered Metal binding (Pr = 0.73 | P = 8.4e-04); Altered Ordered interface (Pr = 0.32 | P = 0.01); Loss of Relative solvent accessibility (Pr = 0.27 | P = 0.02); Altered Transmembrane protein (Pr = 0.26 | P = 7.4e-04); Loss of Disulfide linkage at C60 (Pr = 0.26 | P = 3.9e-03); Gain of B-factor (Pr = 0.25 | P = 0.04); Gain of Catalytic site at C60 (Pr = 0.20 | P = 0.01); Loss of Pyrrolidone carboxylic acid at Q57 (Pr = 0.12 | P = 8.2e-03); Altered Stability (Pr = 0.09 | P = 0.05), PS00407,-
+GJB2_HUMAN,E101G,0.461,-,-,-
+GJB2_HUMAN,L36P,0.952,Loss of Helix (Pr = 0.34 | P = 9.4e-04); Altered Ordered interface (Pr = 0.33 | P = 7.4e-03); Gain of Relative solvent accessibility (Pr = 0.32 | P = 4.3e-03); Gain of Strand (Pr = 0.31 | P = 9.0e-04); Altered Transmembrane protein (Pr = 0.28 | P = 6.3e-04); Altered Metal binding (Pr = 0.25 | P = 0.04), ELME000148|ELME000149,-
+GJB2_HUMAN,W172R,0.632,Altered Transmembrane protein (Pr = 0.33 | P = 5.8e-05); Altered Metal binding (Pr = 0.32 | P = 0.01); Loss of Disulfide linkage at C169 (Pr = 0.26 | P = 3.9e-03); Loss of Relative solvent accessibility (Pr = 0.24 | P = 0.04); Gain of ADP-ribosylation at W172 (Pr = 0.20 | P = 0.04), PS00408,-
+GJB2_HUMAN,W172C,0.717,Altered Metal binding (Pr = 0.39 | P = 8.5e-03); Loss of Disulfide linkage at C169 (Pr = 0.34 | P = 7.8e-04); Altered Transmembrane protein (Pr = 0.28 | P = 4.8e-04); Loss of Relative solvent accessibility (Pr = 0.27 | P = 0.02), ELME000079|PS00408,-
+GJB2_HUMAN,D159V,0.341,-,-,-
+GJB2_HUMAN,D159N,0.096,-,-,-
+GJB2_HUMAN,S19T,0.377,-,-,-
+GJB2_HUMAN,P173R,0.941,Altered Metal binding (Pr = 0.33 | P = 9.8e-03); Loss of Relative solvent accessibility (Pr = 0.26 | P = 0.03); Gain of Disulfide linkage at C169 (Pr = 0.26 | P = 3.2e-03); Altered Transmembrane protein (Pr = 0.24 | P = 1.4e-03), ELME000051|PS00408,-
+GJB2_HUMAN,C174Y,0.953,Altered Metal binding (Pr = 0.49 | P = 4.0e-03); Loss of Disulfide linkage at C174 (Pr = 0.37 | P = 6.4e-04); Altered Ordered interface (Pr = 0.29 | P = 0.03); Altered Transmembrane protein (Pr = 0.27 | P = 8.7e-04); Gain of Strand (Pr = 0.26 | P = 0.04); Gain of Relative solvent accessibility (Pr = 0.23 | P = 0.05); Gain of Catalytic site at C174 (Pr = 0.19 | P = 0.01), ELME000084|PS00408,-
+GJB2_HUMAN,C174R,0.958,Altered Metal binding (Pr = 0.47 | P = 4.5e-03); Loss of Disulfide linkage at C174 (Pr = 0.37 | P = 6.4e-04); Altered Ordered interface (Pr = 0.32 | P = 0.01); Altered Transmembrane protein (Pr = 0.29 | P = 2.6e-04); Loss of Relative solvent accessibility (Pr = 0.24 | P = 0.05); Gain of Catalytic site at C174 (Pr = 0.17 | P = 0.02), PS00408,-
+GJB2_HUMAN,E147K,0.793,Altered Transmembrane protein (Pr = 0.16 | P = 0.01), ELME000137|ELME000146,-
+GJB2_HUMAN,F161S,0.749,Altered Transmembrane protein (Pr = 0.30 | P = 1.4e-04); Altered Ordered interface (Pr = 0.29 | P = 4.0e-03); Gain of Relative solvent accessibility (Pr = 0.29 | P = 0.01); Altered Metal binding (Pr = 0.11 | P = 0.04); Loss of Sulfation at Y158 (Pr = 0.01 | P = 0.05), ELME000120|ELME000148,-
+GJB2_HUMAN,T208P,0.584,Altered Ordered interface (Pr = 0.30 | P = 2.9e-03), ELME000070|ELME000333|PS00001,-
+GJB2_HUMAN,W134R,0.776,Altered Ordered interface (Pr = 0.31 | P = 4.0e-03); Gain of Helix (Pr = 0.30 | P = 0.01); Altered DNA binding (Pr = 0.30 | P = 1.5e-03); Loss of Strand (Pr = 0.28 | P = 8.2e-03); Gain of Allosteric site at W133 (Pr = 0.18 | P = 0.05); Altered Transmembrane protein (Pr = 0.13 | P = 0.02); Loss of Catalytic site at Y136 (Pr = 0.08 | P = 0.05), ELME000053|ELME000147|ELME000173|ELME000336,-
+GJB2_HUMAN,V153A,0.467,-,-,-
+GJB2_HUMAN,V153I,0.218,-,-,-
+GJB2_HUMAN,V178M,0.909,Altered Ordered interface (Pr = 0.28 | P = 0.04); Altered Metal binding (Pr = 0.27 | P = 0.02); Altered Transmembrane protein (Pr = 0.26 | P = 8.5e-04); Gain of Disulfide linkage at C174 (Pr = 0.26 | P = 3.2e-03), PS00408,-
+GJB2_HUMAN,V178E,0.968,Altered Transmembrane protein (Pr = 0.36 | P = 1.9e-05); Gain of Disulfide linkage at C174 (Pr = 0.28 | P = 1.5e-03); Altered Metal binding (Pr = 0.27 | P = 0.02); Gain of Catalytic site at C180 (Pr = 0.11 | P = 0.04), PS00408,-
+GJB2_HUMAN,I35S,0.906,Altered Transmembrane protein (Pr = 0.30 | P = 1.7e-04); Loss of Helix (Pr = 0.28 | P = 0.03); Gain of Strand (Pr = 0.27 | P = 0.03); Gain of Catalytic site at R32 (Pr = 0.09 | P = 0.04), ELME000148|ELME000149|ELME000335,-
+GJB2_HUMAN,S138N,0.336,-,-,-
+GJB2_HUMAN,S138G,0.280,-,-,-
+GJB2_HUMAN,I111V,0.043,-,-,-
+GJB2_HUMAN,I111M,0.069,-,-,-
+GJB2_HUMAN,I111T,0.070,-,-,-
+GJB2_HUMAN,W24L,0.927,Gain of Helix (Pr = 0.31 | P = 4.2e-03); Loss of Strand (Pr = 0.30 | P = 1.9e-03); Altered Ordered interface (Pr = 0.26 | P = 0.01); Altered Transmembrane protein (Pr = 0.18 | P = 7.7e-03); Loss of Catalytic site at K22 (Pr = 0.16 | P = 0.02), ELME000106|ELME000146|ELME000333,-
+GJB2_HUMAN,D179N,0.888,Altered Metal binding (Pr = 0.49 | P = 4.0e-03); Altered Transmembrane protein (Pr = 0.31 | P = 9.7e-05); Altered Ordered interface (Pr = 0.31 | P = 0.01); Loss of Strand (Pr = 0.26 | P = 0.04); Loss of Disulfide linkage at C174 (Pr = 0.24 | P = 8.4e-03); Loss of Allosteric site at R184 (Pr = 0.21 | P = 0.04), ELME000155|PS00408,-
+GJB2_HUMAN,V27I,0.562,Gain of Helix (Pr = 0.27 | P = 0.05); Loss of Strand (Pr = 0.26 | P = 0.03); Altered Transmembrane protein (Pr = 0.19 | P = 7.5e-03); Loss of Catalytic site at K22 (Pr = 0.16 | P = 0.02); Altered DNA binding (Pr = 0.14 | P = 0.05), ELME000335,-
+GJB2_HUMAN,G4S,0.097,-,-,-
+GJB2_HUMAN,T5A,0.126,-,-,-
+GJB2_HUMAN,T5G,0.340,-,-,-
+GJB2_HUMAN,L28I,0.470,-,-,-
+GJB2_HUMAN,Y68F,0.202,-,-,-
+GJB2_HUMAN,Y68H,0.423,-,-,-
+GJB2_HUMAN,Y97H,0.609,Altered Metal binding (Pr = 0.38 | P = 9.6e-03); Gain of Intrinsic disorder (Pr = 0.33 | P = 0.03); Altered Ordered interface (Pr = 0.28 | P = 7.1e-03); Loss of Allosteric site at H94 (Pr = 0.23 | P = 0.02); Altered Coiled coil (Pr = 0.13 | P = 0.04); Altered Stability (Pr = 0.11 | P = 0.03), ELME000012,-
+GJB2_HUMAN,K102M,0.441,-,-,-
+GJB2_HUMAN,I107M,0.094,-,-,-
+GJB2_HUMAN,I107V,0.071,-,-,-
+GJB2_HUMAN,K108R,0.104,-,-,-
+GJB2_HUMAN,D117N,0.241,-,-,-
+GJB2_HUMAN,I118L,0.091,-,-,-
+GJB2_HUMAN,T123K,0.137,-,-,-
+GJB2_HUMAN,T123N,0.111,-,-,-
+GJB2_HUMAN,T123S,0.044,-,-,-
+GJB2_HUMAN,V126I,0.100,-,-,-
+GJB2_HUMAN,S131P,0.515,Altered Ordered interface (Pr = 0.25 | P = 0.03); Altered DNA binding (Pr = 0.25 | P = 8.6e-03); Altered Transmembrane protein (Pr = 0.16 | P = 0.01); Loss of Catalytic site at Y136 (Pr = 0.08 | P = 0.05), ELME000051|ELME000053|ELME000147,-
+GJB2_HUMAN,V144I,0.082,-,-,-
+GJB2_HUMAN,I145V,0.048,-,-,-
+GJB2_HUMAN,A149V,0.063,-,-,-
+GJB2_HUMAN,V156I,0.031,-,-,-
+GJB2_HUMAN,S162A,0.051,-,-,-
+GJB2_HUMAN,S162F,0.128,-,-,-
+GJB2_HUMAN,Q164K,0.252,-,-,-
+GJB2_HUMAN,N170G,0.366,-,-,-
+GJB2_HUMAN,N170S,0.129,-,-,-
+GJB2_HUMAN,N170T,0.291,-,-,-
+GJB2_HUMAN,V182I,0.246,-,-,-
+GJB2_HUMAN,I196V,0.122,-,-,-
+GJB2_HUMAN,V207I,0.104,-,-,-
+GJB2_HUMAN,Y217F,0.092,-,-,-
+GJB2_HUMAN,G220A,0.101,-,-,-
+GJB2_HUMAN,G220K,0.142,-,-,-
+GJB2_HUMAN,K221R,0.080,-,-,-
+GJB2_HUMAN,K223R,0.090,-,-,-

@@ -25,7 +25,9 @@ def create_txt_file_from_csv(csv_file_path: str, crv_file_path: str, np: str):
 
 
 if __name__ == "__main__":
-    genes = ["WFS1"]
-    gene_np_ids_dict = {"SLC26A4": "NP_000432.1", "COL4A3": "NP_000082.2", "COL4A5": "NP_203699.1", "COL2A1": "NP_001835.3", "WFS1": "NM_006005.3", "FGFR1": "NP_075598.2", "MYO7A": "NP_000251.3"}
+    genes = ["GJB2"]
+    file_with_variants_name = None  # Initiated inside the for loop
+    gene_np_ids_dict = {"SLC26A4": "NP_000432.1", "COL4A3": "NP_000082.2", "COL4A5": "NP_203699.1", "COL2A1": "NP_001835.3", "WFS1": "NM_006005.3", "FGFR1": "NP_075598.2", "MYO7A": "NP_000251.3", "GJB2": "NP_003995"}
     for gene in genes:
-        create_txt_file_from_csv(f"C:\\Users\\InbarBlech\\PycharmProjects\\Thesis\\predictions_vs_real\\{gene}\\predictions_vs_real_with_variant.csv", f"C:\\Users\\InbarBlech\\PycharmProjects\\Thesis\\VEST4\\VEST4_input2_{gene}.crv", f"{gene_np_ids_dict[gene]}")
+        file_with_variants_name = f"{gene}_predictions_LOPO_XGB.csv"
+        create_txt_file_from_csv(f"C:\\Users\\InbarBlech\\PycharmProjects\\Thesis\\predictions_vs_real\\{gene}\\{file_with_variants_name}", f"C:\\Users\\InbarBlech\\PycharmProjects\\Thesis\\benchmarking\\VEST4\\VEST4_input_{gene}.crv", f"{gene_np_ids_dict[gene]}")

@@ -545,35 +545,6 @@ def create_position_repetitions_graph(data: dict, gene: str, path=None) -> None:
     plt.savefig(f"{path}position_repetition_graph_{gene}.png")
 
 
-def create_list_of_variants_from_predictions_vs_real_csv(path):
-    """This function creates a list of variants from the predictions_vs_real csv file."""
-    df = pd.read_csv(f"{path}/predictions_vs_real_with_variant.csv", header=0)
-    variant_list = df['variant'].tolist()
-    return variant_list
-
-
-def create_fasta_file_from_list_of_variants(variant_list, path):
-    """This function creates a fasta file from a list of variants.
-    The fasta file is saved in the path folder.
-    FASTA format:
-    >gene_HUMAN variant1 variant2 ...
-    Args:
-        variant_list: list of variants.
-        path: the path to the folder where the fasta file will be saved.
-    """
-    gene = path.split("/")[-1]
-    # create the fasta file/s, each file contains maximum 100 variants
-    variants_counter = 0
-    # get the sequence of the gene from uniport
-    seq = uni.get_sequence(gene)
-    while variants_counter < len(variant_list):
-        variants = " ".join(variant_list[variants_counter:variants_counter+100])
-        with open(f"{path}/{gene}_{variants_counter}.fasta", "w") as f:
-            f.write(f">{gene}_HUMAN {variants}")
-            f.write(f"\n{seq}")
-        variants_counter += 100
-
-
 def add_source_column_according_to_input(df: pd.DataFrame, source: str):
     """
     This function adds a column to the dataframe with the source of the data.
@@ -586,17 +557,95 @@ def add_source_column_according_to_input(df: pd.DataFrame, source: str):
 
 
 if __name__ == "__main__":
-    # path_to_folders = "/home/inbar/variants/clinvar_variants/"
-    # df = pd.read_csv(f"/home/inbar/clinvar_variants_for_validation_set_without_redundancy1.csv", header=0)
+    # path_to_folders = "/home/inbar/variants/humsavar/"
+    # df = pd.read_csv(f"/home/inbar/humsavar_8_genes.csv")
     # write_to_folders.create_variant_folders_from_dataframe(path_to_folders, df)
 
     # # Get AF structure
-    # copy_pdb_files_to_all_variant_folders_in_all_gene_folders("/home/inbar/variants/clinvar_variants/")
+    # copy_pdb_files_to_all_variant_folders_in_all_gene_folders("/home/inbar/variants/humsavar/")
 
-    # Run FoldX
-    path = "/home/inbar/variants/clinvar_variants/"
-    create_mutation_file_to_all_variants(path)
+    # # Run FoldX
+    # path = "/home/inbar/variants/humsavar/"
+    # create_mutation_file_to_all_variants(path)
 
+    # #### run oda sasa
+    # errors = []
+    # path = "/home/inbar/variants/humsavar/"
+    # dirs = os.listdir(path)
+    # for path in dirs:
+    #     variants_dirs = os.listdir(f"/home/inbar/variants/humsavar/{path}/")
+    #     for variant_path in variants_dirs:
+    #         af_exists = False
+    #         if not os.path.isdir(f"/home/inbar/variants/humsavar/{path}/{variant_path}/"):
+    #             continue
+    #         # Continue if there's already a file that ends with .pdb.oda and .pdb.sasa in the folder, no matter what the name is
+    #         files = os.listdir(f"/home/inbar/variants/humsavar/{path}/{variant_path}/")
+    #         # Filter files that end with ".oda"
+    #         oda_files = [file for file in files if file.endswith(".oda")]
+    #         sasa_files = [file for file in files if file.endswith(".atmasa")]
+    #         if len(oda_files) > 0 or len(sasa_files) > 0:
+    #             errors.append(f"{variant_path} already has .oda or .atmasa files")
+    #             continue
+    #         for file in os.listdir(f"/home/inbar/variants/humsavar/{path}/{variant_path}/"):
+    #             if file.startswith("AF"):
+    #                 af_exists = True
+    #                 break
+    #         if af_exists:
+    #             run_command_line_programs.run_opra_oda_sasa(f"/home/inbar/variants/humsavar/{path}/{variant_path}/")
+    # # save errors to file
+    # with open("errors.txt", "w") as f:
+    #     for error in errors:
+    #         f.write(error)
+    #         f.write("\n")
+
+    # # Check every folder that has a .pdb file has a .pdb.oda and .pdb.sasa files
+    # path = "/home/inbar/variants/clinvar_variants/"
+    # dirs = os.listdir(path)
+    # # create errors csv file
+    # errors = pd.DataFrame(columns=['variant', 'error'])
+    # for path in dirs:
+    #     variants_dirs = os.listdir(f"/home/inbar/variants/clinvar_variants/{path}/")
+    #     for variant_path in variants_dirs:
+    #         if not os.path.isdir(f"/home/inbar/variants/clinvar_variants/{path}/{variant_path}/"):
+    #             continue
+    #         # Continue if there's already a file that ends with .pdb.oda and .pdb.sasa in the folder, no matter what the name is
+    #         files = os.listdir(f"/home/inbar/variants/clinvar_variants/{path}/{variant_path}/")
+    #         # Filter files that end with ".oda"
+    #         oda_files = [file for file in files if file.endswith(".oda")]
+    #         sasa_files = [file for file in files if file.endswith(".atmasa")]
+    #         if len(oda_files) == 0:
+    #             # Check if there's a file that starts with AF in the folder
+    #             af_exists = False
+    #             for file in os.listdir(f"/home/inbar/variants/clinvar_variants/{path}/{variant_path}/"):
+    #                 if file.startswith("AF"):
+    #                     af_exists = True
+    #                     break
+    #             if af_exists:
+    #                 errors = errors.append({'variant': variant_path, 'error': 'oda'}, ignore_index=True)
+    #         if len(sasa_files) == 0:
+    #             # Check if there's a file that starts with AF in the folder
+    #             af_exists = False
+    #             for file in os.listdir(f"/home/inbar/variants/clinvar_variants/{path}/{variant_path}/"):
+    #                 if file.startswith("AF"):
+    #                     af_exists = True
+    #                     break
+    #             if af_exists:
+    #                 errors = errors.append({'variant': variant_path, 'error': 'sasa'}, ignore_index=True)
+    # # save errors to file
+    # errors.to_csv("/home/inbar/variants/clinvar_variants/no_oda_or_sasa_with_af.csv", index=False)
+    #
+    #
+    ### Run oda sasa for variants without it, using the errors csv
+    errors_df = pd.read_csv("/home/inbar/variants/no_oda_or_sasa_clinvar_with_af.csv")
+    for index, row in errors_df.iterrows():
+        variant = row["variant"]
+        errors = row["error"]
+        if errors == "oda":
+            run_command_line_programs.run_opra_oda_sasa(f"/home/inbar/variants/clinvar_variants/{variant}/", oda=True, sasa=False, opra=False)
+        if errors == "sasa":
+            run_command_line_programs.run_opra_oda_sasa(f"/home/inbar/variants/clinvar_variants/{variant}/", oda=False, sasa=True, opra=False)
+
+    ####
     # # Create fasta file for each gene
     # path = "predictions_vs_real"
     # genes = ["WFS1", "SLC26A4", "FGFR1", "MYO7A", "COL2A1", "COL4A5", "COL4A3"]
