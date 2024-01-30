@@ -1,6 +1,7 @@
 from data_retrievel_and_feature_extraction import uniprot_info as uni
 import pandas as pd
 
+
 def transofrm_go_terms_to_df(go_terms: dict) -> pd.DataFrame:
     data = pd.DataFrame.from_dict(go_terms, orient='index')
     data = data.reset_index()
@@ -18,7 +19,6 @@ def split_go_terms_to_categories(df: pd.DataFrame) -> tuple:
         second dataframe: biological process
         third dataframe: molecular function
     """
-
     df_cellular_component = df[df[0].str.startswith('C:')]
     df_biological_process = df[df[0].str.startswith('P:')]
     df_molecular_function = df[df[0].str.startswith('F:')]
