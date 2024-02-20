@@ -43,5 +43,5 @@ def get_structure_af(gene_id):
 def create_mutation_using_foldx(mut, gene_id):
     """creates a mutation using foldx"""
     mut_with_a = f"{mut[0]}A{mut[1:]}"
-    command = f"foldx --command=PositionScan --pdb=AF_{gene_id}.pdb --positions={mut_with_a}"
+    command = f"/home/inbar/software/foldx/foldx_20241231 --command=PositionScan --pdb=AF_{gene_id}.pdb --positions={mut_with_a}"
     sp.run(command, shell=True)

@@ -17,22 +17,37 @@ structure of extract_features.py:
 
 Calling this script from main, to update the features.csv file:
     features_df = pd.read_csv(f"{PATH_TO_OUTPUT_FOLDER}features.csv", header=0)
-    feature_extraction_col_by_col.main(features_df, PATH_TO_OUTPUT_FOLDER)
+    feature_extraction_col_by_col.main(features_df, full_path_to_results_csv (csv), variants_folder (path))
+    
+# You must change these:
+The features you want to extract, in the FEATURES_LIST up top.
+The path to the error file, in the PATH_TO_ERROR_FILE up top.
+
+# You can change these:
+The name of the folder where the features.csv file will be saved, in the MASTER_FOLDER_NAME up top.
+If you only want to run on a specific variant, you can change in the extract_all_features_for_all_variants_in_df
+If you want to run deltas for specific features, you can change in the extract_all_features_for_all_variants_in_df
 """
 
+MASTER_FOLDER_NAME = "POLD1_and_POLE_200"
+FULL_FEATURES_LIST = ['is_residue_transmembranal', 'plddt_residue', 'secondary_structure', 'sequence_length', 'pssm', 'entropy', 'blosum', 'stability', 'hydrophobicity', 'volume', 'protein_contain_transmembrane', 'aa', 'oda', 'sasa', 'opra', 'RSA']
 
-# FEATURES_LIST = ['position']
-FEATURES_LIST = ['is_residue_transmembranal', 'plddt_residue', 'secondary_structure', 'sequence_length', 'pssm', 'entropy', 'blosum', 'stability', 'hydrophobicity', 'volume', 'protein_contain_transmembrane', 'aa', 'oda', 'sasa', 'RSA']
+FEATURES_LIST = ['is_residue_transmembranal', 'plddt_residue', 'secondary_structure', 'sequence_length', 'blosum', 'stability', 'hydrophobicity', 'volume', 'protein_contain_transmembrane', 'aa', 'oda', 'sasa', 'opra', 'RSA']
+FEATURES_LIST_WITH_DELTA = ['stability', 'hydrophobicity', 'volume', 'oda', 'sasa', 'opra']
 
-# FEATURES_LIST = ["pssm", "entropy"]
-# FEATURES_LIST_WITH_DELTA = ['stability', 'hydrophobicity', 'volume', 'oda', 'sasa']
-
-PATH_TO_ERROR_FILE = "/home/inbar/variants/Benign_for_gene_specific/feature_extraction_errors_GJB2.csv"
+PATH_TO_ERROR_FILE = "/home/inbar/results/feature_exraction_run_POLD1_POLE_200.csv"
 
 
-def main(features_df: pd.DataFrame, path_to_output_folder: str, name_for_csv_file: str = "features.csv"):
+def main(features_df: pd.DataFrame, full_path_to_csv: str = None,
+         path_to_output_folder: str = None, name_for_csv_file: str = "features.csv"):
     """Main function for feature extraction."""
-    path_to_csv_file = f"{path_to_output_folder}/{name_for_csv_file}"
+    if full_path_to_csv is not None:
+        path_to_csv_file = full_path_to_csv
+    elif path_to_output_folder is not None:
+        path_to_csv_file = f"{path_to_output_folder}/{name_for_csv_file}"
+    else:
+        raise ValueError("You must provide either a full path to the csv file, or a path to the output folder.")
+    #
     features_df = extract_all_features_for_all_variants_in_df(features_df, path_to_csv_file)
     features_df.to_csv(path_to_csv_file, index=False)
 
@@ -41,6 +56,7 @@ def extract_all_features_for_all_variants_in_df(features_df: pd.DataFrame, path_
     """Extracts all the features for all the variants in the given dataframe, and adds them to the dataframe.
     Args:
         features_df (pd.DataFrame): The dataframe to add the features to.
+        path_to_csv_file (str): The path to the csv file to add the features to.
     """
     counter = 0
 
@@ -64,10 +80,11 @@ def extract_all_features_for_all_variants_in_df(features_df: pd.DataFrame, path_
         #     pathogenicity = 'Benign'
         # else:
         #     pathogenicity = 'Pathogenic'
-        variant_path = tools.get_variant_path(gene, variant, "Benign_for_gene_specific")
+        variant_path = tools.get_variant_path(gene, variant, MASTER_FOLDER_NAME)
         print(f"{counter}...extracting features for variant {variant} in gene {gene}")
 
         # # add essential features to the dataframe (Needed for some features)
+        # # This is not yet implemented
         # features_df = add_essential_features_to_df(features_df, gene, variant, variant_path, path_to_csv_file)
 
         # Extract all the features for this variant
@@ -76,7 +93,7 @@ def extract_all_features_for_all_variants_in_df(features_df: pd.DataFrame, path_
 
         # Add delta columns using get_delta_feature, for this variant
         # To change/add more features with delta, add them to the FEATURES_LIST_WITH_DELTA list up top.
-        # features_df = extract_delta_values_for_variant(features_df, gene, variant)
+        features_df = extract_delta_values_for_variant(features_df, gene, variant)
 
         # Append the variant to the csv
         features_df.to_csv(path_to_csv_file, index=False, header=True)
@@ -160,8 +177,6 @@ def write_feature_to_df(feature: str, variant_path: str, features_df: pd.DataFra
     print(f"Feature is: {feature} for variant {variant} in gene {gene}")
     if feature in ["blosum", "plddt_residue", "secondary_structure", "sequence_length", "is_residue_transmembranal",
                    "consurf_score", 'pssm', 'entropy']:
-        # print("enter the if in write_features_to_df") ######################################################################################
-        # print(f"aa1 {aa1}, aa2 {aa2}, gene {gene}, variant {variant_path}")
         feature_value = extract_feature_one_value(feature, variant_path, aa1=aa1, aa2=aa2, gene_name=gene)
         # Add the feature to the dataframe, in colume 'feature' and row where gene == gene and variant == variant
         features_df.loc[(features_df['gene'] == gene) & (features_df['variant'] == variant), feature] = feature_value

@@ -5,7 +5,7 @@ import general_tools as tools
 import handeling_directories as hd
 
 
-def run_opra_oda_sasa(variant_path: str, sasa: bool = True, oda: bool = True, opra: bool = False):
+def run_opra_oda_sasa(variant_path: str, sasa: bool = True, oda: bool = True, opra: bool = True):
     """creates a file with the OPRA, ODA and SASA score for the given PDB files of wt and mut, if the files exists."""
     # change the working directory to the variant folder
     os.chdir(variant_path)

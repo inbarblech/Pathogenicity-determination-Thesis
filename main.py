@@ -1,5 +1,6 @@
 import csv
 import shutil
+import subprocess as sp
 
 from data_retrievel_and_feature_extraction import uniprot_info as uni
 from data_retrievel_and_feature_extraction import add_mutation as add_mut
@@ -556,105 +557,178 @@ def add_source_column_according_to_input(df: pd.DataFrame, source: str):
     return df
 
 
+def get_af_structure_for_all_genes(path_to_gene_folders: str) -> None:
+    """This function creates the alphafold structure for all the genes in the gene folders.
+    Args:
+        path_to_gene_folders: path to the folder containing all the gene folders.
+    """
+    # change directory to the folder containing all the gene folders
+    os.chdir(path_to_gene_folders)
+    # get list of gene folders paths
+    gene_folders = os.listdir(path_to_gene_folders)
+    # get list of gene folder paths
+    gene_folder_paths = [os.path.join(path_to_gene_folders, folder) for folder in gene_folders]
+    # write pdb files to all variant folders, inside the gene folders
+    for gene_folder in gene_folder_paths:
+        os.chdir(gene_folder)
+        gene_id = uni.get_uniprot_id(gene_folder.split("/")[-1])
+        add_mut.get_structure_af(gene_id)
+        # Change name of the file to AF_{uniprot_id}.pdb
+        os.rename(f"AF-{gene_id}-F1-model_v4.pdb", f"AF_{gene_id}.pdb")
+
+
+def flip_suffix_in_variant_folders(master_path, suffix_to_flip, new_suffix):
+    """This function flips the suffix of the oda and opra files in the variant folders.
+    It changes the suffix from .pdb.oda to .oda.pdb and from .pdb.opra to .opra.pdb.
+    Args:
+        master_path: path to the folder containing all the gene folders.
+        suffix_to_flip: the suffix to flip, e.g. .pdb.oda
+        new_suffix: the new suffix, e.g. .oda.pdb
+    """
+    dirs = os.listdir(f"{master_path}/")
+    for gene_dir in dirs:
+        gene_path = os.path.join(master_path, gene_dir)
+        if not os.path.isdir(gene_path):
+            continue
+        variants_dir = os.listdir(gene_path)
+        for variant_dir in variants_dir:
+            variant_path = os.path.join(gene_path, variant_dir)
+            if not os.path.isdir(variant_path):
+                continue
+            files = os.listdir(variant_path)
+            # Filter files that end with suffix_to_flip
+            specific_files = [file for file in files if file.endswith(suffix_to_flip)]
+            # Change the suffix of the files
+            for file in specific_files:
+                old_path = os.path.join(variant_path, file)
+                new_path = os.path.join(variant_path, file.replace(suffix_to_flip, new_suffix))
+                os.rename(old_path, new_path)
+                print(f"Renamed file in {variant_dir}, to {new_suffix}")
+    print("Finished flipping suffixes")
+
+
 if __name__ == "__main__":
-    # path_to_folders = "/home/inbar/variants/humsavar/"
-    # df = pd.read_csv(f"/home/inbar/humsavar_8_genes.csv")
-    # write_to_folders.create_variant_folders_from_dataframe(path_to_folders, df)
 
-    # # Get AF structure
-    # copy_pdb_files_to_all_variant_folders_in_all_gene_folders("/home/inbar/variants/humsavar/")
+    ## Pipeline
 
-    # # Run FoldX
-    # path = "/home/inbar/variants/humsavar/"
-    # create_mutation_file_to_all_variants(path)
+    path_to_folders = "/home/inbar/variants/POLD1_and_POLE_200/"
+    path_to_df = "/home/inbar/results/benign_mutations_yosi.csv"
 
-    # #### run oda sasa
-    # errors = []
-    # path = "/home/inbar/variants/humsavar/"
-    # dirs = os.listdir(path)
-    # for path in dirs:
-    #     variants_dirs = os.listdir(f"/home/inbar/variants/humsavar/{path}/")
-    #     for variant_path in variants_dirs:
-    #         af_exists = False
-    #         if not os.path.isdir(f"/home/inbar/variants/humsavar/{path}/{variant_path}/"):
-    #             continue
-    #         # Continue if there's already a file that ends with .pdb.oda and .pdb.sasa in the folder, no matter what the name is
-    #         files = os.listdir(f"/home/inbar/variants/humsavar/{path}/{variant_path}/")
-    #         # Filter files that end with ".oda"
-    #         oda_files = [file for file in files if file.endswith(".oda")]
-    #         sasa_files = [file for file in files if file.endswith(".atmasa")]
-    #         if len(oda_files) > 0 or len(sasa_files) > 0:
-    #             errors.append(f"{variant_path} already has .oda or .atmasa files")
-    #             continue
-    #         for file in os.listdir(f"/home/inbar/variants/humsavar/{path}/{variant_path}/"):
-    #             if file.startswith("AF"):
-    #                 af_exists = True
-    #                 break
-    #         if af_exists:
-    #             run_command_line_programs.run_opra_oda_sasa(f"/home/inbar/variants/humsavar/{path}/{variant_path}/")
-    # # save errors to file
-    # with open("errors.txt", "w") as f:
-    #     for error in errors:
-    #         f.write(error)
-    #         f.write("\n")
+    df = pd.read_csv(path_to_df)
+    write_to_folders.create_variant_folders_from_dataframe(path_to_folders, df)
 
-    # # Check every folder that has a .pdb file has a .pdb.oda and .pdb.sasa files
-    # path = "/home/inbar/variants/clinvar_variants/"
-    # dirs = os.listdir(path)
-    # # create errors csv file
-    # errors = pd.DataFrame(columns=['variant', 'error'])
-    # for path in dirs:
-    #     variants_dirs = os.listdir(f"/home/inbar/variants/clinvar_variants/{path}/")
-    #     for variant_path in variants_dirs:
-    #         if not os.path.isdir(f"/home/inbar/variants/clinvar_variants/{path}/{variant_path}/"):
-    #             continue
-    #         # Continue if there's already a file that ends with .pdb.oda and .pdb.sasa in the folder, no matter what the name is
-    #         files = os.listdir(f"/home/inbar/variants/clinvar_variants/{path}/{variant_path}/")
-    #         # Filter files that end with ".oda"
-    #         oda_files = [file for file in files if file.endswith(".oda")]
-    #         sasa_files = [file for file in files if file.endswith(".atmasa")]
-    #         if len(oda_files) == 0:
-    #             # Check if there's a file that starts with AF in the folder
-    #             af_exists = False
-    #             for file in os.listdir(f"/home/inbar/variants/clinvar_variants/{path}/{variant_path}/"):
-    #                 if file.startswith("AF"):
-    #                     af_exists = True
-    #                     break
-    #             if af_exists:
-    #                 errors = errors.append({'variant': variant_path, 'error': 'oda'}, ignore_index=True)
-    #         if len(sasa_files) == 0:
-    #             # Check if there's a file that starts with AF in the folder
-    #             af_exists = False
-    #             for file in os.listdir(f"/home/inbar/variants/clinvar_variants/{path}/{variant_path}/"):
-    #                 if file.startswith("AF"):
-    #                     af_exists = True
-    #                     break
-    #             if af_exists:
-    #                 errors = errors.append({'variant': variant_path, 'error': 'sasa'}, ignore_index=True)
-    # # save errors to file
-    # errors.to_csv("/home/inbar/variants/clinvar_variants/no_oda_or_sasa_with_af.csv", index=False)
-    #
-    #
-    ### Run oda sasa for variants without it, using the errors csv
-    errors_df = pd.read_csv("/home/inbar/variants/no_oda_or_sasa_clinvar_with_af.csv")
+    # Get AF structure
+    get_af_structure_for_all_genes(path_to_folders)
+    # Get AF structure
+    copy_pdb_files_to_all_variant_folders_in_all_gene_folders(path_to_folders)
+
+    # Run FoldX
+    create_mutation_file_to_all_variants(path_to_folders)
+
+    #### run oda sasa opra
+    errors = []
+    dirs = os.listdir(path_to_folders)
+    for path in dirs:
+        variants_dirs = os.listdir(f"{path_to_folders}{path}/")
+        for variant_path in variants_dirs:
+            af_exists = False
+            if not os.path.isdir(f"{path_to_folders}{path}/{variant_path}/"):
+                continue
+            # Continue if there's already a file that ends with .pdb.oda and .pdb.sasa in the folder, no matter what the name is
+            files = os.listdir(f"{path_to_folders}{path}/{variant_path}/")
+            # Filter files that end with ".oda"
+            oda_files = [file for file in files if file.endswith(".oda")]
+            sasa_files = [file for file in files if file.endswith(".atmasa")]
+            if len(oda_files) > 0 or len(sasa_files) > 0:
+                errors.append(f"{variant_path} already has .oda or .atmasa files")
+                continue
+            for file in os.listdir(f"{path_to_folders}{path}/{variant_path}/"):
+                if file.startswith("AF"):
+                    af_exists = True
+                    break
+            if af_exists:
+                run_command_line_programs.run_opra_oda_sasa(f"{path_to_folders}{path}/{variant_path}/")
+    # save errors to file
+    with open("errors_oda_opra_sasa.txt", "w") as f:
+        for error in errors:
+            f.write(error)
+            f.write("\n")
+
+    # Check every folder that has a .pdb file has a .pdb.oda and .pdb.sasa files
+    dirs = os.listdir(path_to_folders)
+    # create errors csv file
+    errors = pd.DataFrame(columns=['variant', 'error'])
+    for path in dirs:
+        variants_dirs = os.listdir(f"{path_to_folders}{path}/")
+        for variant_path in variants_dirs:
+            if not os.path.isdir(f"{path_to_folders}{path}/{variant_path}/"):
+                continue
+            # Continue if there's already a file that ends with .pdb.oda and .pdb.sasa in the folder, no matter what the name is
+            files = os.listdir(f"{path_to_folders}{path}/{variant_path}/")
+            # Filter files that end with ".oda"
+            oda_files = [file for file in files if file.endswith(".oda")]
+            sasa_files = [file for file in files if file.endswith(".atmasa")]
+            opra_files = [file for file in files if file.endswith(".opra")]
+            if len(oda_files) == 0:
+                # Check if there's a file that starts with AF in the folder
+                af_exists = False
+                for file in os.listdir(f"{path_to_folders}{path}/{variant_path}/"):
+                    if file.startswith("AF"):
+                        af_exists = True
+                        break
+                if af_exists:
+                    errors = errors.append({'variant': variant_path, 'error': 'oda'}, ignore_index=True)
+            if len(sasa_files) == 0:
+                # Check if there's a file that starts with AF in the folder
+                af_exists = False
+                for file in os.listdir(f"{path_to_folders}{path}/{variant_path}/"):
+                    if file.startswith("AF"):
+                        af_exists = True
+                        break
+                if af_exists:
+                    errors = errors.append({'variant': variant_path, 'error': 'sasa'}, ignore_index=True)
+            if len(opra_files) == 0:
+                # Check if there's a file that starts with AF in the folder
+                af_exists = False
+                for file in os.listdir(f"{path_to_folders}{path}/{variant_path}/"):
+                    if file.startswith("AF"):
+                        af_exists = True
+                        break
+                if af_exists:
+                    errors = errors.append({'variant': variant_path, 'error': 'opra'}, ignore_index=True)
+    # save errors to file
+    errors.to_csv(f"{path_to_folders}no_oda_or_sasa_or_opra_with_af.csv", index=False)
+
+    # Run oda sasa for variants without it, using the errors csv
+    errors_df = pd.read_csv(f"{path_to_folders}no_oda_or_sasa_or_opra_with_af.csv")
     for index, row in errors_df.iterrows():
         variant = row["variant"]
+        gene = variant.split("_")[0]
         errors = row["error"]
         if errors == "oda":
-            run_command_line_programs.run_opra_oda_sasa(f"/home/inbar/variants/clinvar_variants/{variant}/", oda=True, sasa=False, opra=False)
+            run_command_line_programs.run_opra_oda_sasa(f"{path_to_folders}{gene}/{variant}/", oda=True, sasa=False, opra=False)
         if errors == "sasa":
-            run_command_line_programs.run_opra_oda_sasa(f"/home/inbar/variants/clinvar_variants/{variant}/", oda=False, sasa=True, opra=False)
+            run_command_line_programs.run_opra_oda_sasa(f"{path_to_folders}{gene}/{variant}/", oda=False, sasa=True, opra=False)
+        if errors == "opra":
+            run_command_line_programs.run_opra_oda_sasa(f"{path_to_folders}{gene}/{variant}/", oda=False, sasa=False, opra=True)
 
-    ####
-    # # Create fasta file for each gene
-    # path = "predictions_vs_real"
-    # genes = ["WFS1", "SLC26A4", "FGFR1", "MYO7A", "COL2A1", "COL4A5", "COL4A3"]
-    # for gene in genes:
-    #     path_for_gene = f"{path}/{gene}"
-    #     variant_list = create_list_of_variants_from_predictions_vs_real_csv(path_for_gene)
-    #     create_fasta_file_from_list_of_variants(variant_list, path_for_gene)
+    ###
+    # Flip the oda and opra file suffix, so the file will be named .oda.pdb and .opra.pdb instead of .pdb.oda and .pdb.opra
+    # Using the function flip_suffix_in_variant_folders
+    master_dir = path_to_folders
+    suffix_to_flip = ".pdb.oda"
+    new_suffix = ".oda.pdb"
+    flip_suffix_in_variant_folders(master_dir, suffix_to_flip, new_suffix)
+    suffix_to_flip = ".pdb.opra"
+    new_suffix = ".opra.pdb"
+    flip_suffix_in_variant_folders(master_dir, suffix_to_flip, new_suffix)
 
-    # features_df = pd.read_csv(f"{PATH_TO_OUTPUT_FOLDER}features_for_GJB2.csv", header=0)
+    features_df = pd.read_csv(path_to_df, header=0)
+    ext_feat.main(features_df, full_path_to_csv=path_to_df)
+
+
+###### End of pipeline
+    # features_df = pd.read_csv(f"{PATH_TO_OUTPUT_FOLDER}POLE_POLD1_variants_computations.csv", header=0)
     # feat_ext_col_by_col.main(features_df, PATH_TO_OUTPUT_FOLDER, "GJB2_with_positions")
 
     # features_df = pd.read_csv(f"{PATH_TO_OUTPUT_FOLDER}features.csv", header=0)
@@ -714,3 +788,14 @@ if __name__ == "__main__":
     # paths = [d for d in os.listdir(f"{PATH_TO_VARIANTS_FOLDER}Benign_for_gene_specific/GJB2/") if os.path.isdir(f"{PATH_TO_VARIANTS_FOLDER}Benign_for_gene_specific/GJB2/{d}")]
     # for path in paths:
     #     run_command_line_programs.run_opra_oda_sasa(f"{PATH_TO_VARIANTS_FOLDER}Benign_for_gene_specific/GJB2/{path}")
+
+
+    # Not clear relation
+
+    # # Create fasta file for each gene
+    # path = "predictions_vs_real"
+    # genes = ["WFS1", "SLC26A4", "FGFR1", "MYO7A", "COL2A1", "COL4A5", "COL4A3"]
+    # for gene in genes:
+    #     path_for_gene = f"{path}/{gene}"
+    #     variant_list = create_list_of_variants_from_predictions_vs_real_csv(path_for_gene)
+    #     create_fasta_file_from_list_of_variants(variant_list, path_for_gene)
