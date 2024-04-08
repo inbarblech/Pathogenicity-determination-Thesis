@@ -41,17 +41,19 @@ for purpose in b_factor_purpose:
             if "benign" not in file:
                 continue
         gene = file.split('.')[0].split('_')[0]
-        pdb_path = f'{pdb_files_path}{gene}.pdb'
-        csv_b_factor_file_path = f'{directory_path}{file}'
-        pdb_output_path = f'{directory_path}b_factor_pdbs\\{gene}{purpose}.pdb'
-        df = pd.read_csv(csv_b_factor_file_path)
+        print (gene)
 
-        with open(pdb_path, 'r') as f:
-            lines_f = f.readlines()
-            new_lines = []
-            for index, line in enumerate(lines_f):
-                new_line = line[:61] + str(df.loc[index, 'b_factor']) + line[66:]
-                new_lines.append(new_line)
-
-        with open(pdb_output_path, 'w') as f:
-            f.writelines(new_lines)
+        # pdb_path = f'{pdb_files_path}{gene}.pdb'
+        # csv_b_factor_file_path = f'{directory_path}{file}'
+        # pdb_output_path = f'{directory_path}b_factor_pdbs\\{gene}{purpose}.pdb'
+        # df = pd.read_csv(csv_b_factor_file_path)
+        #
+        # with open(pdb_path, 'r') as f:
+        #     lines_f = f.readlines()
+        #     new_lines = []
+        #     for index, line in enumerate(lines_f):
+        #         new_line = line[:61] + str(df.loc[index, 'b_factor']) + line[66:]
+        #         new_lines.append(new_line)
+        #
+        # with open(pdb_output_path, 'w') as f:
+        #     f.writelines(new_lines)
