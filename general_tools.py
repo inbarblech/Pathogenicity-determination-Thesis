@@ -11,6 +11,16 @@ AMINO_ACIDS = {'Ala': 'A', 'Arg': 'R', 'Asn': 'N', 'Asp': 'D', 'Cys': 'C', 'Glu'
                'Trp': 'W', 'Tyr': 'Y', 'Val': 'V', 'Thr': 'T'}
 
 
+def convert_hgvs_protein_to_variant(hgvs_protein: str) -> str:
+    """Convert the given hgvs protein to a variant.
+    Example: hgvs_protein = 'p.Ala204Gly' -> variant = 'A204G'
+    use the AMINO_ACIDS dictionary to convert the amino acids to 1 letter code."""
+    aa1 = hgvs_protein[2:5]
+    aa2 = hgvs_protein[-3:]
+    variant = f"{AMINO_ACIDS[aa1]}{hgvs_protein[5:-3]}{AMINO_ACIDS[aa2]}"
+    return variant
+
+
 def convert_variants_list_to_1_letter(variants):
     """Converts the given list of variants to 1 letter amino acid code."""
     converted_variants = []

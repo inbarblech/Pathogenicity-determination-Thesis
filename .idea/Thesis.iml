@@ -2,6 +2,11 @@
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/Data/all_dvd_data_with_genomic_info" />
+      <excludeFolder url="file://$MODULE_DIR$/benchmarking/AlphaMissense/am_predictions_per_gene" />
+      <excludeFolder url="file://$MODULE_DIR$/benchmarking/EVE/EVE_predictions_all_genes" />
+      <excludeFolder url="file://$MODULE_DIR$/benchmarking/MutPred2/files" />
+      <excludeFolder url="file://$MODULE_DIR$/benchmarking/REVEL/revel_prediction_files" />
       <excludeFolder url="file://$MODULE_DIR$/venv" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.9 (Thesis)" jdkType="Python SDK" />

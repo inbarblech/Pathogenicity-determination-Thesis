@@ -13,6 +13,16 @@ def create_list_of_variants_from_predictions_vs_real_csv(path):
     return variant_list
 
 
+def create_list_of_variants_from_predictions_vs_real_csv_protein_type(path):
+    """This function creates a dictionary of lists of variants from the predictions_vs_real csv file,
+    each values contains a list of variants of a specific protein."""
+    df = pd.read_csv(f"{path}")
+    protein_dict = {}
+    for protein in df['gene'].unique():
+        protein_dict[protein] = df[df['gene'] == protein]['variant'].tolist()
+    return protein_dict
+
+
 def create_fasta_file_from_list_of_variants(variant_list, path, seq=None, gene=None):
     """This function creates a fasta file from a list of variants.
     The fasta file is saved in the path folder.
@@ -37,11 +47,25 @@ def create_fasta_file_from_list_of_variants(variant_list, path, seq=None, gene=N
 
 
 if __name__ == "__main__":
-    genes = ["GJB2"]
-    file_with_variants_name = None  # Initiated inside the for loop
-    output_path = f"C:\\Users\\InbarBlech\\PycharmProjects\\Thesis\\benchmarking\\MutPred2\\fasta_files"
-    for gene in genes:
-        seq = uni.get_sequence(gene)
-        file_with_variants_name = f"{gene}_predictions_LOPO_XGB.csv"
-        variants_list = create_list_of_variants_from_predictions_vs_real_csv(f"C:\\Users\\InbarBlech\\PycharmProjects\\Thesis\\predictions_vs_real\\{gene}\\{file_with_variants_name}")
-        create_fasta_file_from_list_of_variants(variants_list, f"{output_path}\\", seq, gene)
+
+    # # Run for gene-specific fasta files
+    # genes = ["GJB2"]
+    # file_with_variants_name = None  # Initiated inside the for loop
+    # output_path = f"C:\\Users\\InbarBlech\\PycharmProjects\\Thesis\\benchmarking\\MutPred2\\fasta_files"
+    # for gene in genes:
+    #     seq = uni.get_sequence(gene)
+    #     file_with_variants_name = f"{gene}_predictions_LOPO_XGB.csv"
+    #     variants_list = create_list_of_variants_from_predictions_vs_real_csv(f"C:\\Users\\InbarBlech\\PycharmProjects\\Thesis\\predictions_vs_real\\{gene}\\{file_with_variants_name}")
+    #     create_fasta_file_from_list_of_variants(variants_list, f"{output_path}\\", seq, gene)
+
+
+    # Run for protein-specific fasta files
+    protein_type = "collagens_proteins"
+    # Get the dictionary of proteins and their variants
+    protein_dict = create_list_of_variants_from_predictions_vs_real_csv_protein_type(f"C:\\Users\\InbarBlech\\PycharmProjects\\Thesis\\predictions_vs_real\\{protein_type}\\predictions_vs_real_{protein_type}.csv")
+    # Create fasta files for each protein, and save them in the output path folder
+    for protein in protein_dict:
+        seq = uni.get_sequence(protein)
+        variants_list = protein_dict[protein]
+        output_path = f"C:\\Users\\InbarBlech\\PycharmProjects\\Thesis\\benchmarking\\MutPred2\\fasta_files_protein_type\\{protein_type}"
+        create_fasta_file_from_list_of_variants(variants_list, f"{output_path}", seq, protein)

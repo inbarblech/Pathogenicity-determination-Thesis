@@ -13,6 +13,13 @@ def get_uniprot_url(gene_name) -> str:
     return url
 
 
+def get_gene_name_from_uniprot_id(uniprot_id) -> str:
+    """Returns the gene name for the given Uniprot ID."""
+    data = get_uniprot_json(uniprot_id)
+    gene_name = data['results'][0]['gene']
+    return gene_name
+
+
 def get_uniprot_id(gene_name) -> str:
     """Returns the Uniprot ID for the given gene name."""
     data = get_uniprot_json(gene_name)
