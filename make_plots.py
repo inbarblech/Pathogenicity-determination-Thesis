@@ -3,6 +3,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import general_tools as tools
+from scipy import stats
 
 
 def make_density_plot_per_feature_per_group(data, feature, title=None):
@@ -16,6 +17,11 @@ def make_density_plot_per_feature_per_group(data, feature, title=None):
     make_density_plot_per_feature_per_group(df_transmembranal, "hydrophobicity_MUT", "hydrophobicity_MUT for transmembranal protein")
     make_density_plot_per_feature_per_group(df_globular, "hydrophobicity_MUT", "hydrophobicity_MUT for globular protein")"""
     df1, df2 = tools.split_dataframe_by_group(data, "pathogenicity", "benign", "pathogenic")
+
+    # Calculate descriptive statistics for each group
+    mean1, mean2 = df1[feature].mean(), df2[feature].mean()
+    std1, std2 = df1[feature].std(), df2[feature].std()
+    median1, median2 = df1[feature].median(), df2[feature].median()
 
     # Create density plots for each sub-DataFrame
     plt.figure(figsize=(12, 6))
@@ -33,7 +39,34 @@ def make_density_plot_per_feature_per_group(data, feature, title=None):
     # Show legend
     plt.legend()
 
-    plt.savefig(f"C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\Thesis\\Findings\\Plots\\{title}.png", dpi=1200)
+    # plt.savefig(f"C:\\Users\\InbarBlech\\OneDrive - mail.tau.ac.il\\Documents\\Thesis\\Findings\\Plots\\{title}.png", dpi=1200)
+
+    # Perform t-test and calculate p-value
+    t_stat, p_value = stats.ttest_ind(df1[feature].dropna(), df2[feature].dropna())
+    # Format p-value with two decimal places, with a minimum of two digits after the dot
+    formatted_p_value = '{:.2f}'.format(p_value) if p_value >= 0.01 else '0.00'
+
+    # # Optional: Add the p-value to the plot
+    # plt.figure(figsize=(12, 6))
+    # sns.kdeplot(data=df1[feature], label=f'Benign - {feature}', shade=True, color="green")
+    # sns.kdeplot(data=df2[feature], label=f'Pathogenic - {feature}', shade=True, color="red")
+    # plt.xlabel(feature)
+    # plt.ylabel("Density")
+    # if title is None:
+    #     plt.title(f"Density Plot for {feature}")
+    # else:
+    #     plt.title(title)
+    # plt.legend()
+    # plt.figtext(0.15, 0.85, f'T-test p-value: {formatted_p_value}', bbox=dict(facecolor='white', alpha=0.5))
+    # plt.show()
+
+    # Display statistics on the plot
+    stats_text = (
+        f"Benign: mean={mean1:.2f}, std={std1:.2f}, median={median1:.2f}\n"
+        f"Pathogenic: mean={mean2:.2f}, std={std2:.2f}, median={median2:.2f}\n"
+        f"T-test p-value: {formatted_p_value}"
+    )
+    plt.figtext(0.15, 0.75, stats_text, bbox=dict(facecolor='white', alpha=0.5))
 
     # Display the plot
     plt.show()
@@ -243,8 +276,10 @@ def get_number_of_transmembrane_globular_residues_in_df(df: pd.DataFrame):
 
 
 if __name__ == "__main__":
-    gene = 'GJB2'
-    df = pd.read_csv(f"gene_specific_df/{gene}.csv")
+    df = pd.read_csv('/home/inbar/results/combined_with_source.csv', header=0)
     print(len(df))
     # df = pd.read_csv(f'/home/inbar/results/gene_specific_df/{gene}.csv', header=0)
-    print(f"transmename and globular residues in gene {gene}: {get_number_of_transmembrane_globular_residues_in_df(df)}")
+    # print(f"transmename and globular residues in gene {gene}: {get_number_of_transmembrane_globular_residues_in_df(df)}")
+    #
+    # Use make_density_plot_per_feature_per_group
+    make_density_plot_per_feature_per_group(df, "plddt_residue", "plddt_residue for DVD variants")

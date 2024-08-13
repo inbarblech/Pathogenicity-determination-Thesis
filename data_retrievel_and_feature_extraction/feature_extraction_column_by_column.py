@@ -32,7 +32,7 @@ If you want to run deltas for specific features, you can change in the extract_a
 MASTER_FOLDER_NAME = "POLD1_and_POLE_200"
 FULL_FEATURES_LIST = ['is_residue_transmembranal', 'plddt_residue', 'secondary_structure', 'sequence_length', 'pssm', 'entropy', 'blosum', 'stability', 'hydrophobicity', 'volume', 'protein_contain_transmembrane', 'aa', 'oda', 'sasa', 'opra', 'RSA']
 
-FEATURES_LIST = ['is_residue_transmembranal', 'plddt_residue', 'secondary_structure', 'sequence_length', 'blosum', 'stability', 'hydrophobicity', 'volume', 'protein_contain_transmembrane', 'aa', 'oda', 'sasa', 'opra', 'RSA']
+FEATURES_LIST = ['is_residue_transmembranal', 'plddt_residue', 'secondary_structure', 'sequence_length', 'pssm', 'entropy', 'blosum', 'stability', 'hydrophobicity', 'volume', 'protein_contain_transmembrane', 'aa', 'oda', 'sasa', 'opra', 'RSA']
 FEATURES_LIST_WITH_DELTA = ['stability', 'hydrophobicity', 'volume', 'oda', 'sasa', 'opra']
 
 PATH_TO_ERROR_FILE = "/home/inbar/results/feature_exraction_run_POLD1_POLE_200.csv"

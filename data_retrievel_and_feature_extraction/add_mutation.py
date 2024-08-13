@@ -36,6 +36,9 @@ def get_structure_af(gene_id):
     """Returns the PDB file for the given mutation."""
     # Save the PDB file to disk
     sp.run(f"wget http://alphafold.ebi.ac.uk/files/AF-{gene_id}-F1-model_v4.pdb", shell=True)
+    # If there is no PDB file for the given gene_id, return Exception
+    if not os.path.exists(f"AF-{gene_id}-F1-model_v4.pdb"):
+        raise Exception(f"No PDB file for gene_id {gene_id}")
     # Return the path to the downloaded PDB file
     return f"{gene_id}.pdb"
 
