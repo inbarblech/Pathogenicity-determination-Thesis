@@ -2,7 +2,6 @@ import streamlit as st
 # import joblib
 from streamlit_app.utils.utils import check_variant_valid
 
-# Load the model
 # model = joblib.load("model.joblib")
 
 genes_list = ["SLC26A4", "GJB2", "COL2A1", "COL4A5", "COL4A3", "MYO7A", "WFS1", "FGFR1"]
