@@ -1,7 +1,7 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
-import joblib
+# import joblib
 from utils import check_variant_valid
 
 # Load the model
