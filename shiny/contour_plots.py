@@ -54,6 +54,7 @@ def create_contour_plot(pca_df, selected_variants):
 
     return fig
 
+
 # Function to compute PCA and return a dataframe with the first two principal components
 def compute_pca_df(features_df):
     # Initialize PCA to reduce dimensions to 2 components

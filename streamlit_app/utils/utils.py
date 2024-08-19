@@ -1,3 +1,5 @@
+import numpy as np
+import pandas as pd
 from data_retrievel_and_feature_extraction import uniprot_info as uni
 
 
@@ -31,6 +33,26 @@ def check_variant_valid(variant, gene):
         return False
 
     return True
+
+
+def randomize_features():
+    """This function will be deleted when the feature extraction function is implemented."""
+    random_features_dictionary = {"blosum": np.random.randint(0, 100, 1)[0],
+    "plddt_residue": np.random.randint(0, 100, 1)[0],
+    "stability_delta": np.random.randint(0, 100, 1)[0],
+    "hydrophobicity_delta": np.random.randint(0, 100, 1)[0],
+    "volume_delta": np.random.randint(0, 100, 1)[0],
+    "RSA_WT": np.random.randint(0, 100, 1)[0],
+    "oda_delta": np.random.randint(0, 100, 1)[0],
+    "sasa_delta": np.random.randint(0, 100, 1)[0],
+    "pssm": np.random.randint(0, 100, 1)[0],
+    "entropy": np.random.randint(0, 100, 1)[0],
+    "secondary_structure_Beta": 1,
+    "secondary_structure_alpha": 0,
+    "secondary_structure_turn": 0,
+    "secondary_structure_loop": 0}
+    return random_features_dictionary
+
 
 
 
