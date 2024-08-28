@@ -4,6 +4,13 @@ import streamlit as st
 # from utils.utils import check_variant_valid, randomize_features
 import numpy as np
 import pickle as pkl
+import time
+
+st.set_page_config(
+    page_title="PredHL: Predictor",
+    page_icon=":dna:",
+    layout="wide",
+    initial_sidebar_state="expanded")
 
 
 def randomize_features():
@@ -18,10 +25,10 @@ def randomize_features():
     "sasa_delta": np.random.randint(0, 100, 1)[0],
     "pssm": np.random.randint(0, 100, 1)[0],
     "entropy": np.random.randint(0, 100, 1)[0],
-    "secondary_structure_Beta": 1,
-    "secondary_structure_alpha": 0,
-    "secondary_structure_turn": 0,
-    "secondary_structure_loop": 0}
+    "secondary_structure_Beta strand": 1,
+    "secondary_structure_Helix": 0,
+    "secondary_structure_Turn": 0,
+    "secondary_structure_Loop": 0}
     return random_features_dictionary
 
 
@@ -62,8 +69,8 @@ def check_variant_valid(variant, gene):
 
 genes_list = ["SLC26A4", "GJB2", "COL2A1", "COL4A5", "COL4A3", "MYO7A", "WFS1", "FGFR1"]
 features = ["blosum", "plddt_residue", "stability_delta", "hydrophobicity_delta", "volume_delta", "RSA_WT",
-            "oda_delta", "sasa_delta", "pssm", "entropy", "secondary_structure_Beta", "secondary_structure_alpha",
-            "secondary_structure_turn", "secondary_structure_loop"]
+            "oda_delta", "sasa_delta", "pssm", "entropy", "secondary_structure_Beta strand", "secondary_structure_Helix",
+            "secondary_structure_Turn", "secondary_structure_Loop"]
 
 # Randomize features and store in a dictionary
 random_features_dict = randomize_features()
@@ -73,16 +80,26 @@ random_features_dict = randomize_features()
 def predict():
     model_path = f"C:\\Users\\InbarBlech\\PycharmProjects\\Thesis\\predictions_vs_real\\gene_specific_predictors\\{gene}_model.pkl"
     model = pkl.load(open(model_path, "rb"))
-    X = pd.DataFrame(random_features_dict, columns=features)
+    X = pd.DataFrame([random_features_dict], columns=features)
     predictions = model.predict(X)[0]
     proba = model.predict_proba(X)[0]
 
+    proba = np.clip(proba.astype(float), 0.0, 1.0)
+
     if predictions == 1:
-        st.progress(proba[1])
-        st.write("The variant is predicted to be pathogenic.")
+        proba_path_round = round(proba[1], 2)
+        st.markdown(
+            "<p style='font-size: 30px;'>Prediction: <span style='color: red;'>Pathogenic</span>.</p>",
+            unsafe_allow_html=True
+        )
+        st.markdown(f"### Confidence rate: {str(proba_path_round)}")
     else:
-        st.progress(proba[0])
-        st.write("The variant is predicted to be benign.")
+        proba_benign_round = round(proba[0], 2)
+        st.markdown(
+            "<p style='font-size: 30px;'>Prediction: <span style='color: red;'>Benign</span>.</p>",
+            unsafe_allow_html=True
+        )
+        st.markdown(f"### Confidence rate: {str(proba_benign_round)}")
 
 
 with st.container():
@@ -99,19 +116,25 @@ with st.container():
         if variant == "" or gene == "":
             st.write("Please enter a variant and a gene.")
         # Check that variant is in the correct format
-        # if not check_variant_valid(variant, gene):
-        #     st.write("Error. Please enter a valid variant.")
+        if not check_variant_valid(variant, gene):
+            st.write("Error. Please enter a valid variant.")
+            # break until the user enters a valid variant
+            st.stop()
         if variant and gene:
             # Perform feature extraction
             st.write("Computing features for the variant...")
+            time.sleep(0.5)  # Use a delay to simulate processing time
             # features = extract_features(variant, gene)  # TODO: Implement this function
             # Perform feature preprocessing
             st.write("Preprocessing the features...")
+            time.sleep(0.5)  # Use a delay to simulate processing time
             # features = preprocess_features(features)  # TODO: Implement this function
             # Meanwhile, use random features
-            st.write("Using random features for demonstration purposes.")
+            st.write("Using random features for demonstration purposes.")  # TODO: Remove this line after implementing the feature extraction function
+            time.sleep(0.5)  # Use a delay to simulate processing time
             # Make predictions
             st.write(f"Predicting the pathogenicity of the variant {variant} in gene {gene}...")
+            time.sleep(0.5)  # Use a delay to simulate processing time
             predict()
         else:
             st.write("Please enter valid variant and gene.")

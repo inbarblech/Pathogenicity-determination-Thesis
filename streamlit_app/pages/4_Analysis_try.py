@@ -5,6 +5,8 @@ from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.preprocessing import OneHotEncoder
+import plotly.graph_objects as go
+
 
 st.set_page_config(
     page_title="PredHL: Analysis",
@@ -102,6 +104,60 @@ def plot_pca(pca_df, selected_variant, selected_gene):
     st.pyplot(plt)
 
 
+def compute_pca_df(features_df):
+    # Initialize PCA to reduce dimensions to 2 components
+    pca = PCA(n_components=2)
+    # Fit the PCA on the features and transform to get the components
+    pca_components = pca.fit_transform(features_df)
+    # Create a DataFrame for the PCA components
+    pca_df = pd.DataFrame(pca_components, columns=['PC1', 'PC2'])
+    return pca_df
+
+
+def create_contour_plot(pca_df, selected_variants):
+    # Split the PCA dataframe into Benign and Pathogenic based on 'clinsig_binary'
+    Benign = pca_df[pca_df['clinsig_binary'] == 0]
+    Pathogenic = pca_df[pca_df['clinsig_binary'] == 1]
+
+    # Initialize a plotly figure
+    fig = go.Figure()
+
+    # Add Pathogenic contour plot
+    fig.add_trace(go.Histogram2dContour(
+        x=Pathogenic['PC1'], y=Pathogenic['PC2'],
+        colorscale='Oranges', name='Pathogenic',
+        contours=dict(showlines=False),  # Remove contour lines
+        hoverinfo='skip'  # Skip hover info for contours
+    ))
+
+    # Add Benign contour plot
+    fig.add_trace(go.Histogram2dContour(
+        x=Benign['PC1'], y=Benign['PC2'],
+        colorscale='Greens', name='Benign',
+        contours=dict(showlines=False),  # Remove contour lines
+        hoverinfo='skip'  # Skip hover info for contours
+    ))
+
+    # Add scatter plot for selected variants
+    if not selected_variants.empty:
+        fig.add_trace(go.Scatter(
+            x=selected_variants['PC1'], y=selected_variants['PC2'],
+            mode='markers+text', text=selected_variants['variant'],
+            marker=dict(color='gray', size=10), # Gray color for selected variants
+            textposition='top center' # Text position for variant IDs
+        ))
+
+    # Update the layout of the figure
+    fig.update_layout(
+        xaxis_title='PC1', # X-axis label
+        yaxis_title='PC2', # Y-axis label
+        legend_title='Clinical Significance', # Legend title
+        template='plotly_white' # Use a white background template
+    )
+
+    return fig
+
+
 # Main function to run the Streamlit app
 def main():
     st.write("## Variant Spectrum Visualization")
@@ -109,20 +165,50 @@ def main():
     # Define the paths to your files
     data_file = 'data/data.csv'  # Replace with your relative path
     predictions_file = 'data/predictions.csv'  # Replace with your relative path
+    features = ["stability_delta", "blosum", "hydrophobicity_delta", "volume_delta", "plddt_residue", "opra_delta",
+                "oda_delta",
+                "sasa_delta", "RSA_WT"]
 
     # Load data
-    data = load_data(data_file, predictions_file)
+    data = pd.read_csv(data_file)
+    # data = load_data(data_file, predictions_file)
+
+    # Load predictions
+    predictions_df = pd.read_csv(predictions_file)
+
 
     # Select gene and variant from user input
     selected_gene = st.selectbox('Select a gene to filter:', data['gene'].unique())
     filtered_data = data[data['gene'] == selected_gene]
-    selected_variant = st.selectbox('Select a variant to highlight:', filtered_data['variant'].unique())
+    selected_variant = st.multiselect('Select a variant to highlight:', options=filtered_data['variant'].unique())
 
-    # Perform PCA
-    pca_df = perform_pca(data)
+    # Select specific features for PCA from the full dataset
+    features_df = filtered_data[features]
 
-    # Plot results
-    plot_pca(pca_df, selected_variant, selected_gene)
+    pca_df = compute_pca_df(features_df)
+    # Add clinical significance and variant IDs to the PCA dataframe
+    pca_df['clinsig_binary'] = filtered_data['pathogenicity'].map({'benign': 0, 'pathogenic': 1})
+    pca_df['variant'] = filtered_data['variant']
+
+    # Filter PCA dataframe based on selected variants
+    if selected_variant:
+        selected_df = pca_df[pca_df['variant'].isin(selected_variant)]
+    else:
+        selected_df = pd.DataFrame(columns=['PC1', 'PC2', 'variant'])
+
+    # Create and display the contour plot
+    fig = create_contour_plot(pca_df, selected_df)
+    st.plotly_chart(fig)
+
+    # Display the predictions table
+    st.text("Predictions for Selected Variants")
+    if selected_variant:
+        selected_predictions = predictions_df[predictions_df['variant'].isin(selected_variant)]
+        # map pathogenicity from 0 and 1 to benign and pathogenic
+        selected_predictions['prediction'] = selected_predictions['prediction'].map({0: 'Benign', 1: 'Pathogenic'})
+        selected_predictions = selected_predictions[['variant', 'prediction']]
+        selected_predictions.columns = ['Variant', 'Prediction']
+        st.dataframe(selected_predictions, hide_index=True)
 
 
 # Run the app

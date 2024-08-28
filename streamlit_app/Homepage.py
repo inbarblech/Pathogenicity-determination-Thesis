@@ -8,7 +8,7 @@ import joblib
 # model = joblib.load("model.joblib")
 
 st.set_page_config(
-    page_title="ML App",
+    page_title="PredHL",
     page_icon=":dna:",
     layout="wide",
     initial_sidebar_state="expanded")
@@ -16,6 +16,6 @@ st.set_page_config(
 
 # Header
 with st.container():
-    st.title("HearIPred - Hearing Impairment predictor and analysis tool")
+    st.title("PredHL - Hearing Impairment predictor and analysis tool")
     st.write("This app is a demo of a machine learning application for variant analysis.")
     st.write("[GitHub Repository](https://github.com/inbarblech/Pathogenicity-determination-Thesis)")
